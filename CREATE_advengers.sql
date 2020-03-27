@@ -27,8 +27,7 @@ CREATE TABLE Location(
 	province  VARCHAR(70) NOT NULL,
 	city  VARCHAR(70) NOT NULL,
 	postal_code  VARCHAR(6),
-	address  VARCHAR(70) NOT NULL,
-	UNIQUE (country, province, city, address));
+	address  VARCHAR(70) NOT NULL);
 CREATE TABLE Trip_In(
 	title VARCHAR(70),
 	trip_id INTEGER PRIMARY KEY,
