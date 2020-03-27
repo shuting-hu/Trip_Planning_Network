@@ -1,6 +1,5 @@
 -- TABLES --
 
-
 CREATE TABLE All_Users(
 	username VARCHAR(16) PRIMARY KEY,
 	password VARCHAR(30));
@@ -34,7 +33,7 @@ CREATE TABLE Trip_In(
 	title VARCHAR(70),
 	trip_id INTEGER PRIMARY KEY,
 	location_id INTEGER NOT NULL,
-	transportation VARCHAR(50),
+	distance INTEGER CHECK (distance >= 0),
    	duration VARCHAR(15) CHECK (duration IN ('daytrip', '1 week trip', '2 weeks+ trip')),
 	description VARCHAR(120),
 	FOREIGN KEY (location_id) REFERENCES Location(id));
