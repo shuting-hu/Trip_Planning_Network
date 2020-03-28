@@ -1,9 +1,3 @@
-INSERT INTO Follows VALUES ('ironman', 'ppotts');
-INSERT INTO Follows VALUES ('spidey', 'ironman');
-INSERT INTO Follows VALUES ('blackwidow', 'hawkeye');
-INSERT INTO Follows VALUES ('hawkeye', 'blackwidow');
-INSERT INTO Follows VALUES ('ironman', 'spidey');
-
 INSERT INTO Plans VALUES ('ironman', 1, '2020-05-02');
 INSERT INTO Plans VALUES ('spidey', 2, '2020-06-01');
 INSERT INTO Plans VALUES ('blackwidow', 3, '2020-04-24');
