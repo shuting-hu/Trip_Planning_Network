@@ -2,14 +2,14 @@
 
 CREATE TABLE All_Users(
 	username VARCHAR(16) PRIMARY KEY,
-	password VARCHAR(30) NOT NULL);
+	password VARCHAR(30) NOT NULL,
+	name VARCHAR(70));
 CREATE TABLE Regular_User(
 	username VARCHAR(16) PRIMARY KEY,
 	profile_picture VARCHAR(70),
 	FOREIGN KEY (username) REFERENCES All_Users(username));
 CREATE TABLE Admin(
 	username VARCHAR(16) PRIMARY KEY,
-	name VARCHAR(70),
 	role VARCHAR(70),
 	email VARCHAR(70) UNIQUE NOT NULL,
     admin_ID INTEGER UNIQUE NOT NULL,
