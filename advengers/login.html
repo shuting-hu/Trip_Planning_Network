@@ -1,0 +1,35 @@
+<!-- UPDATE: it seems that session can only be used in php files... -->
+<!-- so maybe we'd need to merge login.php & login.html into one files later -->
+<?php
+session_start();
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Login</title>
+	
+	<!--css-->
+	<link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="./bootstrap/css/templates/signin.css" rel="stylesheet">
+
+</head>
+
+<body>
+	<!-- login form -->
+    <div class="my-container">
+      <form class="form-signin" action="login.php" method="post">
+        <h2 class="form-signin-heading">Login</h2>
+        <label class="sr-only">Username</label>
+        <input class="form-control" name="username" type="text" placeholder="Username" required autofocus>
+        <label class="sr-only">Password</label>
+        <input class="form-control" name="password" type="password" placeholder="Password" required>
+        <button class="btn btn-lg btn-primary btn-block my-button" type="submit">Login</button>
+        <button class="btn btn-lg btn-primary btn-block my-button" onclick="document.location='register.html'">Sign up</button>
+      </form>
+    </div> 
+
+</body>
+</html>
+
