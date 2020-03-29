@@ -6,7 +6,7 @@ CREATE TABLE All_Users(
 	name VARCHAR(70));
 CREATE TABLE Regular_User(
 	username VARCHAR(16) PRIMARY KEY,
-	profile_picture VARCHAR(70),
+	profile_picture VARCHAR(280),
 	FOREIGN KEY (username) REFERENCES All_Users(username));
 CREATE TABLE Admin(
 	username VARCHAR(16) PRIMARY KEY,
@@ -46,7 +46,7 @@ CREATE TABLE Media(
 CREATE TABLE Photo(
 	post_id INTEGER PRIMARY KEY,
 	caption VARCHAR(280),
-	file_path VARCHAR(70),
+	file_path VARCHAR(280),
 	FOREIGN KEY (post_id) REFERENCES Media(post_id));
 CREATE TABLE Video(
 	post_id INTEGER PRIMARY KEY,
