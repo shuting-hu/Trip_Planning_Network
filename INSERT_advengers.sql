@@ -137,16 +137,16 @@ INSERT INTO Video VALUES(18, 'https://www.youtube.com/watch?v=ybji16u608U');
 INSERT INTO Video VALUES(19, 'https://www.youtube.com/watch?v=LXUSzXfdq_0');
 INSERT INTO Video VALUES(20, 'https://www.youtube.com/watch?v=9FkQ8I9DjlQ');
 
-INSERT INTO Text VALUES(21, 'I love you 3000 Morgan', 'English');
-INSERT INTO Text VALUES(22, 'J’taime 3000', 'French');
-INSERT INTO Text VALUES(23, 'Excellent tacos! Perfectly tender meat, salsa and guac made in house. Amazing churros too. 10/10', 'English');
-INSERT INTO Text VALUES(24, 'I needed this vacation so badly', 'English');
-INSERT INTO Text VALUES(25, 'Finally got a massage', 'English');
-INSERT INTO Text VALUES(26, '食物。 はい。', 'Japanese');
-INSERT INTO Text VALUES(27, 'Making gadgets on the go, T’Challa could never', 'English');
-INSERT INTO Text VALUES(28, 'I', 'English');
-INSERT INTO Text VALUES(29, 'LOVE', 'English');
-INSERT INTO Text VALUES(30, 'FARMING', 'English');
+INSERT INTO Text VALUES(21, 'I love you 3000 Morgan');
+INSERT INTO Text VALUES(22, 'J’taime 3000');
+INSERT INTO Text VALUES(23, 'Excellent tacos! Perfectly tender meat, salsa and guac made in house. Amazing churros too. 10/10');
+INSERT INTO Text VALUES(24, 'I needed this vacation so badly');
+INSERT INTO Text VALUES(25, 'Finally got a massage');
+INSERT INTO Text VALUES(26, '食物。 はい。');
+INSERT INTO Text VALUES(27, 'Making gadgets on the go, T’Challa could never');
+INSERT INTO Text VALUES(28, 'I');
+INSERT INTO Text VALUES(29, 'LOVE');
+INSERT INTO Text VALUES(30, 'FARMING');
 
 INSERT INTO Posts VALUES(1, 1);
 INSERT INTO Posts VALUES(2, 1);
