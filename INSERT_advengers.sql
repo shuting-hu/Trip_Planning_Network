@@ -246,17 +246,6 @@ INSERT INTO IncludesRestaurant VALUES(4, 'Totti Candy Factory');
 INSERT INTO IncludesRestaurant VALUES(2, 'Bombay Spice');
 
 -- subject to change (create)
-INSERT INTO IncludesAttraction VALUES(1, 'Vienna International Centre');
-INSERT INTO IncludesAttraction VALUES(2, 'London Bridge');
-INSERT INTO IncludesAttraction VALUES(3, 'The Motherland Calls');
-INSERT INTO IncludesAttraction VALUES(4, 'Skytree');
-INSERT INTO IncludesAttraction VALUES(5, 'Gulf Coast beach');
-INSERT INTO IncludesAttraction VALUES(6, 'Stark Mansion');
-INSERT INTO IncludesAttraction VALUES(7, 'Berlin Wall');
-INSERT INTO IncludesAttraction VALUES(8, 'Louvre');
-INSERT INTO IncludesAttraction VALUES(8, 'Tour Eiffel');
-INSERT INTO IncludesAttraction VALUES(10, 'Thanos’s new farm');
-
 INSERT INTO OperatesAt VALUES('SHIELD Fine Dining', 1);
 INSERT INTO OperatesAt VALUES('Fish & Chip Pub', 2);
 INSERT INTO OperatesAt VALUES('Putin’s Poutine', 3);
@@ -278,6 +267,17 @@ INSERT INTO Attraction_In VALUES('Berlin Wall', 7, 'History', NULL, 0);
 INSERT INTO Attraction_In VALUES('Louvre', 8, 'Museum', NULL, 2);
 INSERT INTO Attraction_In VALUES('Tour Eiffel', 8, 'Museum', NULL, 2);
 INSERT INTO Attraction_In VALUES('Thanos’s new farm', 10, 'Farm', 'Fulfilling lifelong dreams', 3);
+
+INSERT INTO IncludesAttraction VALUES(1, 'Vienna International Centre', 1);
+INSERT INTO IncludesAttraction VALUES(2, 'London Bridge', 2);
+INSERT INTO IncludesAttraction VALUES(3, 'The Motherland Calls', 3);
+INSERT INTO IncludesAttraction VALUES(4, 'Skytree', 4);
+INSERT INTO IncludesAttraction VALUES(5, 'Gulf Coast beach', 5);
+INSERT INTO IncludesAttraction VALUES(6, 'Stark Mansion', 6);
+INSERT INTO IncludesAttraction VALUES(7, 'Berlin Wall', 7);
+INSERT INTO IncludesAttraction VALUES(8, 'Louvre', 8);
+INSERT INTO IncludesAttraction VALUES(8, 'Tour Eiffel', 8);
+INSERT INTO IncludesAttraction VALUES(10, 'Thanos’s new farm', 10); 
 
 INSERT INTO Plans VALUES('ironman', 1);
 INSERT INTO Plans VALUES('spidey', 2);

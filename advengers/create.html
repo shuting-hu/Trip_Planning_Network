@@ -1,0 +1,18 @@
+<form action="create.php" method="post">
+    <label for="titlebox">trip plan title:</label><br>
+    <input id="titlebox" name="title" maxlength="70" value="my trip plan" required><br>
+    <label for="descbox">description:</label><br>
+    <input id="descbox" name="desc" type="text" maxlength="280" value="foo"><br><br>
+    
+    <label>location</label><br>
+    <label for="citybox">city: </label><input id="citybox" name="city" type="text" maxlength="70" value="foo" required><br>
+    <label for="provbox">province: </label><input id="provbox" name="province" type="text" maxlength="70" placeholder="optional"><br>
+    <label for="countrybox">country: </label><input id="countrybox" name="country" type="text" maxlength="70" value="foo" required><br><br>
+    
+    <label>duration</label><br>
+    <input type="radio" name="duration" id="daytrip" value="daytrip" checked="checked"><label for="daytrip">daytrip</label><br>
+    <input type="radio" name="duration" id="1week" value="1 week trip"><label for="1week">1 week trip</label><br>
+    <input type="radio" name="duration" id="2weeks" value="2 weeks+ trip"><label for="2weeks">2 weeks+ trip</label><br>
+
+    <input type="submit">
+</form>

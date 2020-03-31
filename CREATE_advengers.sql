@@ -97,7 +97,7 @@ CREATE TABLE OperatesAt(
 	PRIMARY KEY (restaurant_name, location_id),
 	FOREIGN KEY (restaurant_name) REFERENCES Restaurant(name) ON DELETE CASCADE,
 	FOREIGN KEY (location_id) REFERENCES Location(id) ON DELETE CASCADE);
-CREATE TABLE Attraction_In(
+CREATE TABLE Attraction_In( 
 	attr_name VARCHAR(70),
 	location_id INTEGER,
 	type VARCHAR(70),
