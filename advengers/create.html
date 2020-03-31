@@ -19,6 +19,7 @@
     <div id="app">
         <!--<p>{{ message }}</p>-->
         <label for="all-attrs">attractions</label><br>
+        <p>press enter to add an attraction.</p>
         <mylist
             v-for="a in attrs"
             v-bind:item="a"
@@ -28,9 +29,11 @@
         <input name="locid" v-on:keyup.enter="setLoc('attrs', $event)" value=3 placeholder="loc">
       </div>
       <br>
+      <br>
+      <br>
 
     <input type="submit" disabled style="display: none" aria-hidden="true"></button>
-    <button type="submit">Submit</button>
+    <button type="submit">create plan</button>
 
 </form>
 
