@@ -223,16 +223,39 @@ INSERT INTO IsAt VALUES('Malibu Meditation', 6);
 INSERT INTO IsAt VALUES('Ginza Shopping', 4);
 INSERT INTO IsAt VALUES('Farming', 10);
 
-INSERT INTO Includes VALUES(1, 'Wine Tasting in Vienna');
-INSERT INTO Includes VALUES(2, 'British Museum Tour');
-INSERT INTO Includes VALUES(3, 'Spy Mission 888');
-INSERT INTO Includes VALUES(4, 'Skytree Heist');
-INSERT INTO Includes VALUES(5, 'Mexico Cruise');
-INSERT INTO Includes VALUES(6, 'Iztaccíhuatl Hike');
-INSERT INTO Includes VALUES(7, 'Pastry Tour');
-INSERT INTO Includes VALUES(8, 'Malibu Meditation');
-INSERT INTO Includes VALUES(9, 'Ginza Shopping');
-INSERT INTO Includes VALUES(10, 'Farming');
+INSERT INTO IncludesActivity VALUES(1, 'Wine Tasting in Vienna');
+INSERT INTO IncludesActivity VALUES(2, 'British Museum Tour');
+INSERT INTO IncludesActivity VALUES(3, 'Spy Mission 888');
+INSERT INTO IncludesActivity VALUES(4, 'Skytree Heist');
+INSERT INTO IncludesActivity VALUES(5, 'Mexico Cruise');
+INSERT INTO IncludesActivity VALUES(5, 'Iztaccíhuatl Hike');
+INSERT INTO IncludesActivity VALUES(8, 'Pastry Tour');
+INSERT INTO IncludesActivity VALUES(6, 'Malibu Meditation');
+INSERT INTO IncludesActivity VALUES(4, 'Ginza Shopping');
+INSERT INTO IncludesActivity VALUES(10, 'Farming');
+
+INSERT INTO IncludesRestaurant VALUES(1, 'SHIELD Fine Dining');
+INSERT INTO IncludesRestaurant VALUES(2, 'Fish & Chip Pub');
+INSERT INTO IncludesRestaurant VALUES(3, 'Putin’s Poutine');
+INSERT INTO IncludesRestaurant VALUES(4, 'Hello Kitty Cafe');
+INSERT INTO IncludesRestaurant VALUES(5, 'Taco food truck');
+INSERT INTO IncludesRestaurant VALUES(6, 'Stark Kitchen');
+INSERT INTO IncludesRestaurant VALUES(7, 'Berlin Burgers');
+INSERT INTO IncludesRestaurant VALUES(4, 'Asakusa Okonomiyaki Sometaro');
+INSERT INTO IncludesRestaurant VALUES(4, 'Totti Candy Factory');
+INSERT INTO IncludesRestaurant VALUES(2, 'Bombay Spice');
+
+-- subject to change (create)
+INSERT INTO IncludesAttraction VALUES(1, 'Vienna International Centre');
+INSERT INTO IncludesAttraction VALUES(2, 'London Bridge');
+INSERT INTO IncludesAttraction VALUES(3, 'The Motherland Calls');
+INSERT INTO IncludesAttraction VALUES(4, 'Skytree');
+INSERT INTO IncludesAttraction VALUES(5, 'Gulf Coast beach');
+INSERT INTO IncludesAttraction VALUES(6, 'Stark Mansion');
+INSERT INTO IncludesAttraction VALUES(7, 'Berlin Wall');
+INSERT INTO IncludesAttraction VALUES(8, 'Louvre');
+INSERT INTO IncludesAttraction VALUES(8, 'Tour Eiffel');
+INSERT INTO IncludesAttraction VALUES(10, 'Thanos’s new farm');
 
 INSERT INTO OperatesAt VALUES('SHIELD Fine Dining', 1);
 INSERT INTO OperatesAt VALUES('Fish & Chip Pub', 2);
