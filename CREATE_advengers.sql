@@ -90,12 +90,6 @@ CREATE TABLE IncludesRestaurant(
 	PRIMARY KEY (trip_id, restaurant_name),
 	FOREIGN KEY (trip_id) REFERENCES Trip_In(trip_id),
 	FOREIGN KEY (restaurant_name) REFERENCES Restaurant(name) ON DELETE CASCADE);
-CREATE TABLE IncludesAttraction( -- this table will not form
-	trip_id  INTEGER,
-	attr_name  VARCHAR(70),
-	PRIMARY KEY (trip_id, attr_name),
-	FOREIGN KEY (trip_id) REFERENCES Trip_In(trip_id) ON DELETE CASCADE,
-	FOREIGN KEY (attr_name) REFERENCES Attraction_In(attr_name) ON DELETE CASCADE);
 
 CREATE TABLE OperatesAt(
 	restaurant_name VARCHAR(70),
@@ -111,6 +105,13 @@ CREATE TABLE Attraction_In(
 	num_dollar_signs INTEGER CHECK (num_dollar_signs IN (0, 1, 2, 3)),
 	PRIMARY KEY (attr_name, location_id),
 	FOREIGN KEY (location_id) REFERENCES Location(id) ON DELETE CASCADE);
+CREATE TABLE IncludesAttraction(
+	trip_id  INTEGER,
+	attr_name  VARCHAR(70),
+	location_id INTEGER,
+	PRIMARY KEY (trip_id, attr_name),
+	FOREIGN KEY (trip_id) REFERENCES Trip_In(trip_id) ON DELETE CASCADE,
+	FOREIGN KEY (attr_name, location_id) REFERENCES Attraction_In(attr_name, location_id) ON DELETE CASCADE);
 CREATE TABLE Plans(
 	username VARCHAR(16),
 	trip_id INTEGER,
