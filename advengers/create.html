@@ -1,3 +1,4 @@
+<script src="https://unpkg.com/vue@2.6.10/dist/vue.js"></script>
 <form action="create.php" method="post">
     <label for="titlebox">trip plan title:</label><br>
     <input id="titlebox" name="title" maxlength="70" value="my trip plan" required><br>
@@ -13,6 +14,93 @@
     <input type="radio" name="duration" id="daytrip" value="daytrip" checked="checked"><label for="daytrip">daytrip</label><br>
     <input type="radio" name="duration" id="1week" value="1 week trip"><label for="1week">1 week trip</label><br>
     <input type="radio" name="duration" id="2weeks" value="2 weeks+ trip"><label for="2weeks">2 weeks+ trip</label><br>
+    <br>
 
-    <input type="submit">
+    <div id="app">
+        <!--<p>{{ message }}</p>-->
+        <label for="all-attrs">attractions</label><br>
+        <mylist
+            v-for="a in attrs"
+            v-bind:item="a"
+            id="all-attrs"
+        ></mylist>
+        <input name="attrname" v-on:keyup.enter="setName('attrs', $event)" value="default" placeholder="name">
+        <input name="locid" v-on:keyup.enter="setLoc('attrs', $event)" value=3 placeholder="loc">
+      </div>
+      <br>
+
+    <input type="submit" disabled style="display: none" aria-hidden="true"></button>
+    <button type="submit">Submit</button>
+
 </form>
+
+<script>
+    Vue.component('mylist', {
+        props: ['item'],
+        template: '<li>name: {{ item.name }},<br> loc: {{ item.locid }}, '
+        +'type: {{ item.type }}, desc: {{ item.desc }}, '
+        + 'numds: {{ item.numds }}</li>'
+    });
+
+    var app = new Vue({
+    el: '#app',
+    data: {
+        attrs: [
+            {name: "foo", locid: 1234, type: "nature", desc: "foobar", numds: 0}
+        ],
+        numattrs: 1,
+        restaurants: [
+            {name: "foo", locid: 1234, type: "food", desc: "", numds: 0}
+        ],
+        numrests: 1,
+        activities: [
+            {name: "foo", locid: 1234, type: "nature", desc: "foobar", numds: 0}
+        ],
+        numacts: 1,
+        
+        nummedia: 1,
+        photos: [
+            {postid: 0, photoid: 0, caption: "henlo", filepath: "me.jpg"}
+        ],
+        text: [
+            {postid: 1, textid: 0, words: "henlo"}
+        ],
+        videos: [
+            {postid: 2, vidid: 0, url: "youtube.com"}
+        ]
+
+    },
+    methods: {
+        setName: function(list, event) {
+            console.log(list);
+            let index;
+            if (list === 'attrs') {
+                index = this.numattrs;
+                this.numattrs++;
+            } else if (list === 'restaurants') {
+                index = this.numrests;
+                this.numrests++;
+            } else if (list === 'activities') {
+                index = this.numacts;
+                this.numacts++;
+            } else {
+                console.log("bad usage!");
+            }
+            this[list].push({name: "", locid: 0, type: "", desc: "", numds: 0});
+            this[list][index].name = event.target.value;//({name: "hello", locid: "no", type: "no", desc:"no", numds:3});
+        },
+        setLoc: function(list, event) {
+            console.log("hellllllllo");
+        }
+    }
+    //, watch: {
+    //     attrs: function (oldAttrs, newAttrs) {
+
+    //     }
+    // }
+    });
+
+    
+    this.$http.post('/create.php',data);
+    
+</script>
