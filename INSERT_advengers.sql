@@ -277,7 +277,7 @@ INSERT INTO IncludesAttraction VALUES(6, 'Stark Mansion', 6);
 INSERT INTO IncludesAttraction VALUES(7, 'Berlin Wall', 7);
 INSERT INTO IncludesAttraction VALUES(8, 'Louvre', 8);
 INSERT INTO IncludesAttraction VALUES(8, 'Tour Eiffel', 8);
-INSERT INTO IncludesAttraction VALUES(10, 'Thanos’s new farm', 10);
+INSERT INTO IncludesAttraction VALUES(10, 'Thanos’s new farm', 10); 
 
 INSERT INTO Plans VALUES('ironman', 1);
 INSERT INTO Plans VALUES('spidey', 2);
