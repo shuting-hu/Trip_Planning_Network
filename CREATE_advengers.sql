@@ -55,7 +55,6 @@ CREATE TABLE Video(
 CREATE TABLE Text(
 	post_id INTEGER PRIMARY KEY,
 	words VARCHAR(280),
-	language VARCHAR(30),
 	FOREIGN KEY (post_id) REFERENCES Media (post_id) ON DELETE CASCADE);
 
 
