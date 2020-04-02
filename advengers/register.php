@@ -10,7 +10,7 @@ $updateRegUsers = "insert into regular_user (username) values ('$username')";
 
 $duplicate = mysqli_query($conn, $checkUsername) or die(mysqli_error($conn));
 if (mysqli_num_rows($duplicate) > 0) {
-	echo "<script> alert('Username already existed.');parent.location.href='login.html'; </script>";
+	echo "<script> alert('Username already existed.');parent.location.href='register.html'; </script>";
 } else {
 	// update user tables
 	mysqli_query($conn, $updateAllUsers) or die(mysqli_error($conn));
