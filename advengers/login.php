@@ -1,7 +1,7 @@
 <?php
-session_start(); 
-
-include'connect.php';
+session_start();
+include 'connect.php';
+// get val passed from login form
 $username = $_POST['username'];
 $password = $_POST['password'];
 $conn = OpenCon();
@@ -10,12 +10,12 @@ $conn = OpenCon();
 $sql = "SELECT *
         FROM All_Users
         WHERE username = '$username' AND password = '$password'";
-$rsResult = mysqli_query($conn, $sql) or die(mysqli_error($conn));
-if (mysqli_num_rows($rsResult) > 0) {
-	$_SESSION["username"] = $username;
-	header("location: index.php");
+$query = mysqli_query($conn, $sql) or die("Failed to query data" . mysqli_error($conn));
+$row = mysqli_fetch_row($query);
+if (mysqli_num_rows($query) > 0) {
+    $_SESSION['username'] = $username;
+    header("location: index.php");
 } else {
-	echo "<script> alert('Invalid username or password. Please try again.');parent.location.href='login.html'; </script>";
+    echo "<script> alert('Invalid username or password. Please try again.'); parent.location.href='login.html'; </script>";
 }
 ?>
-

@@ -1,0 +1,117 @@
+* {
+    font-family: sans-serif;
+}
+
+/* userSettings.php */
+
+#user-profile {
+    position: absolute;
+    width: 600px;
+    height: 800px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: #FFFFFF;
+    box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 35px;
+}
+
+.inner_container {
+    width: 500px;
+    margin: 0 auto;
+}
+
+input {
+    /* for ALL input rn */
+    width: 480px;
+    margin: 0 auto;
+    padding: 5px;
+    border: 1px solid #4A3D79;
+}
+
+#btn_save {
+    background-color: #E9E3FF;
+    color: black;
+    width: 150px;
+    margin-top: 5px;
+    padding: 5px;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 30px;
+    text-align: center;
+    border: 5px solid black;
+    box-sizing: border-box;
+    border-radius: 25px;
+}
+
+#btn_fetch {
+    background-color: #E9E3FF;
+    font-family: sans-serif;
+    color: #4A3D79;
+    width: 200px;
+    margin-top: 5px;
+    padding: 5px;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: center;
+    border: 2px solid #4A3D79;
+    box-sizing: border-box;
+    border-radius: 25px;
+}
+
+/* feed.php */
+
+/* login.php */
+
+#login {
+    position: absolute;
+    width: 400px;
+    height: 600px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: #FFFFFF;
+    border: 5px solid #000000;
+    box-sizing: border-box;
+    box-shadow: -3px 3px 3px rgba(0, 0, 0, 0.25);
+    border-radius: 15px;
+}
+
+#btn_login {
+    background-color: #E9E3FF;
+    color: black;
+    width: 150px;
+    margin-top: 5px;
+    padding: 5px;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 30px;
+    text-align: center;
+    border: 5px solid black;
+    box-sizing: border-box;
+    box-shadow: -3px 3px 3px rgba(0, 0, 0, 0.25);
+    border-radius: 25px;
+    margin-right: 21% /*sketchyyy*/
+}
+
+#username, #password, #name {
+    width: 230px;
+    height: 50px;
+    margin: 0 auto;
+    padding: 5px;
+    background: #FFFFFF;
+    border: 5px solid #000000;
+    box-sizing: border-box;
+    box-shadow: -3px 3px 3px rgba(0, 0, 0, 0.25);
+    border-radius: 25px;
+    margin-right: 21% /*sketchyyy*/
+}
+
+#log-sign {
+    color: #4A3D79;
+    margin-right: 21% /*sketchyyy*/
+}

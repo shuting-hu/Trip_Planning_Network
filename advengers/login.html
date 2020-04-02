@@ -1,29 +1,62 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Login</title>
-	
-	<!--css-->
-	<link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet">
-	<link href="./bootstrap/css/templates/signin.css" rel="stylesheet">
+<html>
 
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
-	<!-- login form -->
-    <div class="my-container">
-      <form class="form-signin" action="login.php" method="post">
-        <h2 class="form-signin-heading">Login</h2>
-        <label class="sr-only">Username</label>
-        <input class="form-control" name="username" type="text" placeholder="Username" required autofocus>
-        <label class="sr-only">Password</label>
-        <input class="form-control" name="password" type="password" placeholder="Password" required>
-        <button class="btn btn-lg btn-primary btn-block my-button" type="submit">Login</button>
-        <button class="btn btn-lg btn-primary btn-block my-button" onclick="document.location='register.html'">Sign up</button>
-      </form>
-    </div> 
+    <style>
+        body {
+            background-color: #72669A;
+            background-image: url("images/webpage/bkgd.png");
+            background-repeat: no-repeat;
+            height: 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    </style>
+    <div id="login">
+        <center>
+            <br>
+            <br>
+            <br>
+            <h2>*insert webpage name*</h2>
+            <br>
+            <img src="images/webpage/origami.png" width="100" height="100">
+            <br>
+            <br>
+            <br>
+        </center>
 
+        <div class="inner_container">
+            <form action="login.php" method="post">
+                <center>
+                    <p>
+                        <input type="text" id="username" placeholder="Username" name="username" />
+                    </p>
+                    <p>
+                        <input type="password" id="password" placeholder="Password" name="password" />
+                    </p>
+                    <p>
+                        <button id="btn_login" name="btn_login" type="submit">Login</button>
+                    </p>
+                    <br>
+                    <p>
+                        Don't have an account? <a href="register.html" id="log-sign"><b>Signup</b></a>
+                    </p>
+                </center>
+            </form>
+        </div>
+    </div>
+    <div style="position: relative">
+        <p style="position: fixed; bottom: 0; width:100%; text-align: center; color: #4A3D79;"> CPSC 304 2019W2
+                <br>
+                Maggie Yang, Ruolin An, Shu Ting Hu
+                <br>
+        </p>
+    </div>
 </body>
-</html>
 
+</html>
