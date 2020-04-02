@@ -2,13 +2,12 @@
 session_start();
 ?>
 
-
 <?php
 include'connect.php';
 $conn = OpenCon();
-  
+
 function getPfp() {
-  global $conn;
+  global $conn;  
   $username = $_SESSION["username"];
   $sql = "select profile_picture from regular_user where username = '$username'";
   $rsResult = mysqli_query($conn, $sql) or die(mysqli_error($conn));
@@ -20,70 +19,113 @@ function getPfp() {
     echo "<img src=$path class='pfp img-responsive' alt='pfp'>";
   }
 }
+/* SOURCE: https://blog.csdn.net/ljphhj/article/details/16853277 */
+function loadPosts() {
+  global $conn;
+  $pagesize = 5;
 
-function loadPosts () {
-  // username, title, tags
+  // get total # of posts
+  $sql = "select count(*) from trip_in";
+  $rs = mysqli_query($conn, $sql) or die(mysqli_error($conn));
+  $row = mysqli_fetch_array($rs);
+  $numrows = $row[0];
+
+  // get total # of pages
+  $pages = intval($numrows/$pagesize);
+  if ($numrows%$pagesize) {
+    $pages++;
+  }
+
+  // get current page #
+  if (isset($_GET['page'])) {
+    $page = intval($_GET['page']);
+  } else {
+    $page = 1;
+  }
+
+  $offset=$pagesize*($page - 1);
+  // retrieve post_id of the latest 5 posts; is "limit" a good choice here?
+  $sql = "select * from trip_in order by trip_id desc limit $offset,$pagesize";
+  $rs = mysqli_query($conn, $sql) or die(mysqli_error($conn));
+  // render posts
+  while ($row = mysqli_fetch_array($rs, MYSQLI_ASSOC)) {
+      echo "<div class='row post-block'>";
+      // username
+      showName($row['trip_id']);
+      // title
+      echo "<p class='post-heading'>".$row['title']."</p>";
+      // tags
+      parseTags($row['location_id']);
+      // duration?
+      // media
+      renderMedia($row['trip_id']);
+      echo "</div>";
+  }
   
-  // media
-  renderMedia();
-  
-  // caption, date
+  echo "<div align='center' class='post-bottom'>Page ".$page." / ".$pages;
+  echo "<br>";
+  for ($i=1; $i<=$pages; $i++) 
+    echo "<a href='index.php?page=".$i."'> [".$i." ]</a>";
+  echo "</div>";
 }
 
-/**
+/***
  * helper functions
  */
-
-/* SOURCE: https://www.runoob.com/w3cnote/php-mysql-pagination.html */
-function renderMedia () { 
-  $num_rec_per_page=10;   // 每页显示数量
-  mysql_connect('localhost','root','');  // 数据库连接
-  mysql_select_db('apex1');  // 数据库名
-  if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; }; 
-  $start_from = ($page-1) * $num_rec_per_page; 
-  $sql = "SELECT * FROM student LIMIT $start_from, $num_rec_per_page"; 
-  $rs_result = mysql_query ($sql); // 查询数据
-  ?> 
-  <table>
-  <tr><td>Name</td><td>Phone</td></tr>
-  <?php 
-  while ($row = mysql_fetch_assoc($rs_result)) { 
-  ?> 
-              <tr>
-              <td><?php echo $row['Name']; ?></td>
-              <td><?php echo $row['Phone']; ?></td>            
-              </tr>
-  <?php 
-  }; 
-  ?> 
-  </table>
-  <?php 
-  $sql = "SELECT * FROM student"; 
-  $rs_result = mysql_query($sql); //查询数据
-  $total_records = mysql_num_rows($rs_result);  // 统计总共的记录条数
-  $total_pages = ceil($total_records / $num_rec_per_page);  // 计算总页数
-
-  echo "<a href='pagination.php?page=1'>".'|<'."</a> "; // 第一页
-
-  for ($i=1; $i<=$total_pages; $i++) { 
-              echo "<a href='pagination.php?page=".$i."'>".$i."</a> "; 
-  }; 
-  echo "<a href='pagination.php?page=$total_pages'>".'>|'."</a> "; // 最后一页
+function showName($trip_id) {
+  global $conn;
+  $sql = "select name from all_users where username = (select username from plans where trip_id = $trip_id)";
+  $rs = mysqli_query($conn, $sql) or die(mysqli_error($conn));
+  $row = mysqli_fetch_array($rs);
+  echo "<p class='post-username'>".$row['name']."</p>";
 }
 
-function renderText() {
-
+function parseTags($location_id) {
+  global $conn;
+  $sql = "select * from location where id = $location_id";
+  $rs = mysqli_query($conn, $sql) or die(mysqli_error($conn));
+  $row = mysqli_fetch_array($rs);
+  // TODO: search
+  echo "<a href='search.php' class='post-tag' style='margin-left:18px;'>#".$row['city']." </a>"; 
+  if(!empty($row['province']))
+    echo "<a href='search.php' class='post-tag'> #".$row['province']." </a>";  
+  echo "<a href='search.php' class='post-tag'> #".$row['country']."</a>";
 }
 
-function renderImage() {
-
+function renderMedia($trip_id) {
+  global $conn;
+  $sql = "select post_id from posts where trip_id = $trip_id";
+  $rs = mysqli_query($conn, $sql) or die(mysqli_error($conn));
+  while ($row = mysqli_fetch_array($rs, MYSQLI_ASSOC)) {
+    $post_id = $row['post_id'];
+    $sql_type = "select type from media where post_id = ".$post_id;
+    $rs_type = mysqli_query($conn, $sql_type) or die(mysqli_error($conn));
+    $row_type = mysqli_fetch_array($rs_type, MYSQLI_ASSOC);
+    if ($row_type['type']==1) { // text
+      renderText($post_id);
+    } elseif ($row_type['type']==2) { // photo
+      echo "photo";
+      renderPhoto($post_id);
+      echo "video";
+    } else { // video
+      renderVideo($post_id);
+    }
+  }
+  // date
 }
 
-function renderVideo() {
-
+function renderText($post_id) {
+  global $conn;
+  $sql = "select words from text where post_id = $post_id";
+  $rs = mysqli_query($conn, $sql) or die(mysqli_error($conn));
+  $row = mysqli_fetch_array($rs, MYSQLI_ASSOC);
+  echo "<p class='post-text'>".$row['words']."</p>";
 }
+
+function renderPhoto($post_id) {}
+
+function renderVideo($post_id) {}
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -118,8 +160,8 @@ function renderVideo() {
           <ul class="nav navbar-nav navbar-right">
             <li><a href="create.html">Create Post</a></li>
           </ul>
-          <form class="navbar-form navbar-right" action="search.php">
-            <input type="text" class="form-control" placeholder="Search by tag, user, etc.">
+          <form action="search.php" class="navbar-form navbar-right" action="search.php">
+            <input name="input" class="form-control" placeholder="Search by tag, user, etc.">
             <!-- how do we distinguish different types of keywords? -->
           </form>
         </div>
@@ -131,7 +173,7 @@ function renderVideo() {
       <div class="row">
         <div class="col-sm-3 col-md-3 sidebar post-sidebar">
           <div class="placeholder">
-             <?php getPfp() ?> 
+             <?php getPfp() ?>
           </div>
 
           <!-- other functionalities -->
@@ -146,14 +188,7 @@ function renderVideo() {
 
   <!-- main section -->
   <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-3 main">
-          <!-- post area -->
-          <!-- display <= 5 latest posts-->
-          <!-- what if have <5 posts? how to do a while loop? -->
-          <div class="row post-block">
-            <h2 class="post-heading">Heading</h2>
-            <!-- TODO: display block for tags -->
-            <p class="post-text"><?php loadPosts(); ?></p>
-          </div>
+    <?php loadPosts(); ?>
   </div>
     
   </body>
