@@ -1,9 +1,18 @@
-<script src="https://unpkg.com/vue@2.6.10/dist/vue.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<form id="form" action="create.php" method="post">
+<head>
+    <script src="https://unpkg.com/vue@2.6.10/dist/vue.js"></script>
+
+    <script>
+        console.log("hello world from head");
+    </script>
+</head>
+<body>
+<!-- <form id="form" action="form-process.php" method="post"></form> -->
+<form id="form" action="create.php" method="post" enctype="multipart/form-data">
     <label>ABOUT</label><br>
     <label for="titlebox">trip plan title:</label><br>
     <!-- prevent apostrophe key onkeydown="return (event.keyCode!=222);" use https://css-tricks.com/snippets/javascript/javascript-keycodes/ -->
+    <!-- <input name="test" maxlength="70" value="beep beep!" required><br> -->
+    
     <input id="titlebox" name="title" maxlength="70" value="paris tour!" required><br>
     <label for="descbox">description:</label><br>
     <input id="descbox" name="desc" type="text" maxlength="280" value="eating baguettes all day"><br><br>
@@ -22,78 +31,117 @@
     <label>ATTRACTIONS</label>
     <br>
     <label>attraction 1. </label><br>
-    <input name="attrname0" value="arc de triomphe" placeholder="name">
+    <input name="attrname0" value="arc de triomphe" placeholder="name" maxlength="70">
     <input type="radio" name="attrnumds0" value=0 checked="checked"><label>FREE</label>
     <input type="radio" name="attrnumds0" value=1><label>$</label>
     <input type="radio" name="attrnumds0" value=2><label>$$</label>
     <input type="radio" name="attrnumds0" value=3><label>$$$</label><br>
-    <input name="attrtype0" value="monument" placeholder="type">
-    <input name="attrdesc0" value="big old fancy doorway" placeholder="description">
+    <input name="attrtype0" value="monument" placeholder="type" maxlength="70">
+    <input name="attrdesc0" value="big old fancy doorway" placeholder="description" maxlength="280">
     <br><br>
     <label>attraction 2. </label><br>
-    <input name="attrname1" value="eiffel tower" placeholder="name">
+    <input name="attrname1" value="eiffel tower" placeholder="name" maxlength="70">
     <input type="radio" name="attrnumds1" value=0 checked="checked"><label>FREE</label>
     <input type="radio" name="attrnumds1" value=1><label>$</label>
     <input type="radio" name="attrnumds1" value=2><label>$$</label>
     <input type="radio" name="attrnumds1" value=3><label>$$$</label><br>
-    <input name="attrtype1" value="monument" placeholder="type">
-    <input name="attrdesc1" placeholder="description">
+    <input name="attrtype1" value="monument" placeholder="type" maxlength="70">
+    <input name="attrdesc1" placeholder="description" maxlength="280">
     <br><br>
     <label>attraction 3. </label><br>
-    <input name="attrname2" placeholder="name">
+    <input name="attrname2" placeholder="name" maxlength="70">
     <input type="radio" name="attrnumds2" value=0 checked="checked"><label>FREE</label>
     <input type="radio" name="attrnumds2" value=1><label>$</label>
     <input type="radio" name="attrnumds2" value=2><label>$$</label>
     <input type="radio" name="attrnumds2" value=3><label>$$$</label><br>
-    <input name="attrtype2" placeholder="type">
-    <input name="attrdesc2" placeholder="description">
+    <input name="attrtype2" placeholder="type" maxlength="70">
+    <input name="attrdesc2" placeholder="description" maxlength="280">
 
     <br><br><br>
     <label>ACTIVITIES</label><br>
     <label>activity 1. </label><br>
-    <input name="actname0" value="hiking" placeholder="name">
+    <input name="actname0" value="hiking" placeholder="name" maxlength="70">
     <input type="radio" name="actnumds0" value=0 checked="checked"><label>FREE</label>
     <input type="radio" name="actnumds0" value=1><label>$</label>
     <input type="radio" name="actnumds0" value=2><label>$$</label>
     <input type="radio" name="actnumds0" value=3><label>$$$</label><br>
-    <input name="acttype0" value="nature" placeholder="type">
-    <input name="actdesc0" value="walking up a mountain for fun" placeholder="description">
+    <input name="acttype0" value="nature" placeholder="type" maxlength="70">
+    <input name="actdesc0" value="walking up a mountain for fun" placeholder="description" maxlength="280">
     <br><br>
     <label>activity 2. </label><br>
-    <input name="actname1" value="tour of palace of versailles" placeholder="name">
+    <input name="actname1" value="tour of palace of versailles" placeholder="name" maxlength="70">
     <input type="radio" name="actnumds1" value=0 checked="checked"><label>FREE</label>
     <input type="radio" name="actnumds1" value=1><label>$</label>
     <input type="radio" name="actnumds1" value=2><label>$$</label>
     <input type="radio" name="actnumds1" value=3><label>$$$</label><br>
-    <input name="acttype1" value="historical" placeholder="type">
-    <input name="actdesc1" placeholder="description">
+    <input name="acttype1" value="historical" placeholder="type" maxlength="70">
+    <input name="actdesc1" placeholder="description" maxlength="280">
     <br><br>
     <label>activity 3. </label><br>
-    <input name="actname2" placeholder="name">
+    <input name="actname2" placeholder="name" maxlength="70">
     <input type="radio" name="actnumds2" value=0 checked="checked"><label>FREE</label>
     <input type="radio" name="actnumds2" value=1><label>$</label>
     <input type="radio" name="actnumds2" value=2><label>$$</label>
     <input type="radio" name="actnumds2" value=3><label>$$$</label><br>
-    <input name="acttype2" placeholder="type">
-    <input name="actdesc2" placeholder="description">
+    <input name="acttype2" placeholder="type" maxlength="70">
+    <input name="actdesc2" placeholder="description" maxlength="280">
     
     <br><br><br>
     <label>RESTAURANTS</label><br>
     <label>restaurant 1. </label><br>
-    <input name="restname0" value="applebees" placeholder="name">
+    <input name="restname0" value="applebees" placeholder="name" maxlength="70">
     <input type="radio" name="restnumds0" value=1 checked="checked"><label>$</label>
     <input type="radio" name="restnumds0" value=2><label>$$</label>
     <input type="radio" name="restnumds0" value=3><label>$$$</label><br>
-    <input name="resttype0" value="fast food" placeholder="type">
+    <input name="resttype0" value="fast food" placeholder="type" maxlength="70">
     <br><br>
     <label>restaurant 2. </label><br>
-    <input name="restname1" placeholder="name">
+    <input name="restname1" placeholder="name" maxlength="70">
     <input type="radio" name="restnumds1" value=1 checked="checked"><label>$</label>
     <input type="radio" name="restnumds1" value=2><label>$$</label>
     <input type="radio" name="restnumds1" value=3><label>$$$</label><br>
-    <input name="resttype1" placeholder="type">
+    <input name="resttype1" placeholder="type" maxlength="70">
+    <br><br>
+    <label>restaurant 3. </label><br>
+    <input name="restname2" placeholder="name" maxlength="70">
+    <input type="radio" name="restnumds2" value=1 checked="checked"><label>$</label>
+    <input type="radio" name="restnumds2" value=2><label>$$</label>
+    <input type="radio" name="restnumds2" value=3><label>$$$</label><br>
+    <input name="resttype2" placeholder="type" maxlength="70">
+
+    <br><br><br>
+    <label>MEDIA</label><br>
+    <label>photos. </label><br>
+    <label>select multiple images to upload:</label>
+    <br>
+    <!-- https://www.w3schools.com/php/php_file_upload.asp -->
+    <!-- <input type="file" name="fileToUpload[]" multiple=""/>
+    <input name="caption0" placeholder="Caption all selected images" maxlength="280" size="24">
+    <br> -->
+    <input type="file" name="fileToUpload[]" />
+    <input name="caption0" placeholder="Caption image" maxlength="280" />
+    <br>
+    <input type="file" name="fileToUpload[]" />
+    <input name="caption1" placeholder="Caption image" maxlength="280"/>
+    <br>
+    <input type="file" name="fileToUpload[]" />
+    <input name="caption2" placeholder="Caption image" maxlength="280"/>
+
+    <br>
+    <br>
+    <label>videos. </label><br>
+    <input name="yt0" value="https://www.youtube.com" placeholder="YouTube link" maxlength="70"><br>
+    <input name="yt1" placeholder="YouTube link" maxlength="70"><br>
+    <input name="yt2" placeholder="YouTube link" maxlength="70">
+    <br>
+    <br>
+    <label>reviews, comments. </label><br>
+    <textarea name="text0" value="aaa" placeholder="Type here..." rows="4" cols="50" maxlength="280"></textarea>
+    <br>
+    <textarea name="text1" placeholder="Type here..." rows="4" cols="50" maxlength="280"></textarea>
     
     <br><br><br>
     <input type="submit" disabled style="display: none" aria-hidden="true"></button>
-    <button type="submit">Submit</button>
+    <button name="submit" type="submit">Submit</button>
 </form>
+</body>
