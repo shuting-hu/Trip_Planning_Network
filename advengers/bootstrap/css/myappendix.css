@@ -65,7 +65,11 @@ a.post-tag {
     text-decoration: none;
 }
 
-.post-bottom {
+a.post-tag:hover {
+    color: #6A5ACD;
+}
+
+.post-bot:hovertom {
 	font-size: 16px;
 }
 
