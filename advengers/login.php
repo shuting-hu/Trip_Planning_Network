@@ -5,8 +5,11 @@ include'connect.php';
 $username = $_POST['username'];
 $password = $_POST['password'];
 $conn = OpenCon();
-$sql = "select * from All_Users where username = '$username' and password = '$password'";
 
+// query db for user
+$sql = "SELECT *
+        FROM All_Users
+        WHERE username = '$username' AND password = '$password'";
 $rsResult = mysqli_query($conn, $sql) or die(mysqli_error($conn));
 if (mysqli_num_rows($rsResult) > 0) {
 	$_SESSION["username"] = $username;
