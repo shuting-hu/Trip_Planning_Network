@@ -1,31 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-	<meta charset="UTF-8">
-	<title>Register</title>
-	
-	<!--css-->
-	<link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet">
-	<link href="./bootstrap/css/templates/signin.css" rel="stylesheet">
+  <meta charset="UTF-8">
+  <title>Register</title>
+
+  <!--css-->
+  <link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="./bootstrap/css/templates/signin.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
 
 </head>
 
 <body>
-	<!-- login form -->
-    <div class="my-container">
-      <form class="form-signin" action="register.php" method="post">
-        <h2 class="form-signin-heading">Register</h2>
-        <label class="sr-only">Username</label>
-        <input class="form-control" name="username" type="text" placeholder="Username" required autofocus>
-        <label class="sr-only">Name</label>
-        <input class="form-control" name="name" type="text" placeholder="Name on profile" required>
-        <label class="sr-only">Password</label>
-        <input class="form-control" name="password" type="password" placeholder="Password" required>
-        <!-- TODO: confirm password -->
-        <button class="btn btn-lg btn-primary btn-block my-button" type="submit">Submit</button>
-      </form>
-    </div> 
+  <!-- login form -->
+  <div class="my-container">
+    <form class="form-signin" action="register.php" method="post">
+      <h2 class="form-signin-heading">Register</h2>
+      <label class="sr-only">Name</label>
+      <input class="form-control" name="name" type="text" placeholder="Name" required>
+      <label class="sr-only">Username</label>
+      <input class="form-control" name="username" type="text" placeholder="Username" required autofocus>
+      <label class="sr-only">Password</label>
+      <input class="form-control" name="password" type="password" placeholder="Password" required>
+      <!-- TODO: confirm password -->
+      <button class="btn btn-lg btn-primary btn-block my-button" type="submit">Signup</button>
+    </form>
+    <center>
+      <p>
+        Have an account? <a href="login.html" id="log-sign"><b>Login</b></a>
+      </p>
+    </center>
+  </div>
 
 </body>
-</html>
 
+</html>
