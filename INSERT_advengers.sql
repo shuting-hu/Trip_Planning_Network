@@ -14,16 +14,16 @@ INSERT INTO All_Users(username, password, name) VALUES('gamora', 'whyisgamora', 
 INSERT INTO All_Users(username, password, name) VALUES('rocket', 'guardinthefrickingalaxy', 'Rocket Racoon');
 INSERT INTO All_Users(username, password, name) VALUES('gen.okoye', 'yibambe', 'Okoye');
 
-INSERT INTO Regular_User(username, profile_picture) VALUES('ironman', '/Users/stark/Desktop/IMG_123.png');
-INSERT INTO Regular_User(username, profile_picture) VALUES('spidey', '/Users/pparker/Desktop/me.jpg');
-INSERT INTO Regular_User(username, profile_picture) VALUES('blackwidow', '/Users/natrom/Desktop/phase4.jpg');
-INSERT INTO Regular_User(username, profile_picture) VALUES('hawkeye', '/Users/cbart/Desktop/arrow.jpg');
-INSERT INTO Regular_User(username, profile_picture) VALUES('ppotts', '/Users/potts/Desktop/dp.jpg');
-INSERT INTO Regular_User(username, profile_picture) VALUES('slang', '/Users/scott/Desktop/me-n-peanut.jpg');
-INSERT INTO Regular_User(username, profile_picture) VALUES('redwitch', '/Users/wanda/Desktop/IMG_456.png');
-INSERT INTO Regular_User(username, profile_picture) VALUES('gen.okoye', '/Users/ok/Desktop/sbux.jpg');
-INSERT INTO Regular_User(username, profile_picture) VALUES('starlord', '/Users/starlord/Desktop/goodvibes.jpg');
-INSERT INTO Regular_User(username, profile_picture) VALUES('than0s', '/Users/thanos/Desktop/IMG_666.png');
+INSERT INTO Regular_User(username, profile_picture) VALUES('ironman', 'images/pfp/ironman.png');
+INSERT INTO Regular_User(username, profile_picture) VALUES('spidey', 'images/pfp/spidey.png');
+INSERT INTO Regular_User(username, profile_picture) VALUES('blackwidow', 'images/pfp/blackwidow.png');
+INSERT INTO Regular_User(username, profile_picture) VALUES('hawkeye', 'images/pfp/hawkeye.png');
+INSERT INTO Regular_User(username, profile_picture) VALUES('ppotts', 'images/pfp/ppotts.png');
+INSERT INTO Regular_User(username, profile_picture) VALUES('slang', 'images/pfp/slang.png');
+INSERT INTO Regular_User(username, profile_picture) VALUES('redwitch', 'images/pfp/redwitch.png');
+INSERT INTO Regular_User(username, profile_picture) VALUES('gen.okoye', 'images/pfp/gen.okoye.png');
+INSERT INTO Regular_User(username, profile_picture) VALUES('starlord', 'images/pfp/starlord.png');
+INSERT INTO Regular_User(username, profile_picture) VALUES('than0s', 'images/pfp/than0s.png');
 
 INSERT INTO Admin(username, role, email, admin_ID) VALUES('ironman', 'Moderator', 'imironman@stark.net', 1);
 INSERT INTO Admin(username, role, email, admin_ID) VALUES('ppotts', 'Moderator', 'ceopotts@stark.net', 2);
