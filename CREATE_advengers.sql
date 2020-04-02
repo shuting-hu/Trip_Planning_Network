@@ -22,14 +22,14 @@ CREATE TABLE Activity(
 	num_dollar_signs INTEGER CHECK (num_dollar_signs IN (0, 1, 2, 3)),
 	description VARCHAR(280));
 CREATE TABLE Location(
-	id  INTEGER	PRIMARY KEY,
+	id  INTEGER PRIMARY KEY AUTO_INCREMENT,
 	country  VARCHAR(70) NOT NULL,
 	province  VARCHAR(70),
 	city  VARCHAR(70) NOT NULL,
 	CONSTRAINT UC_Location UNIQUE (country, city));
 CREATE TABLE Trip_In(
 	title VARCHAR(70),
-	trip_id INTEGER PRIMARY KEY,
+	trip_id INTEGER PRIMARY KEY AUTO_INCREMENT,
 	location_id INTEGER NOT NULL,
    	duration VARCHAR(15) CHECK (duration IN ('daytrip', '1 week trip', '2 weeks+ trip')),
 	description VARCHAR(280),
@@ -41,7 +41,7 @@ CREATE TABLE Restaurant(
 
 
 CREATE TABLE Media(
-	post_id INTEGER PRIMARY KEY,
+	post_id INTEGER PRIMARY KEY AUTO_INCREMENT,
 	date DATE);
 CREATE TABLE Photo(
 	post_id INTEGER PRIMARY KEY,
