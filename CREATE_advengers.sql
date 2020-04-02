@@ -43,7 +43,7 @@ CREATE TABLE Restaurant(
 CREATE TABLE Media(
 	post_id INTEGER PRIMARY KEY AUTO_INCREMENT,
 	date DATE,
-	type INTEGER) CHECK (type IN (1, 2, 3)));
+	type INTEGER CHECK (type IN (1, 2, 3)));
 CREATE TABLE Photo(
 	post_id INTEGER PRIMARY KEY,
 	caption VARCHAR(280),
@@ -109,7 +109,7 @@ CREATE TABLE IncludesAttraction(
 	trip_id  INTEGER,
 	attr_name  VARCHAR(70),
 	location_id INTEGER,
-	PRIMARY KEY (trip_id, attr_name),
+	PRIMARY KEY (trip_id, attr_name, location_id),
 	FOREIGN KEY (trip_id) REFERENCES Trip_In(trip_id) ON DELETE CASCADE,
 	FOREIGN KEY (attr_name, location_id) REFERENCES Attraction_In(attr_name, location_id) ON DELETE CASCADE);
 CREATE TABLE Plans(

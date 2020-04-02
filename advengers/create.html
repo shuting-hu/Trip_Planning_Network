@@ -3,14 +3,15 @@
 <form id="form" action="create.php" method="post">
     <label>ABOUT</label><br>
     <label for="titlebox">trip plan title:</label><br>
-    <input id="titlebox" name="title" maxlength="70" value="my trip plan" required><br>
+    <!-- prevent apostrophe key onkeydown="return (event.keyCode!=222);" use https://css-tricks.com/snippets/javascript/javascript-keycodes/ -->
+    <input id="titlebox" name="title" maxlength="70" value="paris tour!" required><br>
     <label for="descbox">description:</label><br>
-    <input id="descbox" name="desc" type="text" maxlength="280" value="foo"><br><br>
+    <input id="descbox" name="desc" type="text" maxlength="280" value="eating baguettes all day"><br><br>
     
     <label>LOCATION</label><br>
-    <label for="citybox">city: </label><input id="citybox" name="city" type="text" maxlength="70" value="foo" required><br>
+    <label for="citybox">city: </label><input id="citybox" name="city" type="text" maxlength="70" value="Paris" required><br>
     <label for="provbox">province: </label><input id="provbox" name="province" type="text" maxlength="70" placeholder="optional"><br>
-    <label for="countrybox">country: </label><input id="countrybox" name="country" type="text" maxlength="70" value="foo" required><br><br>
+    <label for="countrybox">country: </label><input id="countrybox" name="country" type="text" maxlength="70" value="France" required><br><br>
     
     <label>DURATION</label><br>
     <input type="radio" name="duration" id="daytrip" value="daytrip" checked="checked"><label for="daytrip">daytrip</label><br>
@@ -30,12 +31,12 @@
     <input name="attrdesc0" value="big old fancy doorway" placeholder="description">
     <br><br>
     <label>attraction 2. </label><br>
-    <input name="attrname1" placeholder="name">
+    <input name="attrname1" value="eiffel tower" placeholder="name">
     <input type="radio" name="attrnumds1" value=0 checked="checked"><label>FREE</label>
     <input type="radio" name="attrnumds1" value=1><label>$</label>
     <input type="radio" name="attrnumds1" value=2><label>$$</label>
     <input type="radio" name="attrnumds1" value=3><label>$$$</label><br>
-    <input name="attrtype1" placeholder="type">
+    <input name="attrtype1" value="monument" placeholder="type">
     <input name="attrdesc1" placeholder="description">
     <br><br>
     <label>attraction 3. </label><br>
@@ -59,12 +60,12 @@
     <input name="actdesc0" value="walking up a mountain for fun" placeholder="description">
     <br><br>
     <label>activity 2. </label><br>
-    <input name="actname1" placeholder="name">
+    <input name="actname1" value="tour of palace of versailles" placeholder="name">
     <input type="radio" name="actnumds1" value=0 checked="checked"><label>FREE</label>
     <input type="radio" name="actnumds1" value=1><label>$</label>
     <input type="radio" name="actnumds1" value=2><label>$$</label>
     <input type="radio" name="actnumds1" value=3><label>$$$</label><br>
-    <input name="acttype1" placeholder="type">
+    <input name="acttype1" value="historical" placeholder="type">
     <input name="actdesc1" placeholder="description">
     <br><br>
     <label>activity 3. </label><br>
@@ -79,7 +80,7 @@
     <br><br><br>
     <label>RESTAURANTS</label><br>
     <label>restaurant 1. </label><br>
-    <input name="restname0" value="applebee's" placeholder="name">
+    <input name="restname0" value="applebees" placeholder="name">
     <input type="radio" name="restnumds0" value=1 checked="checked"><label>$</label>
     <input type="radio" name="restnumds0" value=2><label>$$</label>
     <input type="radio" name="restnumds0" value=3><label>$$$</label><br>
