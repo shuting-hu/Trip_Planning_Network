@@ -42,7 +42,8 @@ CREATE TABLE Restaurant(
 
 CREATE TABLE Media(
 	post_id INTEGER PRIMARY KEY AUTO_INCREMENT,
-	date DATE);
+	date DATE,
+	type INTEGER CHECK (type IN (1, 2, 3)));
 CREATE TABLE Photo(
 	post_id INTEGER PRIMARY KEY,
 	caption VARCHAR(280),
