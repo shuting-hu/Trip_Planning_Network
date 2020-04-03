@@ -1,14 +1,17 @@
-<?php 
-session_start();
-?>
-
 <?php
+session_start();
+$username = $_SESSION["username"];
+// redirects to login if no active session
+if (!isset($username)) {
+    header("location: login.html");
+}
+
 include'connect.php';
 $conn = OpenCon();
 
 function getPfp() {
   global $conn;  
-  $username = $_SESSION["username"];
+  global $username;
   $sql = "select profile_picture from regular_user where username = '$username'";
   $rsResult = mysqli_query($conn, $sql) or die(mysqli_error($conn));
   $row = $rsResult->fetch_array(MYSQLI_ASSOC);
@@ -178,7 +181,8 @@ function renderVideo($post_id) {}
 
           <!-- other functionalities -->
           <div>
-              <button class="side-post-button" onclick="document.location='profile.php'">Profile</button>
+              <!-- TODO: if admin goto adminSettings.php else userSettings.php -->
+              <button class="side-post-button" onclick="document.location='userSettings.php'">Settings</button> <!-- !!!!!!!!!!!!HERE!!!!!!!!!!!!! -->
               <button class="side-post-button" onclick="document.location='logout.php'">Logout</button>
           </div>
         </div>

@@ -1,4 +1,11 @@
 <?php
+session_start();
+$username = $_SESSION["username"];
+// redirects to login if no active session
+if (!isset($username)) {
+    header("location: login.html");
+}
+
 include 'connect.php';
 
 // COMMENT OUT ALL sql errors: FIND ' or die', REPLACE with ';//DEBUG or die'
