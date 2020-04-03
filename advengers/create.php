@@ -5,7 +5,7 @@
 // DONE TODO - caption for photo 
 
 // TODO - make it work for variable user (cookies?)
-// TODO - editing the form???
+// if only there were more time :( TODO - editing the form???
 // No lol TODO - allow more inputs?
 // TODO - reload feed on go back
 // TODO - CSS for everything, including CSS for error nothing submitted page
@@ -32,6 +32,7 @@ function sanitizeStr($str) {
 $testuser = "insert into `All_Users`(username, password, name)
     values('test', 'abc', 'joe');";
 $testuserresult = mysqli_query($conn, $testuser);
+$testuserresult = mysqli_query($conn, "insert into Regular_User (username, profile_picture) values('test', NULL)");
 
 
 $author = 'test';

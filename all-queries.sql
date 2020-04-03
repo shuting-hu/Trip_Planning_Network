@@ -90,6 +90,13 @@ FROM Plans;
 SELECT count(*) AS total_users
 FROM All_Users;
 
+-- first user to post anything
+SELECT U.username as us, M.date as mindate
+FROM Posts P, Media M, Regular_User U, Trip_In T, Plans Pl
+WHERE P.post_id = M.post_id AND T.trip_id = P.trip_id AND Pl.trip_id = T.trip_id AND Pl.username = U.username
+AND M.date = (SELECT MIN(date) FROM Media);
+
+
 -- *** average/min/max $$$ for ??? category that user specifies (NESTED AGGREGATION WITH GROUP BY)
 --                      ^ ex. avg price of activities/restaurants grouped by location
 -- pma doesn't like this one :(
