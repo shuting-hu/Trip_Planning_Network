@@ -22,6 +22,19 @@ function getPfp() {
     echo "<img src=$path class='pfp img-responsive' alt='pfp'>";
   }
 }
+
+// TODO THIS DOESN'T WORK !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! HI HELP !!!!!
+// if admin goto adminSettings.php else userSettings.php
+if(isset($_POST['btn_settings'])) {
+  $sqladmin = "SELECT * FROM Admin WHERE username = '$username'";
+  $isadmin = mysqli_query($conn, $sqladmin) or die(mysqli_error($conn));
+  if (mysqli_num_rows($isadmin) > 0) {
+    header("Location: adminSettings.php");
+  } else {
+    header("Location: userSettings.php");
+  }
+}
+
 /* SOURCE: https://blog.csdn.net/ljphhj/article/details/16853277 */
 function loadPosts() {
   global $conn;
@@ -182,7 +195,8 @@ function renderVideo($post_id) {}
           <!-- other functionalities -->
           <div>
               <!-- TODO: if admin goto adminSettings.php else userSettings.php -->
-              <button class="side-post-button" onclick="document.location='userSettings.php'">Settings</button> <!-- !!!!!!!!!!!!HERE!!!!!!!!!!!!! -->
+              <!-- <button class="side-post-button" name="btn_settings" type="submit">Settings</button> --> <!-- !!!!!!!!!!!!for if admin check above!!!!!!!!!!!!! -->
+              <button class="side-post-button" onclick="document.location='userSettings.php'">Settings</button> <!-- this redirects -->
               <button class="side-post-button" onclick="document.location='logout.php'">Logout</button>
           </div>
         </div>
