@@ -11,7 +11,6 @@ $conn = OpenCon();
 
 function getUser()
 {
-    global $conn;
     global $username;
     echo $username . '<br/>';
 }
@@ -20,12 +19,10 @@ function getName()
 {
     global $conn;
     global $username;
-    if (isset($username)) {
-        $sql = "SELECT name FROM All_Users WHERE username = '$username'";
-        $res = mysqli_query($conn, $sql) or die(mysqli_error($conn));
-        $row = mysqli_fetch_array($res);
-        echo $row['name'];
-    }
+    $sql = "SELECT name FROM All_Users WHERE username = '$username'";
+    $res = mysqli_query($conn, $sql) or die(mysqli_error($conn));
+    $row = mysqli_fetch_array($res);
+    echo $row['name'];
 }
 
 function getPfp()
@@ -64,11 +61,11 @@ if(isset($_POST['btn_save'])) {
     if ($currpassword == $currpw_db || empty($currpassword)) {
         if (empty($newpassword) && empty($confnewpassword)) { // not changing pw just proceed with name change
             $sqlnm = "UPDATE All_Users SET name='$name' WHERE username='$username'";
-            $querynm = mysqli_query($conn, $sqlnm);
+            $querynm = mysqli_query($conn, $sqlnm) or die(mysqli_error($conn));
             header("location: index.php");
         } else if ($newpassword == $confnewpassword) { // match then change pw
             $sql = "UPDATE All_Users SET name='$name', password='$newpassword' WHERE username='$username'";
-            $query = mysqli_query($conn, $sql);
+            $query = mysqli_query($conn, $sql) or die(mysqli_error($conn));
             header("location: index.php");
         } else {
             echo '<script type="text/javascript">alert("Oops... new passwords do not match!")</script>';
@@ -113,7 +110,7 @@ if(isset($_POST['btn_cancel'])) {
 
                 <p>
                     <label>Name:</label>
-                    <input type="text" value="<?php getName() ?>" name="fullname">
+                    <input type="text" value="<?php getName() ?>" placeholder="Enter your name" name="fullname">
                 </p>
                 <br>
 
