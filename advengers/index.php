@@ -6,7 +6,7 @@ if (!isset($_SESSION["username"]))
 ?>
 
 <?php
-include'connect.php';
+include 'connect.php';
 $conn = OpenCon();
 
 function getPfp() {
@@ -192,14 +192,30 @@ function renderVideo($post_id) {
     <link href="./bootstrap/css/templates/dashboard.css" rel="stylesheet">
     <link href="./bootstrap/css/templates/offcanvas.css" rel="stylesheet">
     <link href="./bootstrap/css/myappendix.css" rel="stylesheet">
+
+    <style>
+		* {
+            font-family: sans-serif;
+        }
+/* 
+    	.header { 
+			width: 100%;
+			height: 40px;
+			position: fixed;
+			background: #cac3e4;
+		} */
+    </style>
   </head>
 
   <body>
     <!-- search bar -->
-    <div class="bar-container col-md-offset-3">
-      <form action="searchbar-parser.php" method="get">
-        <input name="query" class="search" placeholder="Search by tag, user, etc.">
-      </form>
+	<div class="bar-container col-md-offset-3">
+		<ul class="nav navbar-nav navbar-right">
+            <li><a href="create.php">Create Post</a></li>
+		</ul>
+		<form action="searchbar-parser.php" method="get">
+			<input size="100" name="query" class="search" placeholder="Search by tag, user, etc.">
+		</form>
     </div>
 
     <!-- side navigation bar -->
