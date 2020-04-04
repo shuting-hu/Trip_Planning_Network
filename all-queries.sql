@@ -1,3 +1,112 @@
+-- !!!!!!!!!!!!
+-- TODO: at end, recheck the file locations listed for each query
+-- !!!!!!!!!!!!
+
+
+
+
+
+
+
+
+
+/* INSERT
+ * Insert a photo associated with a certain trip plan
+ * See create.php: $addPhoto
+ */
+INSERT INTO Photo(post_id, caption, file_path)
+VALUES($mediaid, $cap, '$target_file');
+
+
+/* DELETE
+ * Delete a user (admin privilege only)
+ * See adminSettings.php: $drop
+ */
+DELETE FROM All_Users WHERE username='$regusername';
+
+
+/* UPDATE
+ * Update name and password
+ * See userSettings.php
+ */
+UPDATE All_Users SET name='$name', password='$newpassword' WHERE username='$username';
+
+
+/* SELECTION
+ * Search bar query
+ * See searchbar-parser.php
+ */
+CREATE OR REPLACE VIEW Subposts
+AS SELECT *
+FROM Trip_In
+WHERE trip_id IN
+        (SELECT trip_id
+        FROM Plans
+        WHERE username IN ('$wordsStr')
+    UNION
+        SELECT trip_id
+        FROM Trip_In
+        WHERE location_id IN
+                (SELECT id FROM Location WHERE country IN ('$wordsStr')
+            UNION
+                SELECT id FROM Location WHERE province IN ('$wordsStr')
+            UNION
+                SELECT id FROM Location WHERE city IN ('$wordsStr')));
+
+
+/* PROJECTION
+ * TODO - add to searchbar
+ * (keywords: >locations)
+ */
+
+
+/* JOIN QUERY
+ * Get all locations, sorted by popularity (frequency in trip plans)
+ * See stats.php: $result in getAllLocsPop()
+ */
+SELECT city, country, COUNT(location_id) as num
+FROM Location L, Trip_In T
+WHERE L.id = T.location_id
+GROUP BY city, country
+ORDER BY num DESC;
+
+
+/* AGGREGATION QUERY
+ * Find total number of non-admin users
+ * See stats.php: $resultu in getAggregateStats()
+ */
+SELECT COUNT(*) AS numu FROM Regular_User;
+
+
+/* 
+ * NESTED AGGREGATION WITH GROUP BY
+ * Find average number of plans per user, excluding users who have never made plans.
+ * See stats.php: $resultavg in getAggregateStats()
+ */
+SELECT AVG(T.numplans) AS average
+FROM
+(SELECT COUNT(*) AS numplans
+FROM Plans P GROUP BY username) AS T;
+
+
+/*
+ * DIVISION QUERY
+ * Find users who have made plans for every location
+ * See stats.php: $allL in getTrophies()
+ */
+SELECT DISTINCT username
+FROM All_Users U
+WHERE NOT EXISTS
+    (SELECT L.id FROM Location L
+    WHERE NOT EXISTS
+        (SELECT T.trip_id
+        FROM Trip_In T, Plans P
+        WHERE P.username = U.username
+        AND P.trip_id = T.trip_id
+        AND T.location_id = L.id));
+
+
+
 -- *** are IMPORTANT
 
 -- *** creating new account (INSERT)
