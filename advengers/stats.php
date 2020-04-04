@@ -86,27 +86,33 @@
 
     function getAggregateStats($dbconn) {
         $resultu = mysqli_query($dbconn, "SELECT COUNT(*) AS numu FROM Regular_User");
-        $resulta = mysqli_query($dbconn, "SELECT COUNT(*) AS numa FROM Admin");
+        // $resulta = mysqli_query($dbconn, "SELECT COUNT(*) AS numa FROM Admin");
         $resultp = mysqli_query($dbconn, "SELECT COUNT(*) AS nump FROM Plans");
         $resultm = mysqli_query($dbconn, "SELECT COUNT(*) AS numm FROM Media");
+        $resultavg = mysqli_query($dbconn, "SELECT AVG(T.numplans) AS average
+                                            FROM
+                                            (SELECT COUNT(*) AS numplans
+                                            FROM Plans P GROUP BY username) AS T;");
         
         // TODO - average cost by category
         
-        $resultmin = mysqli_query($dbconn, "SELECT MIN(date) AS mindate FROM Media");
-        $resultmax = mysqli_query($dbconn, "SELECT MAX(date) AS maxdate FROM Media");
+        // $resultmin = mysqli_query($dbconn, "SELECT MIN(date) AS mindate FROM Media");
+        // $resultmax = mysqli_query($dbconn, "SELECT MAX(date) AS maxdate FROM Media");
         
         $str = "<label>Total Users</label><br>"
                 . ($resultu->fetch_assoc())['numu'] . "<br>"
-                . "<label>Total Admins</label><br>"
-                . ($resulta->fetch_assoc())['numa'] . "<br>"
+                // . "<label>Total Admins</label><br>"
+                // . ($resulta->fetch_assoc())['numa'] . "<br>"
                 . "<label>Total Plans</label><br>"
                 . ($resultp->fetch_assoc())['nump'] . "<br>"
                 . "<label>Total Pictures, Videos, Text Posts</label><br>"
                 . ($resultm->fetch_assoc())['numm'] . "<br>"
-                . "<label>First post made on</label><br>"
-                . ($resultmin->fetch_assoc())['mindate'] . "<br>"
-                . "<label>Most recent post made on</label><br>"
-                . ($resultmax->fetch_assoc())['maxdate'] . "<br>";
+                . "<label>Average Plans Per User (excluding users who have never made plans)</label><br>"
+                . ($resultavg->fetch_assoc())['average'] . "<br>";
+                // . "<label>First post made on</label><br>"
+                // . ($resultmin->fetch_assoc())['mindate'] . "<br>"
+                // . "<label>Most recent post made on</label><br>"
+                // . ($resultmax->fetch_assoc())['maxdate'] . "<br>";
 
         return $str;
     }
@@ -288,14 +294,14 @@ LIMIT 5;
 
 
     function getTrophies($dbconn) {
-        $str = "No users, no trophies :( come back with your friends.";
-        $first = mysqli_query($dbconn, "SELECT U.username as us, M.date as mindate
+        $str = "<label>Achievement: First!<br>For the authors of the oldest post(s).</label><br>";
+        $first = mysqli_query($dbconn, "SELECT DISTINCT U.username as us, M.date as mindate
                                         FROM Posts P, Media M, Regular_User U, Trip_In T, Plans Pl
                                         WHERE P.post_id = M.post_id AND T.trip_id = P.trip_id AND Pl.trip_id = T.trip_id AND Pl.username = U.username
                                         AND M.date = (SELECT MIN(date) FROM Media);") or die(mysqli_error($dbconn));
 
         if (mysqli_num_rows($first) > 0) {
-            $str = "<label>Achievement: First!<br>For the first users create posts.</label><br><table>"
+            $str = $str . "<table>"
             . "<tr>"
             .    "<th>Username</th>"
             .    "<th>Date of first post</th>"
@@ -307,23 +313,37 @@ LIMIT 5;
                 . "<td>" . $row['mindate'] . "</td></tr>";
             }
             $str = $str . "</table><br>";
+        } else {
+            $str = $str . "No one has this achievement yet.<br>";
         }
+
+        $str = $str . "<label>Achievement: O M N I P R E S E N C E<br>"
+        . "For users who have made plans for every location in here. Advengers assemble!</label><br>";
         
 
-        $allL = mysqli_query($dbconn, "SELECT username as us FROM Regular_User"); //TODO thisIsTemPORARYbecauseIDONTrememberDIVISION
+        $allL = mysqli_query($dbconn, "SELECT DISTINCT username
+                                        FROM All_Users U
+                                        WHERE NOT EXISTS
+                                            (SELECT L.id FROM Location L
+                                            WHERE NOT EXISTS
+                                                (SELECT T.trip_id
+                                                FROM Trip_In T, Plans P
+                                                WHERE P.username = U.username
+                                                AND P.trip_id = T.trip_id
+                                                AND T.location_id = L.id));");
         if (mysqli_num_rows($allL) > 0) {
-            $str = $str . "<label>Achievement: O M N I P R E S E N C E<br>For users who have made plans for every location in here.</label><br><table>"
+            $str = $str . "<table>"
             . "<tr>"
             .    "<th>Username</th>"
             . "</tr>";
             
             while($row = mysqli_fetch_array($allL)) {
                 $str = $str . "<tr>"
-                . "<td>" . $row['us'] . "</td></tr>";
+                . "<td>" . $row['username'] . "</td></tr>";
             }
             $str = $str . "</table><br>";
         } else {
-            $str = $str . "<br>No one has this achievement yet.<br>";
+            $str = $str . "No one has this achievement yet.<br>";
         }
 
         return $str;
@@ -400,12 +420,64 @@ LIMIT 5;
     function off() {
         document.getElementById("overlay").style.display = "none";
     }
-    // TODO:  trophy case - , omnipresent users (division)
+    // DONE:  trophy case - , omnipresent users (division)
 
     // done:  total number of users, total number of media, total number of plans, oldest post
     //        most popular locations, most active users,
     //        popular activities, restaurants, attractions by category and num dollar signs
     //        author of first post
+
+    /*
+    check division
+INSERT INTO Trip_In(location_id) values(1);
+INSERT INTO Plans(username, trip_id) VALUES ('shuri', LAST_INSERT_ID());
+INSERT INTO Trip_In(location_id) values(2);
+INSERT INTO Plans(username, trip_id) VALUES ('shuri', LAST_INSERT_ID());
+INSERT INTO Trip_In(location_id) values(3);
+INSERT INTO Plans(username, trip_id) VALUES ('shuri', LAST_INSERT_ID());
+INSERT INTO Trip_In(location_id) values(4);
+INSERT INTO Plans(username, trip_id) VALUES ('shuri', LAST_INSERT_ID());
+INSERT INTO Trip_In(location_id) values(5);
+INSERT INTO Plans(username, trip_id) VALUES ('shuri', LAST_INSERT_ID());
+INSERT INTO Trip_In(location_id) values(6);
+INSERT INTO Plans(username, trip_id) VALUES ('shuri', LAST_INSERT_ID());
+INSERT INTO Trip_In(location_id) values(7);
+INSERT INTO Plans(username, trip_id) VALUES ('shuri', LAST_INSERT_ID());
+INSERT INTO Trip_In(location_id) values(8);
+INSERT INTO Plans(username, trip_id) VALUES ('shuri', LAST_INSERT_ID());
+INSERT INTO Trip_In(location_id) values(9);
+INSERT INTO Plans(username, trip_id) VALUES ('shuri', LAST_INSERT_ID());
+INSERT INTO Trip_In(location_id) values(10);
+INSERT INTO Plans(username, trip_id) VALUES ('shuri', LAST_INSERT_ID());
+INSERT INTO Trip_In(location_id) values(11);
+INSERT INTO Plans(username, trip_id) VALUES ('shuri', LAST_INSERT_ID());
+INSERT INTO Trip_In(location_id) values(12);
+INSERT INTO Plans(username, trip_id) VALUES ('shuri', LAST_INSERT_ID());
+
+
+    DIVISION SCRATCH WORK
+    SELECT DISTINCT username, city, country
+FROM Plans P, Trip_In T, Location L
+WHERE T.location_id = L.id AND P.trip_id = T.trip_id
+ORDER BY username, city, country;
+
+
+SELECT DISTINCT city, country
+FROM Location L
+ORDER BY city, country;
+
+SELECT DISTINCT username
+FROM All_Users U
+WHERE NOT EXISTS
+	(SELECT L.id FROM Location L
+	 WHERE NOT EXISTS
+        (SELECT T.trip_id
+        FROM Trip_In T, Plans P
+        WHERE P.username = U.username
+         AND P.trip_id = T.trip_id
+         AND T.location_id = L.id));
+    */
+
     </script>
 </body>
 </html>
