@@ -9,6 +9,13 @@ if (!isset($username)) {
 include 'connect.php';
 $conn = OpenCon();
 
+function sanitizeStr($str)
+{
+    $str = str_replace("'", "\'", $str);
+    $str = trim($str);
+    return $str;
+}
+
 function getUser()
 {
     global $username;
@@ -40,13 +47,66 @@ function getPfp()
     }
 }
 
-function sanitizeStr($str) {
-    $str = str_replace("'", "\'", $str);
-    $str = trim($str);
-    return $str;
+// update pfp
+if (isset($_POST["submit"])) {
+    // $user = 'test';
+    $target_dir = "images/pfp/";
+    $pfppath = $target_dir;
+
+    @$target_file = $target_dir . basename($_FILES["newpfp"]["name"]);
+    echo nl2br("TARGET IS: $target_file\n");
+    $uploadOk = 1;
+    $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+        
+    // Check if image file is a actual image or fake image
+    if (empty($_FILES["newpfp"]["tmp_name"])) {
+        echo "exiting, no image provided";
+    }
+
+    @$check = getimagesize($_FILES["newpfp"]["tmp_name"]);
+    if($check !== false) {
+        echo "File is an image - " . $check["mime"] . ".";
+        $uploadOk = 1;
+    } else {
+        echo "File is not an image.";
+        $uploadOk = 0;
+    }
+
+    // Allow certain file formats
+    if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+    && $imageFileType != "gif" ) {
+        echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+        $uploadOk = 0;
+    }
+
+    $newname = $pfppath . $username . "." . $imageFileType;
+
+    // Check if $uploadOk is set to 0 by an error
+    if ($uploadOk == 0) {
+        echo "Sorry, your file was not uploaded.";
+    // if everything is ok, try to upload file
+    } else {
+        $oldpfp = mysqli_query($conn, "SELECT profile_picture AS pfp
+                                        FROM Regular_User
+                                        WHERE username = '$username'
+                                        AND profile_picture IS NOT NULL") or die(mysqli_error($conn));
+        if (mysqli_num_rows($oldpfp) > 0) {
+            unlink(($oldpfp->fetch_assoc())['pfp']);
+        }
+
+        if (move_uploaded_file($_FILES["newpfp"]["tmp_name"], $newname)) {//$target_file)) {
+            echo "The file ". basename( $_FILES["newpfp"]["name"]). " has been uploaded.";
+
+            $updatepfp = mysqli_query($conn, "UPDATE Regular_User SET profile_picture = '$newname' WHERE username = '$username'") or die(mysqli_error($conn));
+            
+        } else {
+            echo "Sorry, there was an error uploading your file.";
+        }
+    }
 }
 
-if(isset($_POST['btn_save'])) {
+// save changes
+if (isset($_POST['btn_save'])) {
     $fullname = $_POST['fullname'];
     $name = sanitizeStr($fullname); // fixer upper
     $currpassword = $_POST['currpassword'];
@@ -75,7 +135,7 @@ if(isset($_POST['btn_save'])) {
     }
 }
 
-if(isset($_POST['btn_cancel'])) {
+if (isset($_POST['btn_cancel'])) {
     header("location: index.php");
 }
 ?>
@@ -105,24 +165,29 @@ if(isset($_POST['btn_cancel'])) {
             <form action="userSettings.php" method="post">
                 <div class="placeholder">
                     <h1><?php getUser() ?></h1>
-                    <?php getPfp() ?>
+                    <?php getPfp() ?><br><br>
+                    <!-- <form action="" method="post" enctype="multipart/form-data">
+                        <input type="file" name="newpfp">
+                        <button id="btn_fetch" type="submit" name="submit">Upload new profile picture</button>
+                    </form> -->
                 </div>
 
                 <p>
-                    <label>Name:</label>
+                <br>
+                    <label>Name:</label><br>
                     <input type="text" value="<?php getName() ?>" placeholder="Enter your name" name="fullname">
                 </p>
                 <br>
 
                 <p>
                     <h4>Change Password</h4>
-                    <label>Current Password:</label>
+                    <label>Current Password:</label><br>
                     <input type="text" placeholder="Enter your current password" name="currpassword">
                     <br>
-                    <label>New Password:</label>
+                    <label>New Password:</label><br>
                     <input type="password" placeholder="Enter your new password" name="newpassword">
                     <br>
-                    <label>Confirm New Password:</label>
+                    <label>Confirm New Password:</label><br>
                     <input type="password" placeholder="Enter your new password again" name="confnewpassword">
                     <br>
                 </p>

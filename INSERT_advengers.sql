@@ -131,16 +131,16 @@ INSERT INTO Photo(post_id, caption, file_path) VALUES (9, NULL, 'images/posts/9.
 INSERT INTO Photo(post_id, caption, file_path) VALUES (10, 'Finally at peace.', 'images/posts/10.png');
 INSERT INTO Photo(post_id, caption, file_path) VALUES (31, NULL, 'images/posts/11.png');
 
-INSERT INTO Video(post_id, url) VALUES(11, 'www.youtube.com/watch?v=3uZ7r-dpk_g');
-INSERT INTO Video(post_id, url) VALUES(12, 'www.youtube.com/watch?v=aaaaaaaaaaaa6');
-INSERT INTO Video(post_id, url) VALUES(13, 'www.youtube.com/watch?v=dQw4w9WgXcQ');
-INSERT INTO Video(post_id, url) VALUES(14, 'www.youtube.com/watch?v=aaaaaaaaaaa11');
-INSERT INTO Video(post_id, url) VALUES(15, 'www.youtube.com/watch?v=aaaaaaaaaaa12');
-INSERT INTO Video(post_id, url) VALUES(16, 'www.youtube.com/watch?v=aaaaaaaaaaa12');
-INSERT INTO Video(post_id, url) VALUES(17, 'https://www.youtube.com/watch?v=zNs3o4P4s1A');
-INSERT INTO Video(post_id, url) VALUES(18, 'https://www.youtube.com/watch?v=ybji16u608U');
-INSERT INTO Video(post_id, url) VALUES(19, 'https://www.youtube.com/watch?v=LXUSzXfdq_0');
-INSERT INTO Video(post_id, url) VALUES(20, 'https://www.youtube.com/watch?v=9FkQ8I9DjlQ');
+INSERT INTO Video(post_id, url) VALUES(11, 'https://youtu.be/3uZ7r-dpk_g');
+INSERT INTO Video(post_id, url) VALUES(12, 'https://youtu.be/2n4Xj2EkmcU');
+INSERT INTO Video(post_id, url) VALUES(13, 'https://youtu.be/hliJp4Ig3uM');
+INSERT INTO Video(post_id, url) VALUES(14, 'https://youtu.be/ybji16u608U');
+INSERT INTO Video(post_id, url) VALUES(15, 'https://youtu.be/lTL3OZkVMHQ');
+INSERT INTO Video(post_id, url) VALUES(16, 'https://youtu.be/NmJMeSECMzQ');
+INSERT INTO Video(post_id, url) VALUES(17, 'https://youtu.be/zNs3o4P4s1A');
+INSERT INTO Video(post_id, url) VALUES(18, 'https://youtu.be/S_dfq9rFWAE');
+INSERT INTO Video(post_id, url) VALUES(19, 'https://youtu.be/6k7a8bw451M');
+INSERT INTO Video(post_id, url) VALUES(20, 'https://youtu.be/9FkQ8I9DjlQ');
 
 INSERT INTO Text(post_id, words) VALUES(21, 'I love you 3000 Morgan');
 INSERT INTO Text(post_id, words) VALUES(22, 'J’taime 3000');
