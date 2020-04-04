@@ -1,21 +1,31 @@
 <?php
-session_start();
-include 'connect.php';
-// get val passed from login form
+session_start(); 
+
+include "connect.php";
 $username = $_POST['username'];
 $password = $_POST['password'];
-$conn = OpenCon();
 
-// query db for user
-$sql = "SELECT *
-        FROM All_Users
-        WHERE username = '$username' AND password = '$password'";
-$query = mysqli_query($conn, $sql) or die("Failed to query data" . mysqli_error($conn));
-$row = mysqli_fetch_row($query);
-if (mysqli_num_rows($query) > 0) {
-    $_SESSION['username'] = $username;
-    header("location: index.php");
+$conn = OpenCon();
+$sql = "SELECT * FROM all_users WHERE username = '$username' AND password = '$password'";
+$rsResult = mysqli_query($conn, $sql) or die(mysqli_error($conn));
+if (!empty(mysqli_fetch_array($rsResult, MYSQLI_ASSOC))) {
+	$_SESSION["username"] = $username;
+	
+	// check for admin identity
+	$sql = "select role from admin where username = '$username'";
+  	$rs = mysqli_query($conn, $sql) or die(mysqli_error($conn));
+  	$row = mysqli_fetch_array($rs, MYSQLI_ASSOC);
+  	if (empty($row)) { // regular user
+  		$_SESSION['admin'] = false;
+  	} else { // admin
+  		$_SESSION['admin'] = true;
+  		$_SESSION['asAdmin'] = true;
+  		$_SESSION['role'] = $row['role'];
+  	}
+  	
+  	header("location: index.php");
 } else {
-    echo "<script> alert('Invalid username or password. Please try again.'); parent.location.href='login.html'; </script>";
+	echo "<script> alert('Invalid username or password. Please try again.');parent.location.href='login.html'; </script>";
 }
 ?>
+

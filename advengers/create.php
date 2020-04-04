@@ -1,4 +1,10 @@
 <?php
+session_start();
+$username = $_SESSION["username"];
+// redirects to login if no active session
+if (!isset($username)) {
+    header("location: login.html");
+}
 
 // DONE TODO - handle uppercase/lowercase?
 // DONE TODO - refactor this whole thing lmao

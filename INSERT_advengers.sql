@@ -24,6 +24,11 @@ INSERT INTO Regular_User(username, profile_picture) VALUES('redwitch', 'images/p
 INSERT INTO Regular_User(username, profile_picture) VALUES('gen.okoye', 'images/pfp/gen.okoye.png');
 INSERT INTO Regular_User(username, profile_picture) VALUES('starlord', 'images/pfp/starlord.png');
 INSERT INTO Regular_User(username, profile_picture) VALUES('than0s', 'images/pfp/than0s.png');
+INSERT INTO Regular_User(username, profile_picture) VALUES('capUSA', 'images/pfp/capUSA.png');
+INSERT INTO Regular_User(username, profile_picture) VALUES('warmach', 'images/pfp/warmach.png');
+INSERT INTO Regular_User(username, profile_picture) VALUES('shuri', 'images/pfp/shuri.png');
+INSERT INTO Regular_User(username, profile_picture) VALUES('rocket', 'images/pfp/rocket.png');
+INSERT INTO Regular_User(username, profile_picture) VALUES('gamora', 'images/pfp/gamora.png');
 
 INSERT INTO Admin(username, role, email, admin_ID) VALUES('ironman', 'Moderator', 'imironman@stark.net', 1);
 INSERT INTO Admin(username, role, email, admin_ID) VALUES('ppotts', 'Moderator', 'ceopotts@stark.net', 2);
@@ -114,17 +119,17 @@ INSERT INTO Media(date, type) VALUES ('2020-03-27',1);
 INSERT INTO Media(date, type) VALUES ('2020-03-27',1);
 INSERT INTO Media(date, type) VALUES ('2020-03-27',2);
 
-INSERT INTO Photo(post_id, caption, file_path) VALUES (1, 'Pleasure doing business.', '/Users/avengers/Desktop/avengersforever.jpg');
-INSERT INTO Photo(post_id, caption, file_path) VALUES (2, 'POV: you''re THANOS', '/Users/avengers/Desktop/squad.jpg');
-INSERT INTO Photo(post_id, caption, file_path) VALUES (3, 'Vienna, wow', '/Users/avengers/Desktop/architecture.jpg');
-INSERT INTO Photo(post_id, caption, file_path) VALUES (4, 'Mastering the art of meditation in the comfort of my own home', '/Users/avengers/Desktop/room.jpg');
-INSERT INTO Photo(post_id, caption, file_path) VALUES (5, 'Bug fixes ;)', '/Users/avengers/Desktop/tinkering.jpg');
-INSERT INTO Photo(post_id, caption, file_path) VALUES (6, 'her.', '/Users/avengers/Desktop/london0.jpg');
-INSERT INTO Photo(post_id, caption, file_path) VALUES (7, NULL, '/Users/avengers/Desktop/london1.jpg');
-INSERT INTO Photo(post_id, caption, file_path) VALUES (8, NULL, '/Users/avengers/Desktop/tokyo.jpg');
-INSERT INTO Photo(post_id, caption, file_path) VALUES (9, NULL, '/Users/avengers/Desktop/beach.jpg');
-INSERT INTO Photo(post_id, caption, file_path) VALUES (10, 'Finally at peace.', '/Users/avengers/Desktop/happyfarmer.jpg');
-INSERT INTO Photo(post_id, caption, file_path) VALUES (31, NULL, '/Users/avengers/Desktop/hiding.jpg');
+INSERT INTO Photo(post_id, caption, file_path) VALUES (1, 'Pleasure doing business.', 'images/posts/1.png');
+INSERT INTO Photo(post_id, caption, file_path) VALUES (2, 'POV: you''re Thanos', 'images/posts/2.png');
+INSERT INTO Photo(post_id, caption, file_path) VALUES (3, 'Vienna, wow', 'images/posts/3.png');
+INSERT INTO Photo(post_id, caption, file_path) VALUES (4, 'Mastering the art of meditation in the comfort of my own home', 'images/posts/4.png');
+INSERT INTO Photo(post_id, caption, file_path) VALUES (5, 'Bug fixes ;)', 'images/posts/5.png');
+INSERT INTO Photo(post_id, caption, file_path) VALUES (6, 'her.', 'images/posts/6.png');
+INSERT INTO Photo(post_id, caption, file_path) VALUES (7, NULL, 'images/posts/7.png');
+INSERT INTO Photo(post_id, caption, file_path) VALUES (8, NULL, 'images/posts/8.png');
+INSERT INTO Photo(post_id, caption, file_path) VALUES (9, NULL, 'images/posts/9.png');
+INSERT INTO Photo(post_id, caption, file_path) VALUES (10, 'Finally at peace.', 'images/posts/10.png');
+INSERT INTO Photo(post_id, caption, file_path) VALUES (31, NULL, 'images/posts/11.png');
 
 INSERT INTO Video(post_id, url) VALUES(11, 'www.youtube.com/watch?v=3uZ7r-dpk_g');
 INSERT INTO Video(post_id, url) VALUES(12, 'www.youtube.com/watch?v=aaaaaaaaaaaa6');

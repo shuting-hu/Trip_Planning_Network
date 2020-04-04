@@ -1,5 +1,8 @@
 <?php 
 session_start();
+// redirects to login if no active session
+if (!isset($_SESSION["username"])) 
+    header("location: login.html");
 ?>
 
 <?php
@@ -8,6 +11,12 @@ $conn = OpenCon();
 
 function getPfp() {
   global $conn;  
+  
+  if (!empty($_SESSION['asAdmin']) && $_SESSION['asAdmin']) {
+    echo "<img src='./images/admin.png' class='pfp img-responsive' alt='pfp'>";
+    return;
+  }
+
   $username = $_SESSION["username"];
   $sql = "select profile_picture from regular_user where username = '$username'";
   $rsResult = mysqli_query($conn, $sql) or die(mysqli_error($conn));
@@ -19,6 +28,22 @@ function getPfp() {
     echo "<img src=$path class='pfp img-responsive' alt='pfp'>";
   }
 }
+
+// if admin goto adminSettings.php else userSettings.php
+function settingsButton() {
+  global $conn;
+  $username = $_SESSION["username"];
+  if (true) { // (isset($_POST['btn_settings'])) {
+    $sqladmin = "SELECT * FROM Admin WHERE username = '$username'";
+    $isadmin = mysqli_query($conn, $sqladmin) or die(mysqli_error($conn));
+    if (mysqli_num_rows($isadmin) > 0) {
+      echo "<button class='side-post-button' onclick=document.location='adminSettings.php'>Settings</button>";
+    } else {
+      echo "<button class='side-post-button' onclick=document.location='userSettings.php'>Settings</button>";
+    }
+  }
+}
+
 /* SOURCE: https://blog.csdn.net/ljphhj/article/details/16853277 */
 function loadPosts() {
   global $conn;
@@ -62,10 +87,12 @@ function loadPosts() {
       echo "</div>";
   }
   
-  echo "<div align='center' class='post-bottom'>Page ".$page." / ".$pages;
+  echo "<div align='center'>Page ".$page." / ".$pages;
   echo "<br>";
-  for ($i=1; $i<=$pages; $i++) 
-    echo "<a href='index.php?page=".$i."'> [".$i." ]</a>";
+  for ($i=1; $i<=$pages; $i++) {
+    echo "<a href='index.php?page=".$i."'>[".$i." ]</a>";
+    echo " ";
+  }
   echo "</div>";
 }
 
@@ -104,10 +131,9 @@ function renderMedia($trip_id) {
     if ($row_type['type']==1) { // text
       renderText($post_id);
     } elseif ($row_type['type']==2) { // photo
-      echo "photo";
       renderPhoto($post_id);
-      echo "video";
     } else { // video
+      echo "video";
       renderVideo($post_id);
     }
   }
@@ -122,9 +148,27 @@ function renderText($post_id) {
   echo "<p class='post-text'>".$row['words']."</p>";
 }
 
-function renderPhoto($post_id) {}
+function renderPhoto($post_id) {
+  global $conn;
+  $sql = "select caption, file_path from photo where post_id = $post_id";
+  $rs = mysqli_query($conn, $sql) or die(mysqli_error($conn));
+  $row = mysqli_fetch_array($rs, MYSQLI_ASSOC);
+  // photo
+  echo "<div class='post-image'><img src=".$row['file_path']." class='image' alt='image'></div>";
+  // caption
+  if ($row['caption']) {
+    echo "<p class='post-caption'>".$row['caption']."</p>";
+  }
+}
 
-function renderVideo($post_id) {}
+function renderVideo($post_id) {
+  global $conn;
+  $sql = "select url from video where post_id = $post_id";
+  $rs = mysqli_query($conn, $sql) or die(mysqli_error($conn));
+  $row = mysqli_fetch_array($rs, MYSQLI_ASSOC);
+  $url = $row['url'];
+  include "youtube.php?yturl=$url";
+}
 ?>
 
 <!DOCTYPE html>
@@ -158,7 +202,7 @@ function renderVideo($post_id) {}
         <!-- search engine -->
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="create.html">Create Post</a></li>
+            <li><a href="create.php">Create Post</a></li>
           </ul>
           <form action="search.php" class="navbar-form navbar-right" action="search.php">
             <input name="input" class="form-control" placeholder="Search by tag, user, etc.">
@@ -178,7 +222,7 @@ function renderVideo($post_id) {}
 
           <!-- other functionalities -->
           <div>
-              <button class="side-post-button" onclick="document.location='profile.php'">Profile</button>
+              <?php settingsButton(); ?>
               <button class="side-post-button" onclick="document.location='logout.php'">Logout</button>
           </div>
         </div>
