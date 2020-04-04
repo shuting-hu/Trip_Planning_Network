@@ -432,7 +432,8 @@ if (isset($_POST["submit"])) {
     addTxt($_POST['text0'], $conn, $date, $tripid, $loc_id);
     addTxt($_POST['text1'], $conn, $date, $tripid, $loc_id);
 
-    $target_dir = "uploads/$author/";
+    // $target_dir = "uploads/$author/";
+    $target_dir = "images/posts/$author/";
     $countfiles = 3;
 
     for ($i = 0; $i<$countfiles; $i++) {
