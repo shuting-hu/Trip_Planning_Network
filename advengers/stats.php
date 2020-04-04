@@ -10,7 +10,7 @@
         $result = mysqli_query($dbconn, "SELECT username FROM Regular_User") or die(mysqli_error($dbconn));
         // echo ($allUsersQ->fetch_assoc())['username'];
         if (mysqli_num_rows($result) > 0) {
-            $str = "<label>All usernames</label><br>";
+            $str = "<label class=\"result-label\">All usernames</label><br>";
             
             while($row = mysqli_fetch_array($result)) {
                 $str = $str . $row['username'] . "<br>";
@@ -24,9 +24,10 @@
         $result = mysqli_query($dbconn, "SELECT city, country FROM Location ORDER BY city, country") or die(mysqli_error($dbconn));
         
         if (mysqli_num_rows($result) > 0) {
-            $str = "<label>All locations</label><br>";
+            $str = "<br><br><br><label class=\"result-label\">All locations</label><br><br>";
             
             while($row = mysqli_fetch_array($result)) {
+                // $str = $str . "<div>" . $row['city'] . ", " . $row['country'] . "</div><br>";
                 $str = $str . $row['city'] . ", " . $row['country'] . "<br>";
             }
         }
@@ -43,10 +44,11 @@
                                         ORDER BY num DESC;") or die(mysqli_error($dbconn));
         
         if (mysqli_num_rows($result) > 0) {
-            $str = "<label>All locations</label><br><br><table>"
+            $str = "<label class=\"result-label\">All locations, sorted by popularity</label>"
+            . "<br><br><table class=\"result-table\">"
             . "<tr>"
-            .    "<th>city, country</th>"
-            .    "<th>number of plans for this location</th>"
+            .    "<th>Location</th>"
+            .    "<th>Frequency</th>"
             . "</tr>";
             
             while($row = mysqli_fetch_array($result)) {
@@ -65,7 +67,10 @@
                                         WHERE A.username = AU.username") or die(mysqli_error($dbconn));
         
         if (mysqli_num_rows($result) > 0) {
-            $str = "<label>Admin team contact info</label><br><table>"
+            $str = "<br><br><label class=\"result-label\">Admin contact info</label>"
+            . "<br><br><table class=\"result-table\">"
+            // . "<br><br><table class=\"table\">"
+            // . "<br><br><table>"
             . "<tr>"
             .    "<th>Name</th>"
             .    "<th>Username</th>"
@@ -99,16 +104,16 @@
         // $resultmin = mysqli_query($dbconn, "SELECT MIN(date) AS mindate FROM Media");
         // $resultmax = mysqli_query($dbconn, "SELECT MAX(date) AS maxdate FROM Media");
         
-        $str = "<label>Total Users</label><br>"
-                . ($resultu->fetch_assoc())['numu'] . "<br>"
+        $str = "<br><br><br><label class=\"result-label\">Total Users</label><br>"
+                . "<div class=\"result-single\">" . ($resultu->fetch_assoc())['numu'] . "</div><br><br>"
                 // . "<label>Total Admins</label><br>"
                 // . ($resulta->fetch_assoc())['numa'] . "<br>"
-                . "<label>Total Plans</label><br>"
-                . ($resultp->fetch_assoc())['nump'] . "<br>"
-                . "<label>Total Pictures, Videos, Text Posts</label><br>"
-                . ($resultm->fetch_assoc())['numm'] . "<br>"
-                . "<label>Average Plans Per User (excluding users who have never made plans)</label><br>"
-                . ($resultavg->fetch_assoc())['average'] . "<br>";
+                . "<label class=\"result-label\">Total Plans</label><br>"
+                . "<div class=\"result-single\">" . ($resultp->fetch_assoc())['nump'] . "</div><br><br>"
+                . "<label class=\"result-label\">Total Media Uploads</label><br>"
+                . "<div class=\"result-single\">" . ($resultm->fetch_assoc())['numm'] . "</div><br><br>"
+                . "<label class=\"result-label\">Average Plans Per User</label><br>(excluding users who have never made plans)<br>"
+                . "<div class=\"result-single\">" . ($resultavg->fetch_assoc())['average'] . "</div><br>";
                 // . "<label>First post made on</label><br>"
                 // . ($resultmin->fetch_assoc())['mindate'] . "<br>"
                 // . "<label>Most recent post made on</label><br>"
@@ -173,7 +178,8 @@ LIMIT 5;
                                             LIMIT 5;") or die(mysqli_error($dbconn));
         $str = "No users found.";
         if (mysqli_num_rows($top5users) > 0) {
-            $str = "<label>Top 5 most active users</label><br><table>"
+            $str = "<label class=\"result-label\">Top 5 most active users</label>"
+            . "<br><br><table class=\"result-table\">"
             . "<tr>"
             .    "<th>Ranking</th>"
             .    "<th>Username</th>"
@@ -200,7 +206,8 @@ LIMIT 5;
                                             ORDER BY num DESC
                                             LIMIT 5;") or die(mysqli_error($dbconn));
         if (mysqli_num_rows($top5attrs) > 0) {
-            $str = $str . "<label>Top 5 most popular attractions</label><br><table>"
+            $str = $str . "<label class=\"result-label\">Top 5 attractions</label>"
+            . "<br><br><table class=\"result-table\">"
             . "<tr>"
             .    "<th>Ranking</th>"
             .    "<th>City</th>"
@@ -235,7 +242,8 @@ LIMIT 5;
                                             ORDER BY num DESC
                                             LIMIT 5;") or die(mysqli_error($dbconn));                                            
         if (mysqli_num_rows($top5acts) > 0) {
-            $str = $str . "<label>Top 5 most popular activities</label><br><table>"
+            $str = $str . "<label class=\"result-label\">Top 5 activities</label>"
+            . "<br><br><table class=\"result-table\">"
             . "<tr>"
             .    "<th>Ranking</th>"
             .    "<th>Activity</th>"
@@ -266,7 +274,8 @@ LIMIT 5;
                                             ORDER BY num DESC
                                             LIMIT 5;") or die(mysqli_error($dbconn));
         if (mysqli_num_rows($top5rests) > 0) {
-            $str = $str . "<label>Top 5 most popular restaurants</label><br><table>"
+            $str = $str . "<label class=\"result-label\">Top 5 restaurants</label>"
+            . "<br><br><table class=\"result-table\">"
             . "<tr>"
             .    "<th>Ranking</th>"
             .    "<th>Restaurant</th>"
@@ -294,14 +303,14 @@ LIMIT 5;
 
 
     function getTrophies($dbconn) {
-        $str = "<label>Achievement: First!<br>For the authors of the oldest post(s).</label><br>";
+        $str = "<br><br><label class=\"result-label\">Achievement:  First!</label><br>For the authors of the oldest post(s).<br>";
         $first = mysqli_query($dbconn, "SELECT DISTINCT U.username as us, M.date as mindate
                                         FROM Posts P, Media M, Regular_User U, Trip_In T, Plans Pl
                                         WHERE P.post_id = M.post_id AND T.trip_id = P.trip_id AND Pl.trip_id = T.trip_id AND Pl.username = U.username
                                         AND M.date = (SELECT MIN(date) FROM Media);") or die(mysqli_error($dbconn));
 
         if (mysqli_num_rows($first) > 0) {
-            $str = $str . "<table>"
+            $str = $str . "<table class=\"result-table\">"
             . "<tr>"
             .    "<th>Username</th>"
             .    "<th>Date of first post</th>"
@@ -312,13 +321,13 @@ LIMIT 5;
                 . "<td>" . $row['us'] . "</td>"
                 . "<td>" . $row['mindate'] . "</td></tr>";
             }
-            $str = $str . "</table><br>";
+            $str = $str . "</table><br><br>";
         } else {
             $str = $str . "No one has this achievement yet.<br>";
         }
 
-        $str = $str . "<label>Achievement: O M N I P R E S E N C E<br>"
-        . "For users who have made plans for every location in here. Advengers assemble!</label><br>";
+        $str = $str . "<label class=\"result-label\">Achievement:  O M N I P R E S E N C E</label><br>"
+        . "For users who have made plans for every location in here. Advengers assemble!<br>";
         
 
         $allL = mysqli_query($dbconn, "SELECT DISTINCT username
@@ -332,7 +341,7 @@ LIMIT 5;
                                                 AND P.trip_id = T.trip_id
                                                 AND T.location_id = L.id));");
         if (mysqli_num_rows($allL) > 0) {
-            $str = $str . "<table>"
+            $str = $str . "<table class=\"result-table\">"
             . "<tr>"
             .    "<th>Username</th>"
             . "</tr>";
@@ -362,10 +371,13 @@ LIMIT 5;
 <html>
 <head>
     <style> /* from https://www.w3schools.com/howto/howto_css_overlay.asp */
-        #overlay {
+        * {
+            font-family: sans-serif;
+        }
+
+        /*
             position: fixed;
-            /* YESS!! THIS WORKS TO ALLOW SCROLLING */
-            overflow-y:scroll; 
+            overflow-y: scroll; 
             display: none;
             width: 100%;
             height: 100%;
@@ -373,9 +385,94 @@ LIMIT 5;
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: rgba(198, 151, 240, 0.5);
+            background-color: rgba(214, 208, 238, 0.9);
             z-index: 2;
             cursor: pointer;
+         */
+        #overlay {
+            position: fixed;
+            overflow-y: scroll; 
+            display: none;
+            width: 700px;
+            height: 600px;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background: #FFFFFF;
+            border: 5px solid #000000;
+            box-sizing: border-box;
+            box-shadow: -3px 3px 3px rgba(0, 0, 0, 0.25);
+            border-radius: 15px;
+            z-index: 2;
+            cursor: pointer;
+        }
+
+        /* #overlay {
+            position: fixed;
+            overflow-y: scroll; 
+            display: none;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(214, 208, 238, 0.9);
+            z-index: 2;
+            cursor: pointer;
+        } */
+        #results {
+            text-align: center;
+        }
+
+        .result-label {
+            color: black;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .result-single {
+            font-size: 26px;
+        }
+
+        .result-table {
+            margin: 0 auto;
+            border-collapse: collapse;
+        }
+        .result-table th {
+            border: 1px solid #ddd;
+            padding-top: 12px;
+            padding-left: 6px;
+            padding-right: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #b4abd9;
+            color: white;
+        }
+        .result-table td {
+            border: 1px solid #ddd;
+            padding-top: 6px;
+            padding-left: 6px;
+            padding-right: 12px;
+            padding-bottom: 6px;
+            text-align: left;
+        }
+
+        .stats {
+            background-color: #E9E3FF;
+            color: black;
+            width: 300px;
+            margin-top: 5px;
+            padding: 5px;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 16px;
+            line-height: 15px;
+            text-align: center;
+            border: 2.5px solid black;
+            box-sizing: border-box;
+            box-shadow: -2px 2px 3px rgba(0, 0, 0, 0.25);
+            border-radius: 25px;
         }
         
         #text{
@@ -392,17 +489,17 @@ LIMIT 5;
 <body>
     try refreshing the page if changes do not appear immediately.
     <br>
-    <button onclick="on('<?php echo htmlspecialchars(getAdmins($conn)); ?>')" type="button">Contact admins</button>
+    <button class="stats" onclick="on('<?php echo htmlspecialchars(getAdmins($conn)); ?>')" type="button">Contact admins &#x1F9D0;</button>
     <br>
-    <button onclick="on('<?php echo htmlspecialchars(getAllLocs($conn)); ?>')" type="button">View all locations</button>
+    <button class="stats" onclick="on('<?php echo htmlspecialchars(getAllLocs($conn)); ?>')" type="button">View all locations &#x1F30E;</button>
     <br>
-    <button onclick="on('<?php echo htmlspecialchars(getAllLocsPop($conn)); ?>')" type="button">View all locations by most popular</button>
+    <button class="stats" onclick="on('<?php echo htmlspecialchars(getAllLocsPop($conn)); ?>')" type="button">View all locations by most popular &#x1F30E;</button>
     <br>
-    <button onclick="on('<?php echo htmlspecialchars(getAggregateStats($conn)); ?>')" type="button">Stats for nerds</button>
+    <button class="stats" onclick="on('<?php echo htmlspecialchars(getAggregateStats($conn)); ?>')" type="button">Stats for nerds &#x1F913;</button>
     <br>
-    <button onclick="on('<?php echo htmlspecialchars(getLeaderboards($conn)); ?>')" type="button">Leaderboard</button>
+    <button class="stats" onclick="on('<?php echo htmlspecialchars(getLeaderboards($conn)); ?>')" type="button">Leaderboard &#x1F929;</button>
     <br>
-    <button onclick="on('<?php echo htmlspecialchars(getTrophies($conn)); ?>')" type="button">Trophy case</button>
+    <button class="stats" onclick="on('<?php echo htmlspecialchars(getTrophies($conn)); ?>')" type="button">Trophy case &#x1F3C6;</button>
     <br>
 
     <!-- adapted from https://www.w3schools.com/howto/howto_css_overlay.asp -->
@@ -413,7 +510,7 @@ LIMIT 5;
 
     <script>
     function on(str) {
-        document.getElementById("results").innerHTML = "<br><br><br>" + str + "<br>Click anywhere to exit.<br>";
+        document.getElementById("results").innerHTML = "<br>" + str + "<br>Click anywhere to exit.<br>";
         document.getElementById("overlay").style.display = "block";
     }
 
