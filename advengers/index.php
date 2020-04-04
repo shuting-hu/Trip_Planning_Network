@@ -12,7 +12,7 @@ $conn = OpenCon();
 function getPfp() {
   global $conn;  
   
-  if (!empty($_SESSION['asAdmin']) && $_SESSION['asAdmin']) {
+  if (isset($_SESSION['asAdmin']) && $_SESSION['asAdmin']) {
     echo "<img src='./images/admin.png' class='pfp img-responsive' alt='pfp'>";
     return;
   }
@@ -45,12 +45,12 @@ function settingsButton() {
 }
 
 /* SOURCE: https://blog.csdn.net/ljphhj/article/details/16853277 */
-function loadPosts() {
+function loadPosts($postSet) {
   global $conn;
   $pagesize = 5;
 
   // get total # of posts
-  $sql = "select count(*) from trip_in";
+  $sql = "SELECT COUNT(*) FROM ".$postSet;
   $rs = mysqli_query($conn, $sql) or die(mysqli_error($conn));
   $row = mysqli_fetch_array($rs);
   $numrows = $row[0];
@@ -68,9 +68,9 @@ function loadPosts() {
     $page = 1;
   }
 
-  $offset=$pagesize*($page - 1);
+  $offset = $pagesize * ($page - 1);
   // retrieve post_id of the latest 5 posts; is "limit" a good choice here?
-  $sql = "select * from trip_in order by trip_id desc limit $offset,$pagesize";
+  $sql = "SELECT * FROM ".$postSet." ORDER BY trip_id DESC LIMIT $offset, $pagesize";
   $rs = mysqli_query($conn, $sql) or die(mysqli_error($conn));
   // render posts
   while ($row = mysqli_fetch_array($rs, MYSQLI_ASSOC)) {
@@ -113,10 +113,13 @@ function parseTags($location_id) {
   $rs = mysqli_query($conn, $sql) or die(mysqli_error($conn));
   $row = mysqli_fetch_array($rs);
   // TODO: search
-  echo "<a href='search.php' class='post-tag' style='margin-left:18px;'>#".$row['city']." </a>"; 
-  if(!empty($row['province']))
-    echo "<a href='search.php' class='post-tag'> #".$row['province']." </a>";  
-  echo "<a href='search.php' class='post-tag'> #".$row['country']."</a>";
+  $city = $row['city'];
+  $province = $row['province'];
+  $country = $row['country'];
+  echo "<a href='searchbar-parser.php?query=$city' class='post-tag' style='margin-left:18px;'>#".$city." </a>"; 
+  if(!empty($province)) 
+    echo "<a href='searchbar-parser.php?query=$province' class='post-tag'> #".$province." </a>";
+  echo "<a href='searchbar-parser.php?query=$country' class='post-tag'> #".$country."</a>";
 }
 
 function renderMedia($trip_id) {
@@ -128,12 +131,11 @@ function renderMedia($trip_id) {
     $sql_type = "select type from media where post_id = ".$post_id;
     $rs_type = mysqli_query($conn, $sql_type) or die(mysqli_error($conn));
     $row_type = mysqli_fetch_array($rs_type, MYSQLI_ASSOC);
-    if ($row_type['type']==1) { // text
+    if ($row_type['type'] == 1) { // text
       renderText($post_id);
-    } elseif ($row_type['type']==2) { // photo
+    } elseif ($row_type['type'] == 2) { // photo
       renderPhoto($post_id);
     } else { // video
-      echo "video";
       renderVideo($post_id);
     }
   }
@@ -167,7 +169,13 @@ function renderVideo($post_id) {
   $rs = mysqli_query($conn, $sql) or die(mysqli_error($conn));
   $row = mysqli_fetch_array($rs, MYSQLI_ASSOC);
   $url = $row['url'];
-  include "youtube.php?yturl=$url";
+
+  // SOURCE: https://gist.github.com/ghalusa/6c7f3a00fd2383e5ef33
+  // regex code 
+  preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $url, $match);
+  $youtube_id = $match[1];
+
+  echo '<div><iframe class="post-video" width="550" height="320" src="https://www.youtube.com/embed/'.$youtube_id.'" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>';
 }
 ?>
 
@@ -187,52 +195,37 @@ function renderVideo($post_id) {
   </head>
 
   <body>
-    <!-- top navigation bar -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">Advengers</a><!-- TODO: nah it shouldn't be a link -->
-        </div>
-        <!-- search engine -->
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="create.php">Create Post</a></li>
-          </ul>
-          <form action="search.php" class="navbar-form navbar-right" action="search.php">
-            <input name="input" class="form-control" placeholder="Search by tag, user, etc.">
-            <!-- how do we distinguish different types of keywords? -->
-          </form>
-        </div>
-      </div>
-    </nav>
+    <!-- search bar -->
+    <div class="bar-container col-md-offset-3">
+      <form action="searchbar-parser.php" method="get">
+        <input name="query" class="search" placeholder="Search by tag, user, etc.">
+      </form>
+    </div>
 
     <!-- side navigation bar -->
     <div class="container-fluid">
-      <div class="row">
-        <div class="col-sm-3 col-md-3 sidebar post-sidebar">
-          <div class="placeholder">
-             <?php getPfp() ?>
-          </div>
-
-          <!-- other functionalities -->
-          <div>
-              <?php settingsButton(); ?>
-              <button class="side-post-button" onclick="document.location='logout.php'">Logout</button>
-          </div>
+      <div class="col-md-3 post-sidebar">
+        <div class="placeholder">
+          <?php getPfp() ?>
         </div>
 
+          <!-- buttons -->
+        <div>
+          <?php settingsButton(); ?>
+          <button class="side-post-button" onclick="document.location='logout.php'">Logout</button>
+        </div>
       </div>
     </div>
 
   <!-- main section -->
   <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-3 main">
-    <?php loadPosts(); ?>
+    <?php 
+    if (isset($_GET['search']) && $_GET['search'] == "true") { // show search result
+      loadPosts("Subposts");
+    } else { // normal view
+      loadPosts("Trip_in");
+    }
+    ?>
   </div>
     
   </body>
