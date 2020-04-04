@@ -6,26 +6,295 @@ if (!isset($username)) {
     header("location: login.html");
 }
 
-// DONE TODO - handle uppercase/lowercase?
-// DONE TODO - refactor this whole thing lmao
-// DONE TODO - caption for photo 
+// IF THERE IS TIME--
+// TODO: refactoring -- move css into separate css file
+// TODO: fix line breaking, move form box down so it doesnt overlap with header
 
-// TODO - make it work for variable user (cookies?)
-// if only there were more time :( TODO - editing the form???
-// No lol TODO - allow more inputs?
-// TODO - reload feed on go back
-// TODO - CSS for everything, including CSS for error nothing submitted page
+?>
+
+<html>
+<head>
+    <title>Create Plan</title>
+    <style>
+        * {
+            font-family: sans-serif;
+        }
+
+        body {
+            /* background-color: #72669A; */
+            background-image: url("images/webpage/bkgd.png");
+            background-repeat: no-repeat;
+            height: 100%;
+            /* background-position: center; */
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment:fixed;
+            background-position:center bottom;
+        }
+
+        .form_heading1 {
+            font-weight: bold;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+        
+        .form_heading2 {
+            
+        }
+
+        .form_instr {
+
+        }
+
+        #form_wrapper {
+            position: fixed;
+            /* top: 100px; */
+            overflow-y: scroll; 
+            width: 700px;
+            height: 600px;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.8);
+            border: 5px solid #000000;
+            box-sizing: border-box;
+            box-shadow: -3px 3px 3px rgba(0, 0, 0, 0.25);
+            border-radius: 15px;
+            z-index: 2;
+            /* cursor: pointer; */
+            padding: 50px;
+            
+        }
+
+        .btn_submit {
+            background-color: #E9E3FF;
+            color: black;
+            width: 300px;
+            margin-top: 5px;
+            padding: 5px;
+            font-style: normal;
+            font-weight: bold;
+            font-size: 16px;
+            line-height: 15px;
+            text-align: center;
+            border: 2.5px solid black;
+            box-sizing: border-box;
+            box-shadow: -2px 2px 3px rgba(0, 0, 0, 0.25);
+            border-radius: 25px;
+        }
+
+        input[type=text] {
+            width: 40%;
+            font-size: 14px;
+            padding: 6px 6px;
+            margin: 4px 0;
+            box-sizing: border-box;
+            border: 1px solid #555;
+            outline: none;
+        }
+
+        input[type=text]:focus {
+            /* position: fixed; */
+            background-color: #E9E3FF;
+        }
+
+        #btn_home {
+            cursor: pointer;
+        }
+
+        .header { 
+            /* this somehow works as a sticky header idek what i did */
+            width: 100%;
+            height: 40px;
+            position: fixed;
+            background: #cac3e4;
+        }
+
+        img {
+            max-height: 35px;
+            width: auto;
+            height: auto;
+            vertical-align: middle;
+            padding-top: 2px;
+            padding-left: 6px;
+            padding-bottom: 1px;
+        }
+
+        textarea {
+            font-size: 12px;
+        }
+
+        textarea:focus {
+            background-color: #E9E3FF;
+        }
+        
+
+    </style>
+    <script>
+        function goHome() {
+            window.location = "index.php";
+        }
+
+    </script>
+</head>
+<body>
+    <div class="header">
+        <img id="btn_home" src="images/webpage/origami.png" onclick="goHome()" width="100" height="100">
+        <!-- <button onclick="goHome()">Advengers</button> -->
+    </div>
+    
+    <div id="form_wrapper">
+    <form id="form" action="" method="post" enctype="multipart/form-data">
+        <label class="form_heading1">About</label><br>
+        <label for="titlebox">trip plan title</label><br>
+        
+        <input id="titlebox" name="title" type="text" maxlength="70" value="paris tour!" required><br>
+        <label for="descbox">description</label><br>
+        <input id="descbox" name="desc" type="text" maxlength="280" value="eating baguettes all day"><br><br>
+        
+        <label class="form_heading1">Location</label><br>
+        <label for="citybox">city</label>
+        <br>
+        <input id="citybox" name="city" type="text" maxlength="70" value="Paris" required>
+        <br>
+        <label for="provbox">province</label>
+        <br>
+        <input id="provbox" name="province" type="text" maxlength="70" placeholder="optional">
+        <br>
+        <label for="countrybox">country</label>
+        <br>
+        <input id="countrybox" name="country" type="text" maxlength="70" value="France" required>
+        <br><br>
+        
+        <label class="form_heading1">Duration</label><br>
+        <div class="radio toolbar">
+            <input type="radio" name="duration" id="daytrip" value="daytrip" checked="checked"><label for="daytrip">daytrip</label><br>
+            <input type="radio" name="duration" id="1week" value="1 week trip"><label for="1week">1 week trip</label><br>
+            <input type="radio" name="duration" id="2weeks" value="2 weeks+ trip"><label for="2weeks">2 weeks+ trip</label><br>
+        </div>
+        <br>
+
+        <label class="form_heading1">Attractions</label>
+        <br>
+        <label class="form_heading2">attraction 1.</label><br>
+        <input name="attrname0" type="text" value="arc de triomphe" placeholder="name" maxlength="70">
+        <input type="radio" name="attrnumds0" value=0 checked="checked"><label>FREE</label>
+        <input type="radio" name="attrnumds0" value=1><label>$</label>
+        <input type="radio" name="attrnumds0" value=2><label>$$</label>
+        <input type="radio" name="attrnumds0" value=3><label>$$$</label><br>
+        <input name="attrtype0" type="text" value="monument" placeholder="type" maxlength="70">
+        <input name="attrdesc0" type="text" value="big old fancy doorway" placeholder="description" maxlength="280">
+        <br><br>
+        <label class="form_heading2">attraction 2.</label><br>
+        <input name="attrname1" type="text" value="eiffel tower" placeholder="name" maxlength="70">
+        <input type="radio" name="attrnumds1" value=0 checked="checked"><label>FREE</label>
+        <input type="radio" name="attrnumds1" value=1><label>$</label>
+        <input type="radio" name="attrnumds1" value=2><label>$$</label>
+        <input type="radio" name="attrnumds1" value=3><label>$$$</label><br>
+        <input name="attrtype1" type="text" value="monument" placeholder="type" maxlength="70">
+        <input name="attrdesc1" type="text" placeholder="description" maxlength="280">
+        <br><br>
+        <label class="form_heading2">attraction 3.</label><br>
+        <input name="attrname2" type="text" placeholder="name" maxlength="70">
+        <input type="radio" name="attrnumds2" value=0 checked="checked"><label>FREE</label>
+        <input type="radio" name="attrnumds2" value=1><label>$</label>
+        <input type="radio" name="attrnumds2" value=2><label>$$</label>
+        <input type="radio" name="attrnumds2" value=3><label>$$$</label><br>
+        <input name="attrtype2" type="text" placeholder="type" maxlength="70">
+        <input name="attrdesc2" type="text" placeholder="description" maxlength="280">
+
+        <br><br><br>
+        <label class="form_heading1">Activities</label><br>
+        <label class="form_heading2">activity 1.</label><br>
+        <input name="actname0" type="text" value="hiking" placeholder="name" maxlength="70">
+        <input type="radio" name="actnumds0" value=0 checked="checked"><label>FREE</label>
+        <input type="radio" name="actnumds0" value=1><label>$</label>
+        <input type="radio" name="actnumds0" value=2><label>$$</label>
+        <input type="radio" name="actnumds0" value=3><label>$$$</label><br>
+        <input name="acttype0" type="text" value="nature" placeholder="type" maxlength="70">
+        <input name="actdesc0" type="text" value="walking up a mountain for fun" placeholder="description" maxlength="280">
+        <br><br>
+        <label class="form_heading2">activity 2.</label><br>
+        <input name="actname1" type="text" value="tour of palace of versailles" placeholder="name" maxlength="70">
+        <input type="radio" name="actnumds1" value=0 checked="checked"><label>FREE</label>
+        <input type="radio" name="actnumds1" value=1><label>$</label>
+        <input type="radio" name="actnumds1" value=2><label>$$</label>
+        <input type="radio" name="actnumds1" value=3><label>$$$</label><br>
+        <input name="acttype1" type="text" value="historical" placeholder="type" maxlength="70">
+        <input name="actdesc1" type="text" placeholder="description" maxlength="280">
+        <br><br>
+        <label class="form_heading2">activity 3.</label><br>
+        <input name="actname2" type="text" placeholder="name" maxlength="70">
+        <input type="radio" name="actnumds2" value=0 checked="checked"><label>FREE</label>
+        <input type="radio" name="actnumds2" value=1><label>$</label>
+        <input type="radio" name="actnumds2" value=2><label>$$</label>
+        <input type="radio" name="actnumds2" value=3><label>$$$</label><br>
+        <input name="acttype2" type="text" placeholder="type" maxlength="70">
+        <input name="actdesc2" type="text" placeholder="description" maxlength="280">
+        
+        <br><br><br>
+        <label class="form_heading1">Restaurants</label><br>
+        <label class="form_heading2">restaurant 1.</label><br>
+        <input name="restname0" type="text" value="applebees" placeholder="name" maxlength="70">
+        <input type="radio" name="restnumds0" value=1 checked="checked"><label>$</label>
+        <input type="radio" name="restnumds0" value=2><label>$$</label>
+        <input type="radio" name="restnumds0" value=3><label>$$$</label><br>
+        <input name="resttype0" type="text" value="fast food" placeholder="type" maxlength="70">
+        <br><br>
+        <label class="form_heading2">restaurant 2.</label><br>
+        <input name="restname1" type="text" placeholder="name" maxlength="70">
+        <input type="radio" name="restnumds1" value=1 checked="checked"><label>$</label>
+        <input type="radio" name="restnumds1" value=2><label>$$</label>
+        <input type="radio" name="restnumds1" value=3><label>$$$</label><br>
+        <input name="resttype1" type="text" placeholder="type" maxlength="70">
+        <br><br>
+        <label class="form_heading2">restaurant 3.</label><br>
+        <input name="restname2" type="text" placeholder="name" maxlength="70">
+        <input type="radio" name="restnumds2" value=1 checked="checked"><label>$</label>
+        <input type="radio" name="restnumds2" value=2><label>$$</label>
+        <input type="radio" name="restnumds2" value=3><label>$$$</label><br>
+        <input name="resttype2" type="text" placeholder="type" maxlength="70">
+
+        <br><br><br>
+        <label class="form_heading1">Media</label><br>
+        <label class="form_heading2">photos.</label><br>
+        <label class="form_instr">select multiple images to upload:</label>
+        <br>
+        <!-- https://www.w3schools.com/php/php_file_upload.asp -->
+        <input type="file" name="fileToUpload[]" />
+        <input name="caption0" type="text" placeholder="Caption image" maxlength="280" />
+        <br>
+        <input type="file" name="fileToUpload[]" />
+        <input name="caption1" type="text" placeholder="Caption image" maxlength="280"/>
+        <br>
+        <input type="file" name="fileToUpload[]" />
+        <input name="caption2" type="text" placeholder="Caption image" maxlength="280"/>
+
+        <br>
+        <br>
+        <label class="form_heading2">videos. </label><br>
+        <input name="yt0" type="text" value="https://www.youtube.com/watch?v=dQw4w9WgXcQ" placeholder="YouTube link" maxlength="70"><br>
+        <input name="yt1" type="text" placeholder="YouTube link" maxlength="70"><br>
+        <input name="yt2" type="text" placeholder="YouTube link" maxlength="70">
+        <br>
+        <br>
+        <label class="form_heading2">reviews, comments. </label><br>
+        <textarea name="text0" value="aaa" placeholder="Type here..." rows="4" cols="50" maxlength="280"></textarea>
+        <br>
+        <textarea name="text1" placeholder="Type here..." rows="4" cols="50" maxlength="280"></textarea>
+        
+        <br><br><br>
+        <input type="submit" disabled style="display: none" aria-hidden="true"></button>
+        <button name="submit" type="submit" class="btn_submit">Submit</button>
+    </form>
+</body>
+</html>
+<?php
 
 include 'connect.php';
 
-$conn = OpenCon();
+$done_create_flag = false;
 
-if (!isset($_POST["submit"])) {
-    echo "error, nothing submitted.";
-    exit;
-}
-
-// or die(mysqli_error($conn)); to check sql errors
 
 function sanitizeStr($str) {
     $str = str_replace("'", "\'", $str);
@@ -33,46 +302,6 @@ function sanitizeStr($str) {
     $str = !empty($str) ? "'$str'" : "NULL"; // to allow for ez string concat
     return $str;
 }
-
-// FOR TESTING - FILL IN LATER
-$testuser = "insert into `All_Users`(username, password, name)
-    values('test', 'abc', 'joe');";
-$testuserresult = mysqli_query($conn, $testuser);
-$testuserresult = mysqli_query($conn, "insert into Regular_User (username, profile_picture) values('test', NULL)");
-
-
-$author = 'test';
-$date = date("Y-m-d");
-
-$title = sanitizeStr($_POST['title']);
-$desc = sanitizeStr($_POST['desc']);
-
-$city = sanitizeStr($_POST['city']);
-$province = sanitizeStr($_POST['province']);
-$country = sanitizeStr($_POST['country']);
-
-$duration = $_POST['duration'];
-
-
-// uses auto-increment so dont need to specify pk val
-$addloc = "insert into `Location`(country, province, city) values($country, $province, $city);";
-$addlocresult = mysqli_query($conn, $addloc);
-
-$loc_id = mysqli_query($conn, "select id from location where lower(country)=lower($country) and lower(city)=lower($city)") or die(mysqli_error($conn));
-$loc_id = ($loc_id->fetch_assoc())['id'];
-
-
-$addtrip = "insert into `Trip_In`(title, location_id, duration, description)
-    values($title, $loc_id, '$duration', $desc);";
-$addtripresult = mysqli_query($conn, $addtrip);
-
-$tripid = mysqli_insert_id($conn);
-
-
-$addplans = "insert into Plans(username, trip_id)
-    values('$author', $tripid)";
-$addplansresult = mysqli_query($conn, $addplans);
-
 
 function addAttr($dbconn, $i, $loc_idx, $tripidx) {
     $attrname = sanitizeStr($_POST["attrname$i"]);
@@ -89,8 +318,6 @@ function addAttr($dbconn, $i, $loc_idx, $tripidx) {
         "insert into IncludesAttraction(trip_id, attr_name, location_id) values ($tripidx, $attrname, $loc_idx)");
     }
 }
-
-
 
 function addAct($dbconn, $i, $loc_idx, $tripidx) {
     $actname = sanitizeStr($_POST["actname$i"]);
@@ -130,9 +357,6 @@ function addRest($dbconn, $i, $loc_idx, $tripidx) {
     }
 }
 
-
-
-
 // 1 = text, 2 = photo, 3 = video
 function addYT($yt0, $dbconn, $date0, $tripid0, $loc_id0) {
     if ($yt0 != "") {
@@ -144,22 +368,14 @@ function addYT($yt0, $dbconn, $date0, $tripid0, $loc_id0) {
     }
 }
 
-for ($j = 0; $j < 3; $j++) {
-    addAttr($conn, $j, $loc_id, $tripid);
-    addAct($conn, $j, $loc_id, $tripid);
-    addRest($conn, $j, $loc_id, $tripid);
-    addYT($_POST["yt$j"], $conn, $date, $tripid, $loc_id);
-}
-
 // addYT($_POST['yt0'], $conn, $date, $tripid, $loc_id);
 // addYT($_POST['yt1'], $conn, $date, $tripid, $loc_id);
 // addYT($_POST['yt2'], $conn, $date, $tripid, $loc_id);
 
 function addTxt($txt0, $dbconn, $date0, $tripid0, $loc_id0) {
     if ($txt0 != "") {
-        //$txt0 = htmlspecialchars($txt0);
         $txt0 = sanitizeStr($txt0);
-        echo $txt0;
+        // echo $txt0;
         $addmedia0 = mysqli_query($dbconn, "insert into media(date, type) values ('$date0', 1)") or die(mysqli_error($dbconn));
         $mediaid0 = mysqli_insert_id($dbconn);
         $addtxt0 = mysqli_query($dbconn, "insert into text(post_id, words) values($mediaid0, $txt0)") or die(mysqli_error($dbconn));
@@ -168,80 +384,128 @@ function addTxt($txt0, $dbconn, $date0, $tripid0, $loc_id0) {
     }
 }
 
-addTxt($_POST['text0'], $conn, $date, $tripid, $loc_id);
-addTxt($_POST['text1'], $conn, $date, $tripid, $loc_id);
+if (isset($_POST["submit"])) {
+    $conn = OpenCon();
+    // FOR TESTING - FILL IN LATER
+    // $testuser = "insert into `All_Users`(username, password, name)
+    //     values('test', 'abc', 'joe');";
+    // $testuserresult = mysqli_query($conn, $testuser);
+    // $testuserresult = mysqli_query($conn, "insert into Regular_User (username, profile_picture) values('test', NULL)");
+    // $author = 'test';
+    $author = $username;
+    $date = date("Y-m-d");
+
+    $title = sanitizeStr($_POST['title']);
+    $desc = sanitizeStr($_POST['desc']);
+
+    $city = sanitizeStr($_POST['city']);
+    $province = sanitizeStr($_POST['province']);
+    $country = sanitizeStr($_POST['country']);
+
+    $duration = $_POST['duration'];
+
+    $addloc = "insert into `Location`(country, province, city) values($country, $province, $city);";
+    $addlocresult = mysqli_query($conn, $addloc);
+
+    $loc_id = mysqli_query($conn, "select id from location where lower(country)=lower($country) and lower(city)=lower($city)") or die(mysqli_error($conn));
+    $loc_id = ($loc_id->fetch_assoc())['id'];
 
 
-$target_dir = "uploads/$author/";
-// count files by shotsy - https://stackoverflow.com/questions/37363231/how-to-count-number-of-uploaded-files-in-php
-// for loop -  https://makitweb.com/multiple-files-upload-at-once-with-php/
-// $countfiles = count(array_filter($_FILES['fileToUpload']['name']));
-// echo "aaaa";
-// echo $countfiles;
-// echo "aaaa";
-$countfiles = 3;
+    $addtrip = "insert into `Trip_In`(title, location_id, duration, description)
+        values($title, $loc_id, '$duration', $desc);";
+    $addtripresult = mysqli_query($conn, $addtrip);
 
-for ($i = 0; $i<$countfiles; $i++) {
-    $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"][$i]);
-    echo nl2br("TARGET IS: $target_file\n");
-    $uploadOk = 1;
-    $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-    
-    // Check if image file is a actual image or fake image
-    if (empty($_FILES["fileToUpload"]["tmp_name"][$i])) {
-        echo "exiting, no image provided";
-        continue;
+    $tripid = mysqli_insert_id($conn);
+
+
+    $addplans = "insert into Plans(username, trip_id)
+        values('$author', $tripid)";
+    $addplansresult = mysqli_query($conn, $addplans);
+
+    for ($j = 0; $j < 3; $j++) {
+        addAttr($conn, $j, $loc_id, $tripid);
+        addAct($conn, $j, $loc_id, $tripid);
+        addRest($conn, $j, $loc_id, $tripid);
+        addYT($_POST["yt$j"], $conn, $date, $tripid, $loc_id);
     }
 
-    $check = getimagesize($_FILES["fileToUpload"]["tmp_name"][$i]);
-    if($check !== false) {
-        echo "File is an image - " . $check["mime"] . ".";
+    addTxt($_POST['text0'], $conn, $date, $tripid, $loc_id);
+    addTxt($_POST['text1'], $conn, $date, $tripid, $loc_id);
+
+    $target_dir = "uploads/$author/";
+    $countfiles = 3;
+
+    for ($i = 0; $i<$countfiles; $i++) {
+        $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"][$i]);
+        // echo nl2br("TARGET IS: $target_file\n");
         $uploadOk = 1;
-    } else {
-        echo "File is not an image.";
-        $uploadOk = 0;
-        continue;
-    }
+        $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+        
+        // Check if image file is a actual image or fake image
+        if (empty($_FILES["fileToUpload"]["tmp_name"][$i])) {
+            // echo "exiting, no image provided";
+            continue;
+        }
 
-    // Allow certain file formats
-    if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-    && $imageFileType != "gif" ) {
-        echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-        $uploadOk = 0;
-        continue;
-    }
-
-    // Check if file already exists
-    if (file_exists($target_file)) {
-        $imgname = basename($_FILES["fileToUpload"]["name"][$i]);
-        echo nl2br("\n\nSorry, file $imgname already exists. Please rename the file and try again.\n\n");
-        $uploadOk = 0;
-        continue;
-    }
-
-    // Check if $uploadOk is set to 0 by an error
-    if ($uploadOk == 0) {
-        echo "Sorry, your file was not uploaded.";
-    // if everything is ok, try to upload file
-    } else {
-        if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"][$i], $target_file)) {
-            echo "The file ". basename( $_FILES["fileToUpload"]["name"][$i]). " has been uploaded.";
-            $addMedia = mysqli_query($conn, "insert into media (date, type) values ('$date', 2)") or die(mysqli_error($conn));
-            $mediaid = mysqli_insert_id($conn);
-            $cap = $_POST["caption$i"];
-            $cap = sanitizeStr($cap);
-            echo $cap;
-            $addPhoto = mysqli_query($conn, "insert into photo(post_id, caption, file_path) values($mediaid, $cap, '$target_file')") or die(mysqli_error($conn));
-            $addposts0 = mysqli_query($conn, "insert into posts(post_id, trip_id) values($mediaid, $tripid)") or die(mysqli_error($conn));
-            $addtags0 = mysqli_query($conn, "insert into tags(post_id, location_id) values($mediaid, $loc_id)") or die(mysqli_error($conn));
+        $check = getimagesize($_FILES["fileToUpload"]["tmp_name"][$i]);
+        if($check !== false) {
+            // echo "File is an image - " . $check["mime"] . ".";
+            $uploadOk = 1;
         } else {
-            echo "Sorry, there was an error uploading your file.";
+            // echo "File is not an image.";
+            $uploadOk = 0;
+            continue;
+        }
+
+        // Allow certain file formats
+        if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+        && $imageFileType != "gif" ) {
+            // echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+            $uploadOk = 0;
+            continue;
+        }
+
+        // Check if file already exists
+        if (file_exists($target_file)) {
+            $imgname = basename($_FILES["fileToUpload"]["name"][$i]);
+            // echo nl2br("\n\nSorry, file $imgname already exists. Please rename the file and try again.\n\n");
+            $uploadOk = 0;
+            continue;
+        }
+
+        // Check if $uploadOk is set to 0 by an error
+        if ($uploadOk == 0) {
+            // echo "Sorry, your file was not uploaded.";
+
+        // if everything is ok, try to upload file
+        } else {
+            if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"][$i], $target_file)) {
+                // echo "The file ". basename( $_FILES["fileToUpload"]["name"][$i]). " has been uploaded.";
+                $addMedia = mysqli_query($conn, "insert into media (date, type) values ('$date', 2)") or die(mysqli_error($conn));
+                $mediaid = mysqli_insert_id($conn);
+                $cap = $_POST["caption$i"];
+                $cap = sanitizeStr($cap);
+                // echo $cap;
+                $addPhoto = mysqli_query($conn, "insert into photo(post_id, caption, file_path) values($mediaid, $cap, '$target_file')") or die(mysqli_error($conn));
+                $addposts0 = mysqli_query($conn, "insert into posts(post_id, trip_id) values($mediaid, $tripid)") or die(mysqli_error($conn));
+                $addtags0 = mysqli_query($conn, "insert into tags(post_id, location_id) values($mediaid, $loc_id)") or die(mysqli_error($conn));
+            } else {
+                // echo "Sorry, there was an error uploading your file.";
+            }
         }
     }
-}
-echo nl2br("\n\n hello world \n\n");
 
-mysqli_close($conn);
+    mysqli_close($conn);
+    
+    global $done_create_flag;
+    $done_create_flag = true;
+}
+
+if ($done_create_flag) {
+    echo '<script type="text/javascript">
+           window.location = "index.php"
+      </script>';
+}
 
 /*
 use this to check output
