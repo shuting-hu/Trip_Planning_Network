@@ -170,7 +170,18 @@ if (isset($_POST['btn_cancel'])) {
             background-size: cover;
         }
 
-        #container {
+        .grid {
+            display: grid;
+            margin-left: 500px;
+            margin-right: 500px;
+            /* grid-template-columns: 1fr, 1fr, 1fr; */
+        }
+
+        .grid div:nth-child(1) {
+            margin-bottom: 50px;
+        }
+
+        /* #container {
             position: fixed;
             overflow-wrap: anywhere;
             left: 50%;
@@ -183,11 +194,12 @@ if (isset($_POST['btn_cancel'])) {
             border-radius: 15px;
             z-index: 2;
             padding: 50px;
-        }
+        } */
 
         h1 {
             color: #3E3364;
         }
+
         h4 {
             color: #4A3D79;
         }
@@ -220,6 +232,7 @@ if (isset($_POST['btn_cancel'])) {
             margin-right: 40px;
             transition-duration: 0.3s;
         }
+
         #btn_profile:hover {
             background-color: #4A3D79;
             color: white;
@@ -231,47 +244,49 @@ if (isset($_POST['btn_cancel'])) {
     <div>
         <!-- <h3>Edit Profile</h3> -->
 
-        <div id="container">
-            <center>
-                <form action="userSettings.php" method="post" enctype="multipart/form-data">
-                    <div class="placeholder">
-                        <h1><b>&#9992;&nbsp;&nbsp;<?php getUser() ?>&nbsp;<span>&#9992;</span></b></h1>
-                        <div id="pfp-shift">
-                            <?php getPfp() ?><br><br>
+        <div class="grid">
+            <div style="background-color: white; border: 5px solid #4A3D79; border-radius: 15px; box-sizing: border-box;
+            box-shadow: -3px 3px 3px rgba(0, 0, 0, 0.25); padding: 50px; background: rgba(255, 255, 255, 0.9);">
+                <center>
+                    <form action="userSettings.php" method="post" enctype="multipart/form-data">
+                        <div class="placeholder">
+                            <h1><b>&#9992;&nbsp;&nbsp;<?php getUser() ?>&nbsp;<span>&#9992;</span></b></h1>
+                            <div id="pfp-shift">
+                                <?php getPfp() ?><br><br>
+                            </div>
+                            <h4><b>Change Profile Photo</b></h4>
+                            <input type="file" name="newpfp">
                         </div>
-                        <h4><b>Change Profile Photo</b></h4>
-                        <input type="file" name="newpfp">
-                    </div>
 
-                    <p>
+                        <p>
+                            <h4><b>Name</b></h4>
+                            <input type="text" value="<?php getName() ?>" placeholder="Enter your name" name="fullname">
+                        </p>
                         <br>
-                        <h4><b>Name</b></h4>
-                        <input type="text" value="<?php getName() ?>" placeholder="Enter your name" name="fullname">
-                    </p>
-                    <br>
 
-                    <p>
-                        <h4><b>Change Password</b></h4>
-                        <!-- <label>Current Password:</label><br> -->
-                        <input type="text" placeholder="Current password" name="currpassword">
+                        <p>
+                            <h4><b>Change Password</b></h4>
+                            <!-- <label>Current Password:</label><br> -->
+                            <input type="text" placeholder="Current password" name="currpassword">
+                            <br>
+                            <br>
+                            <!-- <label>New Password:</label><br> -->
+                            <input type="password" placeholder="New password" name="newpassword">
+                            <br>
+                            <br>
+                            <!-- <label>Confirm New Password:</label><br> -->
+                            <input type="password" placeholder="Confirm new password" name="confnewpassword">
+                            <br>
+                        </p>
                         <br>
-                        <br>
-                        <!-- <label>New Password:</label><br> -->
-                        <input type="password" placeholder="New password" name="newpassword">
-                        <br>
-                        <br>
-                        <!-- <label>Confirm New Password:</label><br> -->
-                        <input type="password" placeholder="Confirm new password" name="confnewpassword">
-                        <br>
-                    </p>
-                    <br>
 
-                    <!-- Cancel and Save buttons -->
-                    <button id="btn_profile" name="btn_cancel" type="submit">Return</button>
-                    <button id="btn_profile" name="btn_save" type="submit">Save</button>
+                        <!-- Cancel and Save buttons -->
+                        <button id="btn_profile" name="btn_cancel" type="submit">Return</button>
+                        <button id="btn_profile" name="btn_save" type="submit">Save</button>
 
-                </form>
-            </center>
+                    </form>
+                </center>
+            </div>
         </div>
 
     </div>
