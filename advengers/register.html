@@ -7,31 +7,65 @@
   <link rel="shortcut icon" type="image/png" href="images/favicon.png">
 
   <!--css-->
-  <link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="./bootstrap/css/templates/signin.css" rel="stylesheet">
+  <!-- <link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet"> -->
+  <!-- <link href="./bootstrap/css/templates/signin.css" rel="stylesheet"> -->
   <link rel="stylesheet" href="css/style.css">
 
 </head>
 
 <body>
+  <style>
+    body {
+      background-color: #e9e4fe;
+      background-image: url("images/webpage/bkgd.png");
+      background-repeat: no-repeat;
+      height: 100%;
+      background-position: center bottom;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-attachment:fixed;
+      /* background-position :center bottom; */
+    }
+    
+  </style>
   <!-- login form -->
-  <div class="my-container">
-    <form class="form-signin" action="register.php" method="post">
-      <h2 class="form-signin-heading">Register</h2>
-      <label class="sr-only">Name</label>
-      <input class="form-control" name="name" type="text" placeholder="Name" required>
-      <label class="sr-only">Username</label>
-      <input class="form-control" name="username" type="text" placeholder="Username" required autofocus>
-      <label class="sr-only">Password</label>
-      <input class="form-control" name="password" type="password" placeholder="Password" required>
-      <!-- TODO: confirm password -->
-      <button class="btn btn-lg btn-primary btn-block my-button" type="submit">Signup</button>
-    </form>
-    <center>
-      <p>
-        Have an account? <a href="login.html" id="log-sign"><b>Login</b></a>
-      </p>
-    </center>
+  <div id="login">
+        <center>
+          <br>
+          <br>
+          <br>
+          <h2>Register</h2>
+          <br>
+          <img src="images/webpage/dinosoar.png" width="100" height="119.4">
+          <!-- <br> -->
+          <br>
+          <br>
+      </center>
+      <div class="inner_container">
+        <form action="register.php" method="post">
+          <!-- <label class="sr-only">Name</label> -->
+          <center>
+            <p>
+            <input placeholder="Name" id="name" name="name" type="text" placeholder="Name" required>
+            </p>
+            <!-- <label class="sr-only">Username</label> -->
+            <p>
+            <input placeholder="Username" id="username" name="username" type="text" placeholder="Username" required autofocus>
+            </p>
+            <!-- <label class="sr-only">Password</label> -->
+            <p>
+            <input placeholder="Password" id="password" name="password" type="password" placeholder="Password" required>
+            </p>
+            <!-- TODO: confirm password -->
+            <p>
+            <button id="btn_login" type="submit">Sign up</button>
+            </p>
+            <p>
+              Have an account? <a href="login.html" id="log-sign"><b>Log in</b></a>
+            </p>
+          </center>
+        </form>
+    </div>
   </div>
 
 </body>
