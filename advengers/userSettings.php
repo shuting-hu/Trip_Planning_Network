@@ -120,7 +120,7 @@ if (isset($_POST['btn_save'])) {
     $row = mysqli_fetch_assoc($queryget);
     $currpw_db = $row['password'];
 
-    $doneSet = false;
+    // $doneSet = false;
 
     // check curr pw w db OR if not changing pw
     if ($currpassword == $currpw_db || empty($currpassword)) {
@@ -128,12 +128,12 @@ if (isset($_POST['btn_save'])) {
             $sqlnm = "UPDATE All_Users SET name='$name' WHERE username='$username'";
             $querynm = mysqli_query($conn, $sqlnm) or die(mysqli_error($conn));
             // header("location: index.php");
-            $doneSet = true;
+            // $doneSet = true;
         } else if ($newpassword == $confnewpassword) { // match then change pw
             $sql = "UPDATE All_Users SET name='$name', password='$newpassword' WHERE username='$username'";
             $query = mysqli_query($conn, $sql) or die(mysqli_error($conn));
             // header("location: index.php");
-            $doneSet = true;
+            // $doneSet = true;
         } else {
             echo '<script type="text/javascript">alert("Oops... new passwords do not match!")</script>';
         }
@@ -189,9 +189,9 @@ if (isset($_POST['btn_save'])) {
             // echo "The file ". basename( $_FILES["newpfp"]["name"]). " has been uploaded.";
 
             $updatepfp = mysqli_query($conn, "UPDATE Regular_User SET profile_picture = '$newname' WHERE username = '$username'") or die(mysqli_error($conn));
-            if ($doneSet) {
-                echo '<script type="text/javascript">window.location = "index.php"</script>';
-            }
+            // if ($doneSet) {
+            //     echo '<script type="text/javascript">window.location = "index.php"</script>';
+            // }
             
         } // else {
         //     echo "Sorry, there was an error uploading your file.";
