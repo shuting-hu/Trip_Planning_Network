@@ -275,6 +275,43 @@ function renderVideo($post_id) {
         color: #ffffff;
       } */
 
+        .header { 
+            /* this somehow works as a sticky header idek what i did */
+            width: 100%;
+            height: 50px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: #e9e4fe;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            width: 100%;
+            opacity: 0;
+            transition: .2s ease;
+            background-color: rgba(255, 255, 255, 0);
+        }
+
+        .header:hover .overlay {
+            opacity: 1;
+        }
+
+        #btn_home2 {
+            cursor: pointer;
+            max-height: 55px; 
+            width: auto;
+            height: auto;
+            vertical-align: middle;
+            padding-top: 2px;
+            padding-left: 12px;
+            padding-bottom: 7px;
+        }
       
     </style>
     <script>
@@ -296,9 +333,15 @@ function renderVideo($post_id) {
     <!-- side navigation bar -->
     <div class="container-fluid">
       <div class="col-md-3 post-sidebar">
-        <div class="home_btn">
+        <div class="header">
           <img id="btn_home" src="images/webpage/origami.png" onclick="goHome()" width="100" height="100">
+          <div class="overlay">
+              <img src="images/webpage/dinosoar.png" onclick="goHome()" alt="fly home!" id="btn_home2">
+          </div>
         </div>
+        <!-- <div class="home_btn">
+          <img id="btn_home" src="images/webpage/origami.png" onclick="goHome()" width="100" height="100">
+        </div> -->
         <div class="placeholder">
           <?php getPfp() ?>
         </div>
