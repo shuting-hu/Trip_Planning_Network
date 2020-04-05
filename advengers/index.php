@@ -81,7 +81,7 @@ function loadPosts($postSet) {
       renderMedia($row['trip_id']);
 
       // duration?
-      // despcription?
+      // description?
 
       // attraction
       getAttractions($row['trip_id']);
@@ -90,7 +90,8 @@ function loadPosts($postSet) {
       getActivities($row['trip_id']);
 
       // restaurant   
-      
+      getRestaurants($row['trip_id']); 
+
       echo "</div>";
   }
   
@@ -227,21 +228,41 @@ function getAttractions($trip_id) {
   echo "<p style='margin-left: 20px; font-size: 14px; color: #707070;'>- Attractions: <br>";
 
   global $conn;
-  $sql = "SELECT attr_name FROM IncludesAttraction WHERE trip_id = $trip_id";
+  $sql = "SELECT attr_name, location_id FROM IncludesAttraction WHERE trip_id = $trip_id";
   $rs = mysqli_query($conn, $sql) or die(mysqli_error($conn));
-  $row = mysqli_fetch_array($rs, MYSQLI_ASSOC);
-  if (isset($row['attr_name'])) {
-    echo "*".$row['attr_name']."<br>"; 
-    while ($row = mysqli_fetch_array($rs, MYSQLI_ASSOC)) 
-      echo "*".$row['attr_name']."<br>";
-  } else {
-    echo "none";
+  while ($row = mysqli_fetch_array($rs, MYSQLI_ASSOC)) {
+    echo "*".$row['attr_name']."<br>";
+    aboutAttraction($row['attr_name'], $row['location_id']);
   }
   echo "</p>";
 }
 
-function getDescription() {
-
+function aboutAttraction($attr_name, $location_id) {
+  global $conn;
+  $sql = "SELECT type, description, num_dollar_signs FROM Attraction_In WHERE attr_name='$attr_name' AND location_id='$location_id'";
+  $rs = mysqli_query($conn, $sql) or die(mysqli_error($conn));
+  $row = mysqli_fetch_array($rs, MYSQLI_ASSOC);
+  if (isset($row['type']))
+    echo "***type: ".$row['type']."<br>";
+  if (isset($row['description']))
+    echo "***description: ".$row['description']."<br>";
+  if (isset($row['num_dollar_signs'])) {
+    switch ($row['num_dollar_signs']) {
+      case 1:
+        echo "***price: $";
+        break;
+      case 2:
+        echo "***price: $$";
+        break;
+      case 3:
+        echo "***price: $$$";
+        break;
+      
+      default:
+        break;
+    }
+  }
+  echo "<br>";
 }
 
 function getActivities($trip_id) {
@@ -260,6 +281,34 @@ function getActivities($trip_id) {
   }
 
   echo "</p>";
+}
+
+function getRestaurants($trip_id) {
+  global $conn;
+  $sql = "SELECT * FROM Restaurant WHERE name IN (SELECT restaurant_name FROM IncludesRestaurant WHERE trip_id = $trip_id)";
+  $rs = mysqli_query($conn, $sql) or die(mysqli_error($conn));
+  $row = mysqli_fetch_array($rs, MYSQLI_ASSOC);
+
+  if (isset($row['name']))
+    echo "<p style='margin-left: 20px; font-size: 14px; color: #707070;'>- Restaurant: ".$row['name']."<br>";
+  if (isset($row['cuisine_type']))
+    echo "***cuisine type: ".$row['cuisine_type']."<br>";
+  if (isset($row['num_dollar_signs'])) {
+    switch ($row['num_dollar_signs']) {
+      case 1:
+        echo "***price: $";
+        break;
+      case 2:
+        echo "***price: $$";
+        break;
+      case 3:
+        echo "***price: $$$";
+        break;
+      
+      default:
+        break;
+    }
+  }
 }
 ?>
 
@@ -359,43 +408,6 @@ function getActivities($trip_id) {
         color: #ffffff;
       } */
 
-        .header { 
-            /* this somehow works as a sticky header idek what i did */
-            width: 100%;
-            height: 50px;
-            position: fixed;
-            top: 0;
-            left: 0;
-            background: #e9e4fe;
-        }
-
-        .overlay {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 100%;
-            width: 100%;
-            opacity: 0;
-            transition: .2s ease;
-            background-color: rgba(255, 255, 255, 0);
-        }
-
-        .header:hover .overlay {
-            opacity: 1;
-        }
-
-        #btn_home2 {
-            cursor: pointer;
-            max-height: 55px; 
-            width: auto;
-            height: auto;
-            vertical-align: middle;
-            padding-top: 2px;
-            padding-left: 12px;
-            padding-bottom: 7px;
-        }
       
     </style>
     <script>
@@ -417,15 +429,9 @@ function getActivities($trip_id) {
     <!-- side navigation bar -->
     <div class="container-fluid">
       <div class="col-md-3 post-sidebar">
-        <div class="header">
+        <div class="home_btn">
           <img id="btn_home" src="images/webpage/origami.png" onclick="goHome()" width="100" height="100">
-          <div class="overlay">
-              <img src="images/webpage/dinosoar.png" onclick="goHome()" alt="fly home!" id="btn_home2">
-          </div>
         </div>
-        <!-- <div class="home_btn">
-          <img id="btn_home" src="images/webpage/origami.png" onclick="goHome()" width="100" height="100">
-        </div> -->
         <div class="placeholder">
           <?php getPfp() ?>
         </div>
@@ -469,7 +475,7 @@ function getActivities($trip_id) {
       loadPosts("Trip_in");
     }
     ?>
-  </div>
+  </div>/
     
   </body>
 </html>
