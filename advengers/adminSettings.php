@@ -250,6 +250,7 @@ if (isset($_POST['btn_delete'])) {
     <link href="./bootstrap/css/myappendix.css" rel="stylesheet">
 
     <style>
+<<<<<<< HEAD
         /* insert css here */
         #btn_home1 {
             cursor: pointer;
@@ -260,6 +261,38 @@ if (isset($_POST['btn_delete'])) {
             padding-top: 10px;
             padding-left: 12px;
             padding-bottom: 1px;
+=======
+        /* body {
+            background-color: #E9E3FF;
+            background-image: url("images/webpage/bkgd.png");
+            background-repeat: no-repeat;
+            height: 100%;
+            background-size: cover;
+        } */
+
+        .grid {
+            display: grid;
+            margin-left: 380px;
+            margin-right: 380px;
+            /* grid-template-columns: 1fr, 1fr, 1fr; */
+        }
+        .grid div:nth-child(1) {
+            margin-bottom: 30px;
+        }
+        .grid div:nth-child(2) {
+            margin-bottom: 30px;
+        }
+        .grid div:nth-child(3) {
+            margin-bottom: 50px;
+        }
+
+        h1 {
+            color: #3E3364;
+        }
+
+        h4 {
+            color: #4A3D79;
+>>>>>>> 5f0e421b56832ba5a2c0746f2411fee129ffdbd5
         }
 
         .header { 
