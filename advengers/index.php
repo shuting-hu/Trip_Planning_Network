@@ -11,11 +11,6 @@ $conn = OpenCon();
 
 function getPfp() {
   global $conn;  
-  
-  if (isset($_SESSION['asAdmin']) && $_SESSION['asAdmin']) {
-    echo "<img src='./images/pfp/admin.png' class='pfp img-responsive' alt='pfp'>";
-    return;
-  }
 
   $username = $_SESSION["username"];
   $sql = "select profile_picture from regular_user where username = '$username'";
@@ -210,9 +205,6 @@ function renderVideo($post_id) {
   <body>
     <!-- search bar -->
 	<div class="bar-container col-md-offset-3">
-		<ul class="nav navbar-nav navbar-right">
-            <li><a href="create.php">Create Post</a></li>
-		</ul>
 		<form action="searchbar-parser.php" method="get">
 			<input size="100" name="query" class="search" placeholder="Search by tag, user, etc.">
 		</form>
@@ -227,6 +219,7 @@ function renderVideo($post_id) {
 
           <!-- buttons -->
         <div>
+          <button class="side-post-button" onclick="document.location='create.php'">Create Post</button>
           <?php settingsButton(); ?>
           <button class="side-post-button" onclick="document.location='logout.php'">Logout</button>
         </div>
