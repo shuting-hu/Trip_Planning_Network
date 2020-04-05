@@ -212,6 +212,7 @@ if (isset($_POST['btn_delete'])) {
         echo '<script type="text/javascript">alert("Enter user to delete.")</script>';
     } else {
         // can delete non admin
+        $postsdir = "images/posts/$regusername";
         $sqlflt = "SELECT * FROM Regular_User WHERE username = '$regusername' AND username NOT IN(SELECT username FROM Admin)";
         $queryflt = mysqli_query($conn, $sqlflt) or die(mysqli_error($conn));
 
@@ -220,9 +221,37 @@ if (isset($_POST['btn_delete'])) {
         $queryadm = mysqli_query($conn, $sqladm) or die(mysqli_error($conn));
 
         if (mysqli_num_rows($queryflt) > 0) {
+            $dropMedia = "DELETE FROM Media
+                        WHERE post_id IN (SELECT P.post_id
+                                        FROM Posts P
+                                        WHERE P.trip_id IN (SELECT T.trip_id
+                            FROM Trip_In T, Plans P
+                            WHERE T.trip_id = P.trip_id
+                            AND P.username = '$regusername'))";
+            $dropTrip = "DELETE FROM Trip_In
+                        WHERE trip_id IN (SELECT T.trip_id
+                                            FROM Trip_In T, Plans P
+                                            WHERE T.trip_id = P.trip_id
+                                              AND P.username = '$regusername')";
+            $pfp = mysqli_query($conn, "SELECT profile_picture AS pfp
+                                        FROM Regular_User
+                                        WHERE username = '$regusername'
+                                        AND profile_picture IS NOT NULL") or die(mysqli_error($conn));
             $drop = "DELETE FROM All_Users WHERE username='$regusername'";
+            
+            $delMedia = mysqli_query($conn, $dropMedia) or die(mysqli_error($conn));
+            $delTrip = mysqli_query($conn, $dropTrip) or die(mysqli_error($conn));
             $querydel = mysqli_query($conn, $drop) or die(mysqli_error($conn));
-            if ($querydel) {
+
+            if ($querydel && $delTrip && $delMedia) {
+                if (mysqli_num_rows($pfp) > 0) {
+                    unlink(($pfp->fetch_assoc())['pfp']); // delete user's pfp if they have one
+                }
+
+                // https://stackoverflow.com/questions/3349753/delete-directory-with-files-in-it
+                array_map('unlink', glob("$postsdir/*.*"));
+                rmdir($postsdir);
+
                 echo '<script type="text/javascript">alert("User has been deleted.")</script>';
             } else {
                 echo '<script type="text/javascript">alert("Error in deleting user.")</script>';

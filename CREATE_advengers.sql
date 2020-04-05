@@ -82,13 +82,13 @@ CREATE TABLE IncludesActivity(
 	trip_id  INTEGER,
 	activity_name  VARCHAR(70),
 	PRIMARY KEY (trip_id, activity_name),
-	FOREIGN KEY (trip_id) REFERENCES Trip_In(trip_id),
+	FOREIGN KEY (trip_id) REFERENCES Trip_In(trip_id) ON DELETE CASCADE,
 	FOREIGN KEY (activity_name) REFERENCES Activity(name) ON DELETE CASCADE);
 CREATE TABLE IncludesRestaurant(
 	trip_id  INTEGER,
 	restaurant_name  VARCHAR(70),
 	PRIMARY KEY (trip_id, restaurant_name),
-	FOREIGN KEY (trip_id) REFERENCES Trip_In(trip_id),
+	FOREIGN KEY (trip_id) REFERENCES Trip_In(trip_id) ON DELETE CASCADE,
 	FOREIGN KEY (restaurant_name) REFERENCES Restaurant(name) ON DELETE CASCADE);
 
 CREATE TABLE OperatesAt(
