@@ -13,7 +13,7 @@ function getPfp() {
   global $conn;  
   
   if (isset($_SESSION['asAdmin']) && $_SESSION['asAdmin']) {
-    echo "<img src='./images/admin.png' class='pfp img-responsive' alt='pfp'>";
+    echo "<img src='./images/pfp/admin.png' class='pfp img-responsive' alt='pfp'>";
     return;
   }
 
