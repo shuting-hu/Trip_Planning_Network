@@ -210,6 +210,7 @@ if (isset($_POST['btn_cancel'])) {
 
 <head>
     <title>Settings</title>
+    <link rel="shortcut icon" type="image/png" href="images/favicon.png">
     <link rel="stylesheet" href="css/style.css">
 
     <link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet">
