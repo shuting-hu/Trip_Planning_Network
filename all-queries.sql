@@ -1,14 +1,17 @@
--- !!!!!!!!!!!!
+-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 -- TODO: at end, recheck the file locations listed for each query
--- !!!!!!!!!!!!
+-- TODO: projection is unfinished
+-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
 
 
-
-
-
-
+/* *************************************************
+ * DEMO QUERIES
+ * *************************************************
+ */
 
 /* INSERT
  * Insert a photo associated with a certain trip plan
@@ -36,8 +39,8 @@ UPDATE All_Users SET name='$name', password='$newpassword' WHERE username='$user
  * Search bar query
  * See searchbar-parser.php
  */
-CREATE OR REPLACE VIEW Subposts
-AS SELECT *
+CREATE OR REPLACE VIEW Subposts AS
+SELECT *
 FROM Trip_In
 WHERE trip_id IN
         (SELECT trip_id
@@ -55,8 +58,12 @@ WHERE trip_id IN
 
 
 /* PROJECTION
- * TODO - add to searchbar
- * (keywords: >locations)
+ * TODO - add to searchbar as checkboxes (hide or show attributes)
+ * 
+ * TODO TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
  */
 
 
@@ -102,119 +109,241 @@ WHERE NOT EXISTS
         (SELECT T.trip_id
         FROM Trip_In T, Plans P
         WHERE P.username = U.username
-        AND P.trip_id = T.trip_id
-        AND T.location_id = L.id));
+          AND P.trip_id = T.trip_id
+          AND T.location_id = L.id));
 
 
 
--- *** are IMPORTANT
+/* *************************************************
+ * ALL QUERIES (including the queries above)
+ * *************************************************
+ */
 
--- *** creating new account (INSERT)
-INSERT INTO `All_Users` VALUES ('new-username', 'new-pwd', 'new user');
-INSERT INTO `Regular_User` VALUES ('new-username', 'pfp of new user');
+/* 
+ * login.php
+ */
+SELECT * FROM all_users WHERE username = '$username' AND password = '$password';
+SELECT role FROM admin WHERE username = '$username';
 
--- *** create new plan (INSERT)
-INSERT INTO `Location` VALUES (5678, 'country', 'province', 'city'); -- 5678 is loc id
-INSERT INTO `Trip_In` VALUES ('new trip', 1234, 5678, 'daytrip', 'description'); -- 1234 is trip id
-INSERT INTO `Restaurant` VALUES ('restaurant name', 'type', 3);
-INSERT INTO `OperatesAt` VALUES ('restaurant name', 5678);
-INSERT INTO `Activity` VALUES ('activity', 'type', 0, 'description');
-INSERT INTO `IsAt` VALUES ('activity', 5678);
-INSERT INTO `Includes` VALUES (1234, 'activity'); -- trip 1234 includes this activity
-INSERT INTO `Attraction_In` VALUES ('attr', 5678, 'type', 'description', 0);
-INSERT INTO `Plans` VALUES ('new-username', 1234); -- 1234 = trip_id
 
--- add media to existing plan (INSERT)
-INSERT INTO `Media` VALUES (1000, '2000-12-25'); -- 1000 = media_id
-INSERT INTO `Photo` VALUES (1000, 'caption here', 'file path here');
-INSERT INTO `Posts` VALUES (1000, 1234);
--- Tags?
+/* 
+ * register.php
+ */
+SELECT * FROM All_Users WHERE username = '$username';
+INSERT INTO All_Users VALUES ('$username', '$password', '$name');
+INSERT INTO Regular_User (username) VALUES ('$username');
 
-INSERT INTO `Media` VALUES (2000, '2000-12-25');
-INSERT INTO `Video` VALUES (2000, 'url here');
-INSERT INTO `Posts` VALUES (2000, 1234);
--- Tags?
 
-INSERT INTO `Media` VALUES (3000, '2000-12-25');
-INSERT INTO `Photo` VALUES (3000, 'text here', 'English');
-INSERT INTO `Posts` VALUES (3000, 1234);
--- Tags?
+/* 
+ * searchbar-parser.php
+ */
+CREATE OR REPLACE VIEW Subposts AS
+SELECT *
+FROM Trip_In
+WHERE trip_id IN
+        (SELECT trip_id
+        FROM Plans
+        WHERE username IN ('$wordsStr')
+    UNION
+        SELECT trip_id
+        FROM Trip_In
+        WHERE location_id IN
+                (SELECT id FROM Location WHERE country IN ('$wordsStr')
+            UNION
+                SELECT id FROM Location WHERE province IN ('$wordsStr')
+            UNION
+                SELECT id FROM Location WHERE city IN ('$wordsStr')));
 
--- *** delete plan (DELETE - CASCADE ON DELETE, with input)
--- !!! TODO: fix schema to add ON DELETE CASCADE
 
--- delete media associated with a plan (DELETE)
--- !!! TODO: fix schema to add ON DELETE CASCADE (the corresponding `Posts` tuple should also be deleted)
+/* 
+ * index.php
+ */
+select profile_picture from regular_user where username = '$username';
+SELECT * FROM Admin WHERE username = '$username';
+"SELECT COUNT(*) FROM ".$postSet;
+"SELECT * FROM ".$postSet." ORDER BY trip_id DESC LIMIT $offset, $pagesize";
 
--- *** update password (UPDATE)
-UPDATE `All_Users` A
-SET A.password = 'this is my new new password'
-WHERE username = 'new-username';
+select name, username
+from all_users
+where username = (select username from plans where trip_id = $trip_id);
 
--- *** update profile picture (UPDATE)
-UPDATE `Regular_User`
-SET profile_picture = 'this is my new new pfp'
-WHERE username = 'new-username';
+select * from location where id = $location_id;
+select post_id from posts where trip_id = $trip_id;
+"select type from media where post_id = ".$post_id;
+select words from text where post_id = $post_id;
+select caption, file_path from photo where post_id = $post_id;
+select url from video where post_id = $post_id;
 
--- update name (UPDATE)
-UPDATE `All_Users` A
-SET A.name = 'this is my new new name'
-WHERE username = 'new-username';
 
--- update plan (UPDATE)
+/* 
+ * create.php
+ */
+insert into Attraction_In(attr_name, location_id, type, description, num_dollar_signs)
+values ($attrname, $loc_idx, $attrtype, $attrdesc, $attrnumds);
 
--- *** query for plans by specific user (SELECTION - with input)
-SELECT trip_id
-FROM Plans
-WHERE username = 'new-username';
+insert into IncludesAttraction(trip_id, attr_name, location_id)
+values ($tripidx, $attrname, $loc_idx);
 
--- *** query for plans tagged with specific location (SELECTION, JOIN)
-SELECT trip_id, city, country
-FROM Trip_In, Location
-WHERE location_id = id
-    AND city='city'
-    AND country='country';
+insert into Activity(name, type, num_dollar_signs, description)
+values ($actname, $acttype, $actnumds, $actdesc);
 
--- *** query to show all locations (PROJECTION)
--- !!! TODO: include some kind of user input into projection ?????
-SELECT city, country
-FROM Location;
+insert into IsAt(activity_name, location_id)
+values ($actname, $loc_idx);
 
--- query for all usernames (PROJECTION)
--- may need to limit who is allowed to do this
-SELECT username
-FROM All_Users;
+insert into IncludesActivity(trip_id, activity_name)
+values($tripidx, $actname);
 
-SELECT username
-FROM Regular_User;
+insert into Restaurant(name, cuisine_type, num_dollar_signs)
+values ($restname, $resttype, $restnumds);
 
--- *** query for plans by specific user and location (JOIN)
--- need some kind of parser for the search bar
+insert into OperatesAt(restaurant_name, location_id)
+values ($restname, $loc_idx);
 
--- *** count total number of plans that exist (AGGREGATION)
-SELECT count(*) AS total_plans
-FROM Plans;
+insert into IncludesRestaurant(trip_id, restaurant_name)
+values($tripidx, $restname);
 
--- count total users (AGGREGATION)
-SELECT count(*) AS total_users
-FROM All_Users;
+insert into media(date, type) values ('$date0', 3);
+insert into video(post_id, url) values($mediaid0, '$yt0');
+insert into video(post_id, url) values($mediaid0, '$yt_default');
+insert into posts(post_id, trip_id) values($mediaid0, $tripid0);
+insert into tags(post_id, location_id) values($mediaid0, $loc_id0);
 
--- first user to post anything
-SELECT U.username as us, M.date as mindate
+insert into media(date, type) values ('$date0', 1);
+insert into text(post_id, words) values($mediaid0, $txt0);
+insert into posts(post_id, trip_id) values($mediaid0, $tripid0);
+insert into tags(post_id, location_id) values($mediaid0, $loc_id0);
+
+insert into `Location`(country, province, city) values($country, $province, $city);
+select id from location where lower(country)=lower($country) and lower(city)=lower($city);
+
+insert into `Trip_In`(title, location_id, duration, description)
+values($title, $loc_id, '$duration', $desc);
+
+insert into Plans(username, trip_id) values('$author', $tripid);
+
+insert into media (date, type) values ('$date', 2);
+insert into photo(post_id, caption, file_path) values($mediaid, $cap, '$target_file');
+insert into posts(post_id, trip_id) values($mediaid, $tripid);
+insert into tags(post_id, location_id) values($mediaid, $loc_id);
+
+
+/* 
+ * adminSettings.php
+ */
+SELECT role FROM Admin WHERE username = '$username';
+SELECT name FROM All_Users WHERE username = '$username';
+SELECT email FROM Admin WHERE username = '$username';
+SELECT profile_picture FROM regular_user WHERE username = '$username';
+SELECT password from All_Users WHERE username='$username';
+UPDATE All_Users SET name='$name' WHERE username='$username';
+UPDATE Admin SET email='$email' WHERE username='$username';
+UPDATE All_Users SET name='$name', password='$newpassword' WHERE username='$username';
+UPDATE Admin SET email='$email' WHERE username='$username';
+
+SELECT profile_picture AS pfp
+FROM Regular_User
+WHERE username = '$username'
+AND profile_picture IS NOT NULL;
+
+UPDATE Regular_User SET profile_picture = '$newname' WHERE username = '$username';
+SELECT * FROM All_Users WHERE username = '$regusername'
+SELECT * FROM Regular_User WHERE username = '$regusername' AND username NOT IN(SELECT username FROM Admin);
+SELECT * FROM Admin WHERE username = '$regusername';
+DELETE FROM All_Users WHERE username='$regusername';
+
+
+/*
+ * adminSettings.php - stats
+ */
+SELECT username FROM Regular_User;
+SELECT city, country FROM Location ORDER BY city, country;
+
+SELECT city, country, COUNT(location_id) as num
+FROM Location L, Trip_In T
+WHERE L.id = T.location_id
+GROUP BY city, country
+ORDER BY num DESC;
+
+-- admin contact info
+SELECT name, A.username as `username`, role, email
+FROM `Admin` A, All_Users AU
+WHERE A.username = AU.username;
+
+-- aggregate stats
+SELECT COUNT(*) AS numu FROM Regular_User;
+SELECT COUNT(*) AS nump FROM Plans;
+SELECT COUNT(*) AS numm FROM Media;
+
+SELECT AVG(T.numplans) AS average
+FROM
+(SELECT COUNT(*) AS numplans
+FROM Plans P GROUP BY username) AS T;
+
+-- leaderboard: top 5 users
+SELECT U.username as us, COUNT(P.trip_id) as num
+FROM Regular_User U, Plans P
+WHERE U.username = P.username
+GROUP BY U.username
+ORDER BY num DESC
+LIMIT 5;
+
+-- leaderboard: top 5 attractions
+SELECT L.city as ci, L.country as co, A.attr_name as an, A.type as ty,
+A.num_dollar_signs as nds, COUNT(*) as num
+FROM Attraction_In A, IncludesAttraction I, Location L
+WHERE A.attr_name = I.attr_name AND A.location_id = I.location_id
+    AND L.id = A.location_id
+GROUP BY A.attr_name, A.type, A.num_dollar_signs, L.city, L.country
+ORDER BY num DESC
+LIMIT 5;
+
+-- leaderboard: top 5 activities
+SELECT A.name as na, A.type as ty, A.num_dollar_signs as nds, COUNT(*) as num
+FROM Activity A, IncludesActivity I
+WHERE A.name = I.activity_name
+GROUP BY A.name, A.type, A.num_dollar_signs
+ORDER BY num DESC
+LIMIT 5;
+
+-- leaderboard: top 5 restaurants
+SELECT R.name as na, R.cuisine_type as ty, R.num_dollar_signs as nds, COUNT(*) as num
+FROM Restaurant R, IncludesRestaurant I
+WHERE R.name = I.restaurant_name
+GROUP BY R.name, R.cuisine_type, R.num_dollar_signs
+ORDER BY num DESC
+LIMIT 5;
+
+-- trophy: first author
+SELECT DISTINCT U.username as us, M.date as mindate
 FROM Posts P, Media M, Regular_User U, Trip_In T, Plans Pl
 WHERE P.post_id = M.post_id AND T.trip_id = P.trip_id AND Pl.trip_id = T.trip_id AND Pl.username = U.username
 AND M.date = (SELECT MIN(date) FROM Media);
 
+-- trophy: omnipresence
+SELECT DISTINCT username
+FROM All_Users U
+WHERE NOT EXISTS
+    (SELECT L.id FROM Location L
+    WHERE NOT EXISTS
+        (SELECT T.trip_id
+        FROM Trip_In T, Plans P
+        WHERE P.username = U.username
+        AND P.trip_id = T.trip_id
+        AND T.location_id = L.id));
 
--- *** average/min/max $$$ for ??? category that user specifies (NESTED AGGREGATION WITH GROUP BY)
---                      ^ ex. avg price of activities/restaurants grouped by location
--- pma doesn't like this one :(
-/* SELECT type, average(num_dollar_signs) AS average_price
-FROM Activity
-GROUP BY type;
-*/
 
+/* 
+ * userSettings.php
+ */
+SELECT name FROM All_Users WHERE username = '$username';
+SELECT profile_picture FROM regular_user WHERE username = '$username';
+SELECT password from All_Users WHERE username='$username';
+UPDATE All_Users SET name='$name' WHERE username='$username';
+UPDATE All_Users SET name='$name', password='$newpassword' WHERE username='$username';
 
--- *** find all users/plans that were tagged with every location (DIVISION)
--- e.g. maybe a guardian of the galaxy spaceship picture where they can see all of earth ooh la la
+SELECT profile_picture AS pfp
+FROM Regular_User
+WHERE username = '$username'
+AND profile_picture IS NOT NULL;
 
+UPDATE Regular_User SET profile_picture = '$newname' WHERE username = '$username';
