@@ -144,7 +144,8 @@ function renderText($post_id) {
   $sql = "select words from text where post_id = $post_id";
   $rs = mysqli_query($conn, $sql) or die(mysqli_error($conn));
   $row = mysqli_fetch_array($rs, MYSQLI_ASSOC);
-  echo "<p class='post-text'>".$row['words']."</p>";
+  echo "<p class='post-text'><label style=\"color: #aea6ed;font-size:20px\">&gt; </label>  ".$row['words']."</p>";
+  // echo "<p class='post-text'><label style=\"color: #aea6ed;font-size:30px\">&#8727; </label> ".$row['words']."</p>";
 }
 
 function renderPhoto($post_id) {
