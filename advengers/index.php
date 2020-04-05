@@ -159,6 +159,8 @@ function renderPhoto($post_id) {
   if ($row['caption']) {
     echo "<p class='post-caption'>".$row['caption']."</p>";
   }
+
+  echo "<br>";
 }
 
 function renderVideo($post_id) {
@@ -228,6 +230,7 @@ function renderVideo($post_id) {
       #current-user-link:hover {
         color: #aea6ed;
       }
+
       #btn_home {
         position: absolute;
         top: 8px;
@@ -239,6 +242,14 @@ function renderVideo($post_id) {
         padding-top: 2px;
         padding-left: 6px;
         padding-bottom: 1px;
+      }
+
+      /* overwrite bootstrap css (myappendix.css) */
+      p.post-caption {
+        padding-top: 5px;
+        /* padding-bottom: 5px; */
+        font-size: 20px;
+        color: #333333;
       }
 
       /* side-post-button, adapted from myappendix.css */
