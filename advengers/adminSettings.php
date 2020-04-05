@@ -262,8 +262,8 @@ if (isset($_POST['btn_delete'])) {
 
         .grid {
             display: grid;
-            margin-left: 50px;
-            margin-right: 50px;
+            margin-left: 350px;
+            margin-right: 350px;
             /* grid-template-columns: 1fr, 1fr, 1fr; */
         }
         .grid div:nth-child(1) {
