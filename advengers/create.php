@@ -359,10 +359,18 @@ function addRest($dbconn, $i, $loc_idx, $tripidx) {
 
 // 1 = text, 2 = photo, 3 = video
 function addYT($yt0, $dbconn, $date0, $tripid0, $loc_id0) {
+    $ytregex = '~^(?:https?://)?(?:www[.])?(?:youtube[.]com/watch[?]v=|youtu[.]be/)([^&]{11})~x';
+    // REGEX PATTERN FROM https://stackoverflow.com/questions/13476060/validating-youtube-url-using-regex
+    // ~^(?:https?://)?(?:www[.])?(?:youtube[.]com/watch[?]v=|youtu[.]be/)([^&]{11})~x
+    $yt_default = 'https://youtu.be/B3WJaC-7g2c';
     if ($yt0 != "") {
         $addmedia0 = mysqli_query($dbconn, "insert into media(date, type) values ('$date0', 3)");
         $mediaid0 = mysqli_insert_id($dbconn);
-        $addyt0 = mysqli_query($dbconn, "insert into video(post_id, url) values($mediaid0, '$yt0')");
+        if (preg_match($ytregex, $yt0) === 1) {
+            $addyt0 = mysqli_query($dbconn, "insert into video(post_id, url) values($mediaid0, '$yt0')");
+        } else {
+            $addyt0 = mysqli_query($dbconn, "insert into video(post_id, url) values($mediaid0, '$yt_default')");
+        }
         $addposts0 = mysqli_query($dbconn, "insert into posts(post_id, trip_id) values($mediaid0, $tripid0)");
         $addtags0 = mysqli_query($dbconn, "insert into tags(post_id, location_id) values($mediaid0, $loc_id0)");
     }
