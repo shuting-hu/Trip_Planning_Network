@@ -85,7 +85,7 @@ function loadPosts($postSet) {
   echo "<div align='center'>Page ".$page." / ".$pages;
   echo "<br>";
   for ($i=1; $i<=$pages; $i++) {
-    echo "<a href='index.php?page=".$i."'>[".$i." ]</a>";
+    echo "<a href='index.php?page=".$i."'>[ ".$i." ]</a>";
     echo " ";
   }
   echo "</div>";
@@ -96,10 +96,12 @@ function loadPosts($postSet) {
  */
 function showName($trip_id) {
   global $conn;
-  $sql = "select name from all_users where username = (select username from plans where trip_id = $trip_id)";
+  $sql = "select name, username from all_users where username = (select username from plans where trip_id = $trip_id)";
   $rs = mysqli_query($conn, $sql) or die(mysqli_error($conn));
   $row = mysqli_fetch_array($rs);
-  echo "<p class='post-username'>".$row['name']."</p>";
+  $username = $row['username'];
+  echo "<p class='post-username'>".$row['name']
+      . "<a href='searchbar-parser.php?query=$username' class='post-tag' style='margin-left:18px;'>@".$username."</a></p>";
 }
 
 function parseTags($location_id) {
@@ -183,45 +185,119 @@ function renderVideo($post_id) {
     <title>Main Page</title>
 
     <link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+    <!-- <link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet"> -->
     <link href="./bootstrap/css/templates/dashboard.css" rel="stylesheet">
     <link href="./bootstrap/css/templates/offcanvas.css" rel="stylesheet">
     <link href="./bootstrap/css/myappendix.css" rel="stylesheet">
 
     <style>
-		* {
-            font-family: sans-serif;
+		  * {
+          font-family: sans-serif;
         }
-/* 
-    	.header { 
-			width: 100%;
-			height: 40px;
-			position: fixed;
-			background: #cac3e4;
-		} */
+
+      #current-user {
+        position: absolute;
+        top: 280px;
+        /* margin-bottom: 30px; */
+        left: 100px;
+        
+        /* margin-bottom: 100px; */
+      }
+
+      a:link {
+        color: #4B0082;
+      }
+
+      a:visited {
+        color: #4B0082;
+      }
+      
+      a:hover {
+        color: #aea6ed;
+      }
+
+      #current-user-link {
+        font-size: 30px;
+        display: block;
+        font-weight: bold;
+        font-style: italic;
+        color: #4B0082;
+      }
+
+      #current-user-link:hover {
+        color: #aea6ed;
+      }
+      #btn_home {
+        position: absolute;
+        top: 8px;
+        left: 8px;
+        cursor: pointer;
+        max-height: 38px;
+        width: auto;
+        height: auto;
+        padding-top: 2px;
+        padding-left: 6px;
+        padding-bottom: 1px;
+      }
+
+      /* side-post-button, adapted from myappendix.css */
+      /* .side-post-button {
+        margin-top: 30px;
+        margin-left: 68px;
+        width: 150px;
+        height: 50px;
+        display: block;
+        font-size: 18px;
+        font-weight: bold;
+        color: #4B0082;
+        background-color: #ffffff;
+        border: 2px solid #4B0082;
+        border-radius: 8px;
+        box-shadow: 0 0 5px #A9A9A9;
+      }
+
+      .side-post-button:hover {
+        transition-duration: 0.4s;
+        background-color: #4B0082;
+        color: #ffffff;
+      } */
+
+      
     </style>
+    <script>
+        function goHome() {
+            window.location = "index.php";
+        }
+
+    </script>
   </head>
 
   <body>
     <!-- search bar -->
 	<div class="bar-container col-md-offset-3">
 		<form action="searchbar-parser.php" method="get">
-			<input size="100" name="query" class="search" placeholder="Search by tag, user, etc.">
+      <input size="100" name="query" class="search" placeholder="Search by tag, user, etc.">
 		</form>
     </div>
 
     <!-- side navigation bar -->
     <div class="container-fluid">
       <div class="col-md-3 post-sidebar">
+        <div class="home_btn">
+          <img id="btn_home" src="images/webpage/origami.png" onclick="goHome()" width="100" height="100">
+        </div>
         <div class="placeholder">
           <?php getPfp() ?>
         </div>
-
+        <div id="current-user">
+          <a id="current-user-link" href='searchbar-parser.php?query=<?php echo $_SESSION["username"]?>' class='post-tag' style='margin-left:18px;'><?php echo $_SESSION["username"]?></a>
+        </div>
+        <br>
           <!-- buttons -->
         <div>
           <button class="side-post-button" onclick="document.location='create.php'">Create Post</button>
           <?php settingsButton(); ?>
-          <button class="side-post-button" onclick="document.location='logout.php'">Logout</button>
+          <button class="side-post-button" onclick="document.location='logout.php'">Log Out</button>
         </div>
       </div>
     </div>
