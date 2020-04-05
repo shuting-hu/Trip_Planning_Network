@@ -186,6 +186,7 @@ function renderVideo($post_id) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Main Page</title>
+    <link rel="shortcut icon" type="image/png" href="images/favicon.png">
 
     <link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- <link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet"> -->
