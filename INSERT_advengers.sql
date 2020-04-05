@@ -119,17 +119,17 @@ INSERT INTO Media(date, type) VALUES ('2020-03-27',1);
 INSERT INTO Media(date, type) VALUES ('2020-03-27',1);
 INSERT INTO Media(date, type) VALUES ('2020-03-27',2);
 
-INSERT INTO Photo(post_id, caption, file_path) VALUES (1, 'Pleasure doing business.', 'images/posts/1.png');
-INSERT INTO Photo(post_id, caption, file_path) VALUES (2, 'POV: you''re Thanos', 'images/posts/2.png');
-INSERT INTO Photo(post_id, caption, file_path) VALUES (3, 'Vienna, wow', 'images/posts/3.png');
-INSERT INTO Photo(post_id, caption, file_path) VALUES (4, 'Mastering the art of meditation in the comfort of my own home', 'images/posts/4.png');
-INSERT INTO Photo(post_id, caption, file_path) VALUES (5, 'Bug fixes ;)', 'images/posts/5.png');
-INSERT INTO Photo(post_id, caption, file_path) VALUES (6, 'her.', 'images/posts/6.png');
-INSERT INTO Photo(post_id, caption, file_path) VALUES (7, NULL, 'images/posts/7.png');
-INSERT INTO Photo(post_id, caption, file_path) VALUES (8, NULL, 'images/posts/8.png');
-INSERT INTO Photo(post_id, caption, file_path) VALUES (9, NULL, 'images/posts/9.png');
-INSERT INTO Photo(post_id, caption, file_path) VALUES (10, 'Finally at peace.', 'images/posts/10.png');
-INSERT INTO Photo(post_id, caption, file_path) VALUES (31, NULL, 'images/posts/11.png');
+INSERT INTO Photo(post_id, caption, file_path) VALUES (1, 'Pleasure doing business.', 'images/posts/ironman/1.png');
+INSERT INTO Photo(post_id, caption, file_path) VALUES (2, 'POV: you''re Thanos', 'images/posts/ironman/2.png');
+INSERT INTO Photo(post_id, caption, file_path) VALUES (3, 'Vienna, wow', 'images/posts/ironman/3.png');
+INSERT INTO Photo(post_id, caption, file_path) VALUES (4, 'Mastering the art of meditation in the comfort of my own home', 'images/posts/ironman/4.png');
+INSERT INTO Photo(post_id, caption, file_path) VALUES (5, 'Bug fixes ;)', 'images/posts/ironman/5.png');
+INSERT INTO Photo(post_id, caption, file_path) VALUES (6, 'her.', 'images/posts/spidey/6.png');
+INSERT INTO Photo(post_id, caption, file_path) VALUES (7, NULL, 'images/posts/spidey/7.png');
+INSERT INTO Photo(post_id, caption, file_path) VALUES (8, NULL, 'images/posts/hawkeye/8.png');
+INSERT INTO Photo(post_id, caption, file_path) VALUES (9, NULL, 'images/posts/ppotts/9.png');
+INSERT INTO Photo(post_id, caption, file_path) VALUES (10, 'Finally at peace.', 'images/posts/than0s/10.png');
+INSERT INTO Photo(post_id, caption, file_path) VALUES (31, NULL, 'images/posts/redwitch/11.png');
 
 INSERT INTO Video(post_id, url) VALUES(11, 'https://youtu.be/3uZ7r-dpk_g');
 INSERT INTO Video(post_id, url) VALUES(12, 'https://youtu.be/2n4Xj2EkmcU');

@@ -249,7 +249,7 @@ function renderVideo($post_id) {
       p.post-caption {
         padding-top: 5px;
         /* padding-bottom: 5px; */
-        font-size: 20px;
+        font-size: 18px;
         color: #333333;
       }
 
