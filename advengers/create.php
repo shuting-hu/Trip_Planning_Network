@@ -107,7 +107,8 @@ if (!isset($username)) {
             width: 100%;
             height: 40px;
             position: fixed;
-            background: #cac3e4;
+            /* background: #cac3e4; */
+            background: rgba(255, 255, 255, 0);
         }
 
         img {
