@@ -246,12 +246,61 @@ if (isset($_POST['btn_delete'])) {
     <link rel="stylesheet" href="css/style.css">
 
     <link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
     <link href="./bootstrap/css/templates/dashboard.css" rel="stylesheet">
     <link href="./bootstrap/css/templates/offcanvas.css" rel="stylesheet">
     <link href="./bootstrap/css/myappendix.css" rel="stylesheet">
 
     <style>
+        #btn_home1 {
+            cursor: pointer;
+            max-height: 46px;
+            width: auto;
+            height: auto;
+            vertical-align: middle;
+            padding-top: 10px;
+            padding-left: 12px;
+            padding-bottom: 1px;
+        }
+
+        .header { 
+            /* this somehow works as a sticky header idek what i did */
+            width: 100%;
+            height: 50px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: #cac3e4;
+            /* background: rgba(255, 255, 255, 0); */
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            width: 100%;
+            opacity: 0;
+            transition: .2s ease;
+            background-color: rgba(255, 255, 255, 0);
+        }
+
+        .header:hover .overlay {
+            opacity: 1;
+        }
+
+        #btn_home2 {
+            cursor: pointer;
+            max-height: 55px; 
+            width: auto;
+            height: auto;
+            vertical-align: middle;
+            padding-top: 2px;
+            padding-left: 10px;
+            padding-bottom: 7px;
+        }
+
         /* body {
             background-color: #E9E3FF;
             background-image: url("images/webpage/bkgd.png");
@@ -341,9 +390,21 @@ if (isset($_POST['btn_delete'])) {
             color: white;
         }
     </style>
+    <script>
+        function goHome() {
+            window.location = "index.php";
+        }
+
+    </script>
 </head>
 
-<body style="background-image: linear-gradient(#E9E3FF, #72669A);">
+<body style="background-image: linear-gradient(#E9E3FF, #72669A); background-color:#E5E0FB;">
+    <div class="header">
+        <img id="btn_home1" src="images/webpage/origami.png" onclick="goHome()" width="100" height="100">
+        <div class="overlay">
+            <img src="images/webpage/dinosoar.png" onclick="goHome()" alt="fly home!" id="btn_home2">
+        </div>
+    </div>
     <div>
         <!-- <h3>Edit Profile</h3> -->
 
