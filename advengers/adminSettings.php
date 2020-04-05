@@ -241,6 +241,7 @@ if (isset($_POST['btn_delete'])) {
 
 <head>
     <title>Settings</title>
+    <link rel="shortcut icon" type="image/png" href="images/favicon.png">
     <link rel="stylesheet" href="css/style.css">
 
     <link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -248,11 +249,15 @@ if (isset($_POST['btn_delete'])) {
     <link href="./bootstrap/css/templates/dashboard.css" rel="stylesheet">
     <link href="./bootstrap/css/templates/offcanvas.css" rel="stylesheet">
     <link href="./bootstrap/css/myappendix.css" rel="stylesheet">
+
+    <style>
+        /* insert css here */
+    </style>
 </head>
 
 <body style="background-color: white">
     <div>
-        <h3>Edit Profile YAYEEET</h3>
+        <h3>Edit Profile</h3>
         <br>
         <br>
 

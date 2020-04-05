@@ -15,6 +15,7 @@ if (!isset($username)) {
 <html>
 <head>
     <title>Create Plan</title>
+    <link rel="shortcut icon" type="image/png" href="images/favicon.png">
     <style>
         * {
             font-family: sans-serif;
@@ -140,7 +141,7 @@ if (!isset($username)) {
 </head>
 <body>
     <div class="header">
-        <img id="btn_home" src="images/webpage/origami.png" onclick="goHome()" width="100" height="100">
+        <img id="btn_home" src="images/webpage/dinosoar.png" onclick="goHome()" width="100" height="100">
         <!-- <button onclick="goHome()">Advengers</button> -->
     </div>
     
