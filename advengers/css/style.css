@@ -2,7 +2,7 @@
     font-family: sans-serif;
 }
 
-/* userSettings.php */
+/* userSettings.php OUTDATED THIS IS OLD AF*/
 
 #user-profile {
     position: absolute;
@@ -60,9 +60,12 @@ input {
     border: 2px solid #4A3D79;
     box-sizing: border-box;
     border-radius: 25px;
+    transition-duration: 0.3s;
 }
-
-/* feed.php */
+#btn_fetch:hover {
+    background-color: #4A3D79;
+    color: white;
+}
 
 /* login.php */
 
@@ -95,7 +98,13 @@ input {
     box-sizing: border-box;
     box-shadow: -3px 3px 3px rgba(0, 0, 0, 0.25);
     border-radius: 25px;
-    margin-right: 21% /*sketchyyy*/
+    margin-right: 21%; /*sketchyyy*/
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+#btn_login:hover {
+    background-color: #4A3D79;
+    color: white;
 }
 
 #username, #password, #name {
