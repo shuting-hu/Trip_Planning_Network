@@ -70,63 +70,7 @@ function getPfp()
     }
 }
 
-// update pfp
-if (isset($_POST["submit"])) {
-    // $user = 'test';
-    $target_dir = "images/pfp/";
-    $pfppath = $target_dir;
 
-    @$target_file = $target_dir . basename($_FILES["newpfp"]["name"]);
-    echo nl2br("TARGET IS: $target_file\n");
-    $uploadOk = 1;
-    $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-        
-    // Check if image file is a actual image or fake image
-    if (empty($_FILES["newpfp"]["tmp_name"])) {
-        echo "exiting, no image provided";
-    }
-
-    @$check = getimagesize($_FILES["newpfp"]["tmp_name"]);
-    if($check !== false) {
-        echo "File is an image - " . $check["mime"] . ".";
-        $uploadOk = 1;
-    } else {
-        echo "File is not an image.";
-        $uploadOk = 0;
-    }
-
-    // Allow certain file formats
-    if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-    && $imageFileType != "gif" ) {
-        echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-        $uploadOk = 0;
-    }
-
-    $newname = $pfppath . $username . "." . $imageFileType;
-
-    // Check if $uploadOk is set to 0 by an error
-    if ($uploadOk == 0) {
-        echo "Sorry, your file was not uploaded.";
-    // if everything is ok, try to upload file
-    } else {
-        $oldpfp = mysqli_query($conn, "SELECT profile_picture AS pfp
-                                        FROM Regular_User
-                                        WHERE username = '$username'
-                                        AND profile_picture IS NOT NULL") or die(mysqli_error($conn));
-        if (mysqli_num_rows($oldpfp) > 0) {
-            unlink(($oldpfp->fetch_assoc())['pfp']);
-        }
-
-        if (move_uploaded_file($_FILES["newpfp"]["tmp_name"], $newname)) {//$target_file)) {
-            echo "The file ". basename( $_FILES["newpfp"]["name"]). " has been uploaded.";
-
-            $updatepfp = mysqli_query($conn, "UPDATE Regular_User SET profile_picture = '$newname' WHERE username = '$username'") or die(mysqli_error($conn));
-            
-        } else {
-            echo "Sorry, there was an error uploading your file.";
-        }
-    }
-}
 
 if (isset($_POST['btn_save'])) {
     $fullname = $_POST['fullname'];
@@ -141,6 +85,8 @@ if (isset($_POST['btn_save'])) {
     $row = mysqli_fetch_assoc($queryget);
     $currpw_db = $row['password'];
 
+    $doneSet = false;
+
     // check curr pw w db OR if not changing pw
     if ($currpassword == $currpw_db || empty($currpassword)) {
         if (empty($newpassword) && empty($confnewpassword)) { // not changing pw just proceed with name change
@@ -148,19 +94,85 @@ if (isset($_POST['btn_save'])) {
             $querynm = mysqli_query($conn, $sqlnm) or die(mysqli_error($conn));
             $sqle = "UPDATE Admin SET email='$email' WHERE username='$username'";
             $querye = mysqli_query($conn, $sqle) or die(mysqli_error($conn));
-            header("location: index.php");
+            // header("location: index.php");
+            $doneSet = true;
         } else if ($newpassword == $confnewpassword) { // match then change pw
             $sql = "UPDATE All_Users SET name='$name', password='$newpassword' WHERE username='$username'";
             $query = mysqli_query($conn, $sql) or die(mysqli_error($conn));
             $sqle = "UPDATE Admin SET email='$email' WHERE username='$username'";
             $querye = mysqli_query($conn, $sqle) or die(mysqli_error($conn));
-            header("location: index.php");
+            // header("location: index.php");
+            $doneSet = true;
         } else {
             echo '<script type="text/javascript">alert("Oops... new passwords do not match!")</script>';
         }
     } else {
         echo '<script type="text/javascript">alert("Hm... that is not your current password!")</script>';
     }
+
+    // update pfp
+    $target_dir = "images/pfp/";
+    $pfppath = $target_dir;
+
+    @$target_file = $target_dir . basename($_FILES["newpfp"]["name"]);
+    // echo nl2br("TARGET IS: $target_file\n");
+    $uploadOk = 1;
+    $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+        
+    // Check if image file is a actual image or fake image
+    if (empty($_FILES["newpfp"]["tmp_name"])) {
+        // echo "exiting, no image provided";
+        // echo '<script type="text/javascript">alert("ERROR, no image given!")</script>';
+    }
+
+    @$check = getimagesize($_FILES["newpfp"]["tmp_name"]);
+    if($check !== false) {
+        // echo "File is an image - " . $check["mime"] . ".";
+        $uploadOk = 1;
+    } else {
+        // echo "File is not an image.";
+        $uploadOk = 0;
+    }
+
+    // Allow certain file formats
+    if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+    && $imageFileType != "gif" ) {
+        // echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+        $uploadOk = 0;
+    }
+
+    $newname = $pfppath . $username . "." . $imageFileType;
+
+    // Check if $uploadOk is set to 0 by an error
+    if ($uploadOk == 0) {
+        // echo "Sorry, your file was not uploaded.";
+        // echo '<script type="text/javascript">alert("failed!")</script>';
+
+    // if everything is ok, try to upload file
+    } else {
+        $oldpfp = mysqli_query($conn, "SELECT profile_picture AS pfp
+                                        FROM Regular_User
+                                        WHERE username = '$username'
+                                        AND profile_picture IS NOT NULL") or die(mysqli_error($conn));
+        if (mysqli_num_rows($oldpfp) > 0) {
+            unlink(($oldpfp->fetch_assoc())['pfp']);
+        }
+
+        if (move_uploaded_file($_FILES["newpfp"]["tmp_name"], $newname)) {//$target_file)) {
+            // echo "The file ". basename( $_FILES["newpfp"]["name"]). " has been uploaded.";
+
+            $updatepfp = mysqli_query($conn, "UPDATE Regular_User SET profile_picture = '$newname' WHERE username = '$username'") or die(mysqli_error($conn));
+            // echo '<script type="text/javascript">alert("it worked!")</script>';
+            if ($doneSet) {
+                echo '<script type="text/javascript">window.location = "index.php"</script>';
+            }
+            // header("location: index.php");
+        } //else {
+            // echo "Sorry, there was an error uploading your file.";
+            // echo '<script type="text/javascript">alert("ERROR!")</script>';
+        // }
+    }
+    
 }
 
 if (isset($_POST['btn_cancel'])) {
@@ -246,15 +258,13 @@ if (isset($_POST['btn_delete'])) {
 
         <div>
             <!-- SEC 1: Edit Profile -->
-            <form action="adminSettings.php" method="post">
+            <form action="adminSettings.php" method="post" enctype="multipart/form-data">
                 <div class="placeholder">
                     <h1><?php getUser() ?></h1>
                     <h4>[<?php getRole() ?>]</h4>
                     <?php getPfp() ?><br><br>
-                    <!-- <form action="" method="post" enctype="multipart/form-data">
-                        <input type="file" name="newpfp">
-                        <button id="btn_fetch" type="submit" name="submit">Upload new profile picture</button>
-                    </form> -->
+                    <label>Upload new profile picture:</label><br>
+                    <input type="file" name="newpfp">
                 </div>
 
                 <p>
