@@ -76,9 +76,22 @@ function loadPosts($postSet) {
       echo "<p class='post-heading'>".$row['title']."</p>";
       // tags
       parseTags($row['location_id']);
-      // duration?
+
       // media
       renderMedia($row['trip_id']);
+
+      // duration?
+      // description?
+
+      // attraction
+      getAttractions($row['trip_id']);
+
+      // activity
+      getActivities($row['trip_id']);
+
+      // restaurant   
+      getRestaurants($row['trip_id']); 
+
       echo "</div>";
   }
   
@@ -106,17 +119,50 @@ function showName($trip_id) {
 
 function parseTags($location_id) {
   global $conn;
-  $sql = "select * from location where id = $location_id";
-  $rs = mysqli_query($conn, $sql) or die(mysqli_error($conn));
-  $row = mysqli_fetch_array($rs);
-  // TODO: search
-  $city = $row['city'];
-  $province = $row['province'];
-  $country = $row['country'];
-  echo "<a href='searchbar-parser.php?query=$city' class='post-tag' style='margin-left:18px;'>#".$city." </a>"; 
-  if(!empty($province)) 
-    echo "<a href='searchbar-parser.php?query=$province' class='post-tag'> #".$province." </a>";
-  echo "<a href='searchbar-parser.php?query=$country' class='post-tag'> #".$country."</a>";
+  // get user-specified columns
+  $select = "";
+  if (isset($_GET['filter_submit'])) {
+    $select_comma = false;
+    if (isset($_GET['city'])) {
+      $select = "city";
+      $select_comma = true;
+    }
+    if (isset($_GET['province'])) {
+      if ($select_comma) 
+        $select = $select.", ";
+      $select = $select."province";
+      $select_comma = true;
+    }
+    if (isset($_GET['country'])) {
+      if ($select_comma) 
+        $select = $select.", ";
+      $select = $select."country";
+    }
+  } else {
+    $select = "city, province, country";
+  }
+
+  // query & display
+  if (!empty($select)) {
+    $sql = "select $select from location where id = $location_id";
+    $rs = mysqli_query($conn, $sql) or die(mysqli_error($conn));
+    $row = mysqli_fetch_array($rs);
+    
+    echo "<div style='margin-left: 18px;'>";
+    if(isset($row['city'])) {
+      $city = $row['city'];
+      echo "<a href='searchbar-parser.php?query=$city' class='post-tag'>#".$city." </a>"; 
+    }
+    if(isset($row['province'])) {
+      $province = $row['province'];
+      echo "<a href='searchbar-parser.php?query=$province' class='post-tag'> #".$province." </a>";
+    }
+    if(isset($row['country'])) {
+      $country = $row['country'];
+      echo "<a href='searchbar-parser.php?query=$country' class='post-tag'> #".$country."</a>";
+    }
+    echo "</div>";
+  }
 }
 
 function renderMedia($trip_id) {
@@ -157,7 +203,7 @@ function renderPhoto($post_id) {
   echo "<div class='post-image'><img src=".$row['file_path']." class='image' alt='image'></div>";
   // caption
   if ($row['caption']) {
-    echo "<p class='post-caption'>".$row['caption']."</p>";
+    echo "<p style='font-size: 14px; text-align: center; margin-left: -40px; color: #606060;'>".$row['caption']."</p>";
   }
 
   echo "<br>";
@@ -176,6 +222,93 @@ function renderVideo($post_id) {
   $youtube_id = $match[1];
 
   echo '<div><iframe class="post-video" width="550" height="320" src="https://www.youtube.com/embed/'.$youtube_id.'" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>';
+}
+
+function getAttractions($trip_id) {
+  echo "<p style='margin-left: 20px; font-size: 14px; color: #707070;'>- Attractions: <br>";
+
+  global $conn;
+  $sql = "SELECT attr_name, location_id FROM IncludesAttraction WHERE trip_id = $trip_id";
+  $rs = mysqli_query($conn, $sql) or die(mysqli_error($conn));
+  while ($row = mysqli_fetch_array($rs, MYSQLI_ASSOC)) {
+    echo "*".$row['attr_name']."<br>";
+    aboutAttraction($row['attr_name'], $row['location_id']);
+  }
+  echo "</p>";
+}
+
+function aboutAttraction($attr_name, $location_id) {
+  global $conn;
+  $sql = "SELECT type, description, num_dollar_signs FROM Attraction_In WHERE attr_name='$attr_name' AND location_id='$location_id'";
+  $rs = mysqli_query($conn, $sql) or die(mysqli_error($conn));
+  $row = mysqli_fetch_array($rs, MYSQLI_ASSOC);
+  if (isset($row['type']))
+    echo "***type: ".$row['type']."<br>";
+  if (isset($row['description']))
+    echo "***description: ".$row['description']."<br>";
+  if (isset($row['num_dollar_signs'])) {
+    switch ($row['num_dollar_signs']) {
+      case 1:
+        echo "***price: $";
+        break;
+      case 2:
+        echo "***price: $$";
+        break;
+      case 3:
+        echo "***price: $$$";
+        break;
+      
+      default:
+        break;
+    }
+  }
+  echo "<br>";
+}
+
+function getActivities($trip_id) {
+  echo "<p style='margin-left: 20px; font-size: 14px; color: #707070;'>- Activities: ";
+
+  global $conn;
+  $sql = "SELECT activity_name FROM IncludesActivity WHERE trip_id = $trip_id";
+  $rs = mysqli_query($conn, $sql) or die(mysqli_error($conn));
+  $row = mysqli_fetch_array($rs, MYSQLI_ASSOC);
+  if (isset($row['activity_name'])) {
+    echo $row['activity_name']; 
+    while ($row = mysqli_fetch_array($rs, MYSQLI_ASSOC)) 
+      echo ", ".$row['activity_name'];
+  } else {
+    echo "none";
+  }
+
+  echo "</p>";
+}
+
+function getRestaurants($trip_id) {
+  global $conn;
+  $sql = "SELECT * FROM Restaurant WHERE name IN (SELECT restaurant_name FROM IncludesRestaurant WHERE trip_id = $trip_id)";
+  $rs = mysqli_query($conn, $sql) or die(mysqli_error($conn));
+  $row = mysqli_fetch_array($rs, MYSQLI_ASSOC);
+
+  if (isset($row['name']))
+    echo "<p style='margin-left: 20px; font-size: 14px; color: #707070;'>- Restaurant: ".$row['name']."<br>";
+  if (isset($row['cuisine_type']))
+    echo "***cuisine type: ".$row['cuisine_type']."<br>";
+  if (isset($row['num_dollar_signs'])) {
+    switch ($row['num_dollar_signs']) {
+      case 1:
+        echo "***price: $";
+        break;
+      case 2:
+        echo "***price: $$";
+        break;
+      case 3:
+        echo "***price: $$$";
+        break;
+      
+      default:
+        break;
+    }
+  }
 }
 ?>
 
@@ -275,43 +408,6 @@ function renderVideo($post_id) {
         color: #ffffff;
       } */
 
-        .header { 
-            /* this somehow works as a sticky header idek what i did */
-            width: 100%;
-            height: 50px;
-            position: fixed;
-            top: 0;
-            left: 0;
-            background: #e9e4fe;
-        }
-
-        .overlay {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 100%;
-            width: 100%;
-            opacity: 0;
-            transition: .2s ease;
-            background-color: rgba(255, 255, 255, 0);
-        }
-
-        .header:hover .overlay {
-            opacity: 1;
-        }
-
-        #btn_home2 {
-            cursor: pointer;
-            max-height: 55px; 
-            width: auto;
-            height: auto;
-            vertical-align: middle;
-            padding-top: 2px;
-            padding-left: 12px;
-            padding-bottom: 7px;
-        }
       
     </style>
     <script>
@@ -323,25 +419,19 @@ function renderVideo($post_id) {
   </head>
 
   <body>
-    <!-- search bar -->
+  <!-- search bar -->
 	<div class="bar-container col-md-offset-3">
 		<form action="searchbar-parser.php" method="get">
       <input size="100" name="query" class="search" placeholder="Search by tag, user, etc.">
 		</form>
-    </div>
+  </div>
 
     <!-- side navigation bar -->
     <div class="container-fluid">
       <div class="col-md-3 post-sidebar">
-        <div class="header">
+        <div class="home_btn">
           <img id="btn_home" src="images/webpage/origami.png" onclick="goHome()" width="100" height="100">
-          <div class="overlay">
-              <img src="images/webpage/dinosoar.png" onclick="goHome()" alt="fly home!" id="btn_home2">
-          </div>
         </div>
-        <!-- <div class="home_btn">
-          <img id="btn_home" src="images/webpage/origami.png" onclick="goHome()" width="100" height="100">
-        </div> -->
         <div class="placeholder">
           <?php getPfp() ?>
         </div>
@@ -360,6 +450,24 @@ function renderVideo($post_id) {
 
   <!-- main section -->
   <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-3 main">
+    <!-- checkbox -->
+    <div class="row" >
+      <form action="index.php" method="get">
+        Toggle View:
+        <label for="country">
+        <input type="checkbox" name="country"> country 
+        </label>
+        <label for="province">
+        <input type="checkbox" name="province"> province 
+        </label>
+        <label for="city">
+        <input type="checkbox" name="city"> city 
+        </label>
+        <input type="submit" name="filter_submit" value="filter">
+      </form>
+    </div>
+
+    <!-- posts -->
     <?php 
     if (isset($_GET['search']) && $_GET['search'] == "true") { // show search result
       loadPosts("Subposts");
@@ -367,7 +475,7 @@ function renderVideo($post_id) {
       loadPosts("Trip_in");
     }
     ?>
-  </div>
+  </div>/
     
   </body>
 </html>
