@@ -1,13 +1,3 @@
--- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
--- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
--- TODO: at end, recheck the file locations listed for each query
--- ???
--- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
--- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-
-
-
 /* *************************************************
  * DEMO QUERIES
  * *************************************************
@@ -22,10 +12,16 @@ VALUES($mediaid, $cap, '$target_file');
 
 
 /* DELETE
- * Delete a user (admin privilege only)
- * See adminSettings.php: $drop
+ * Delete a user's media upon deleting the user, an admin privilege
+ * See adminSettings.php: $dropMedia
  */
-DELETE FROM All_Users WHERE username='$regusername';
+DELETE FROM Media
+WHERE post_id IN (SELECT P.post_id
+                FROM Posts P
+                WHERE P.trip_id IN (SELECT T.trip_id
+                                    FROM Trip_In T, Plans P
+                                    WHERE T.trip_id = P.trip_id
+                                      AND P.username = '$regusername';
 
 
 /* UPDATE
@@ -58,16 +54,16 @@ WHERE trip_id IN
 
 
 /* PROJECTION
- * TODO - add to searchbar as checkboxes (hide or show attributes)
  * Hide or show different parts of the location hashtags, based on 
- * input to checkboxes.
+ * input to checkboxes ($select).
  * See index.php: parseTags()
  */
-select $select from location where id = $location_id;
+SELECT $select FROM location WHERE id = $location_id;
+
 
 /* JOIN QUERY
  * Get all locations, sorted by popularity (frequency in trip plans)
- * See stats.php: $result in getAllLocsPop()
+ * See adminSettings.php: $result in getAllLocsPop()
  */
 SELECT city, country, COUNT(location_id) as num
 FROM Location L, Trip_In T
@@ -75,10 +71,20 @@ WHERE L.id = T.location_id
 GROUP BY city, country
 ORDER BY num DESC;
 
+/* JOIN with user input (in the subquery)
+ * Delete all trips made by a certain user upon deleting them, an admin privilege
+ * See adminSettings.php: $dropTrip
+ */
+DELETE FROM Trip_In
+WHERE trip_id IN (SELECT T.trip_id
+                    FROM Trip_In T, Plans P
+                    WHERE T.trip_id = P.trip_id
+                      AND P.username = '$regusername');
+
 
 /* AGGREGATION QUERY
  * Find total number of non-admin users
- * See stats.php: $resultu in getAggregateStats()
+ * See adminSettings.php: $resultu in getAggregateStats()
  */
 SELECT COUNT(*) AS numu FROM Regular_User;
 
@@ -86,7 +92,7 @@ SELECT COUNT(*) AS numu FROM Regular_User;
 /* 
  * NESTED AGGREGATION WITH GROUP BY
  * Find average number of plans per user, excluding users who have never made plans.
- * See stats.php: $resultavg in getAggregateStats()
+ * See adminSettings.php: $resultavg in getAggregateStats()
  */
 SELECT AVG(T.numplans) AS average
 FROM
@@ -97,7 +103,7 @@ FROM Plans P GROUP BY username) AS T;
 /*
  * DIVISION QUERY
  * Find users who have made plans for every location
- * See stats.php: $allL in getTrophies()
+ * See adminSettings.php: $allL in getTrophies()
  */
 SELECT DISTINCT username
 FROM All_Users U
@@ -165,13 +171,27 @@ select name, username
 from all_users
 where username = (select username from plans where trip_id = $trip_id);
 
-select * from location where id = $location_id;
+select $select from location where id = $location_id;
 select post_id from posts where trip_id = $trip_id;
 "select type from media where post_id = ".$post_id;
 select words from text where post_id = $post_id;
 select caption, file_path from photo where post_id = $post_id;
 select url from video where post_id = $post_id;
 
+SELECT duration FROM Trip_In WHERE trip_id = $trip_id;
+
+SELECT description FROM Trip_In
+WHERE trip_id = $trip_id AND description IS NOT NULL;
+
+SELECT attr_name, location_id FROM IncludesAttraction WHERE trip_id = $trip_id;
+SELECT type, description, num_dollar_signs FROM Attraction_In WHERE attr_name='$attr_name' AND location_id='$location_id';
+SELECT activity_name FROM IncludesActivity WHERE trip_id = $trip_id;
+
+SELECT type, description, num_dollar_signs
+FROM Activity A
+WHERE name='$aname';
+
+SELECT * FROM Restaurant WHERE name IN (SELECT restaurant_name FROM IncludesRestaurant WHERE trip_id = $trip_id);
 
 /* 
  * create.php
@@ -247,6 +267,24 @@ UPDATE Regular_User SET profile_picture = '$newname' WHERE username = '$username
 SELECT * FROM All_Users WHERE username = '$regusername'
 SELECT * FROM Regular_User WHERE username = '$regusername' AND username NOT IN(SELECT username FROM Admin);
 SELECT * FROM Admin WHERE username = '$regusername';
+
+DELETE FROM Media
+WHERE post_id IN (SELECT P.post_id
+                FROM Posts P
+                WHERE P.trip_id IN (SELECT T.trip_id
+                                    FROM Trip_In T, Plans P
+                                    WHERE T.trip_id = P.trip_id
+                                      AND P.username = '$regusername'));
+DELETE FROM Trip_In
+WHERE trip_id IN (SELECT T.trip_id
+                    FROM Trip_In T, Plans P
+                    WHERE T.trip_id = P.trip_id
+                      AND P.username = '$regusername');
+SELECT profile_picture AS pfp
+FROM Regular_User
+WHERE username = '$regusername'
+  AND profile_picture IS NOT NULL;
+
 DELETE FROM All_Users WHERE username='$regusername';
 
 
