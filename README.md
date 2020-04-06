@@ -17,3 +17,5 @@ Welcome to __*Wanderlist*__, a travel planning && sharing social networking site
 ### Settings
 ![](documentation/settings.gif)
 ![](documentation/stats.gif)
+
+*pssst try to find our hidden dinos around the webpage ;)*
