@@ -271,6 +271,7 @@ if (isset($_POST['btn_delete'])) {
 
 <head>
     <title>Settings</title>
+    <link href="https://fonts.googleapis.com/css2?family=Muli:ital,wght@0,400;0,500;0,700;0,800;1,800&display=swap" rel="stylesheet">
     <link rel="shortcut icon" type="image/png" href="images/favicon.png">
     <link rel="stylesheet" href="css/style.css">
 
@@ -298,7 +299,7 @@ if (isset($_POST['btn_delete'])) {
             position: fixed;
             top: 0;
             left: 0;
-            background: #cac3e4;
+            background: #E9E3FF;
             /* background: rgba(255, 255, 255, 0); */
         }
 
@@ -398,7 +399,7 @@ if (isset($_POST['btn_delete'])) {
 
         #btn_fetch {
             background-color: #E9E3FF;
-            font-family: sans-serif;
+            font-family: 'Muli', sans-serif;
             color: #4A3D79;
             width: 200px;
             margin-top: 5px;
@@ -901,7 +902,7 @@ LIMIT 5;
                             <style>
                                 /* from https://www.w3schools.com/howto/howto_css_overlay.asp */
                                 * {
-                                    font-family: sans-serif;
+                                    font-family: 'Muli', sans-serif;
                                 }
 
                                 /*

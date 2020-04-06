@@ -15,10 +15,12 @@ if (!isset($username)) {
 <html>
 <head>
     <title>Create Plan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Muli:ital,wght@0,400;0,500;0,700;0,800;1,800&display=swap" rel="stylesheet">
     <link rel="shortcut icon" type="image/png" href="images/favicon.png">
+    
     <style>
         * {
-            font-family: sans-serif;
+            font-family: 'Muli', sans-serif;
         }
 
         body {
@@ -52,7 +54,7 @@ if (!isset($username)) {
             /* top: 100px; */
             overflow-y: scroll;
             width: 700px;
-            height: 800px;
+            height: 650px;
             left: 50%;
             top: 50%;
             transform: translate(-50%, -50%);
