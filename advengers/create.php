@@ -50,13 +50,13 @@ if (!isset($username)) {
         #form_wrapper {
             position: fixed;
             /* top: 100px; */
-            overflow-y: scroll; 
+            overflow-y: scroll;
             width: 700px;
-            height: 600px;
+            height: 800px;
             left: 50%;
             top: 50%;
             transform: translate(-50%, -50%);
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.9);
             border: 5px solid #000000;
             box-sizing: border-box;
             box-shadow: -3px 3px 3px rgba(0, 0, 0, 0.25);
@@ -64,24 +64,29 @@ if (!isset($username)) {
             z-index: 2;
             /* cursor: pointer; */
             padding: 50px;
-            
         }
 
         .btn_submit {
             background-color: #E9E3FF;
             color: black;
-            width: 300px;
+            width: 150px;
             margin-top: 5px;
             padding: 5px;
             font-style: normal;
             font-weight: bold;
-            font-size: 16px;
-            line-height: 15px;
+            font-size: 18px;
+            line-height: 30px;
             text-align: center;
-            border: 2.5px solid black;
+            border: 5px solid black;
             box-sizing: border-box;
-            box-shadow: -2px 2px 3px rgba(0, 0, 0, 0.25);
+            box-shadow: -3px 3px 3px rgba(0, 0, 0, 0.25);
             border-radius: 25px;
+            transition-duration: 0.3s;
+            cursor: pointer;
+        }
+        .btn_submit:hover {
+            background-color: #4A3D79;
+            color: white;
         }
 
         input[type=text] {
