@@ -1,7 +1,6 @@
 -- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 -- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 -- TODO: at end, recheck the file locations listed for each query
--- TODO: projection is unfinished
 -- ???
 -- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 -- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -60,13 +59,11 @@ WHERE trip_id IN
 
 /* PROJECTION
  * TODO - add to searchbar as checkboxes (hide or show attributes)
- * 
- * TODO TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ * Hide or show different parts of the location hashtags, based on 
+ * input to checkboxes.
+ * See index.php: parseTags()
  */
-
+select $select from location where id = $location_id;
 
 /* JOIN QUERY
  * Get all locations, sorted by popularity (frequency in trip plans)

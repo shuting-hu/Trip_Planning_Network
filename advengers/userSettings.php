@@ -313,7 +313,7 @@ if (isset($_POST['btn_cancel'])) {
                 <center>
                     <form action="userSettings.php" method="post" enctype="multipart/form-data">
                         <div class="placeholder">
-                            <h1><b>&#9992;&nbsp;&nbsp;<?php getUser() ?>&nbsp;<span>&#9992;</span></b></h1>
+                            <h1><b>&#9992;&nbsp;&nbsp;<?php getUser() ?>&nbsp;&nbsp;<span>&#9992;</span></b></h1>
                             <div id="pfp-shift">
                                 <?php getPfp() ?><br><br>
                             </div>
