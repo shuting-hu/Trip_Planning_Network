@@ -1,4 +1,4 @@
-# Trip_Planning_Network
+# Wanderlist,  a Trip Planning Network
 
 Welcome to __*Wanderlist*__, a travel planning && sharing social networking site!
 
