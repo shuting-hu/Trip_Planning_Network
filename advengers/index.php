@@ -81,17 +81,31 @@ function loadPosts($postSet) {
       renderMedia($row['trip_id']);
 
       // duration?
+      $duration = getDuration($row['trip_id']);
+
       // description?
+      $desc = getDesc($row['trip_id']);
 
       // attraction
-      getAttractions($row['trip_id']);
+      $attrs = getAttractions($row['trip_id']);
 
       // activity
-      getActivities($row['trip_id']);
+      $acts = getActivities($row['trip_id']);
 
       // restaurant   
-      getRestaurants($row['trip_id']); 
+      $rests = getRestaurants($row['trip_id']); 
 
+      $str = "<div>"
+              . "<p>" . $row['title'] . "<p>"
+              . "&#x2731; Description: <br>&nbsp;&nbsp;&nbsp;&nbsp;" . $desc . "<br>"
+              . "&#x2731; Duration:  " . $duration . "<br>"
+              . $attrs
+              . $acts
+              . $rests . "<br>"
+              . "</div>";
+
+      
+      echo "<button class=\"mini-btn\" id=\"show-plan\" onclick=\"on('" . $str ."')\">Show Plan</button>";
       echo "</div>";
   }
   
@@ -224,91 +238,173 @@ function renderVideo($post_id) {
   echo '<div><iframe class="post-video" width="550" height="320" src="https://www.youtube.com/embed/'.$youtube_id.'" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>';
 }
 
+function getDuration($trip_id) {
+  global $conn;
+  $sql = mysqli_query($conn, "SELECT duration FROM Trip_In WHERE trip_id = $trip_id") or die (mysqli_error($conn));
+  if (mysqli_num_rows($sql) > 0) {
+    // $temp = ($sql->fetch_assoc())['duration'];
+    return ($sql->fetch_assoc())['duration'];
+    // return "$temp";
+  } else {
+    return "N/A";
+  }
+}
+
+function getDesc($trip_id) {
+  global $conn;
+  $sql = mysqli_query($conn, "SELECT description FROM Trip_In
+                              WHERE trip_id = $trip_id AND description IS NOT NULL") or die (mysqli_error($conn));
+  if (mysqli_num_rows($sql) > 0) {
+    // $temp = ($sql->fetch_assoc())['duration'];
+    return ($sql->fetch_assoc())['description'];
+    // return "$temp";
+  } else {
+    return "it's a mystery~";
+  }
+}
+
 function getAttractions($trip_id) {
-  echo "<p style='margin-left: 20px; font-size: 14px; color: #707070;'>- Attractions: <br>";
+  $str = "<p style=". addslashes("'") . "margin-left: 1px; font-size: 14px; color: #333333;". addslashes("'") . ">&#x2731; Attractions:";
 
   global $conn;
   $sql = "SELECT attr_name, location_id FROM IncludesAttraction WHERE trip_id = $trip_id";
   $rs = mysqli_query($conn, $sql) or die(mysqli_error($conn));
   while ($row = mysqli_fetch_array($rs, MYSQLI_ASSOC)) {
-    echo "*".$row['attr_name']."<br>";
-    aboutAttraction($row['attr_name'], $row['location_id']);
+    $str = $str . "<br>&gt; ".$row['attr_name']."<br>";
+    $str = aboutAttraction($row['attr_name'], $row['location_id'], $str);
   }
-  echo "</p>";
+  $str = $str . "</p>";
+  return $str;
 }
 
-function aboutAttraction($attr_name, $location_id) {
+function aboutAttraction($attr_name, $location_id, $acc) {
   global $conn;
   $sql = "SELECT type, description, num_dollar_signs FROM Attraction_In WHERE attr_name='$attr_name' AND location_id='$location_id'";
   $rs = mysqli_query($conn, $sql) or die(mysqli_error($conn));
   $row = mysqli_fetch_array($rs, MYSQLI_ASSOC);
-  if (isset($row['type']))
-    echo "***type: ".$row['type']."<br>";
-  if (isset($row['description']))
-    echo "***description: ".$row['description']."<br>";
+  if (isset($row['type'])) {
+    $acc = $acc . "&nbsp;&nbsp;&nbsp;type: ".$row['type']."<br>";
+  }
+  if (isset($row['description'])) {
+    $acc = $acc . "&nbsp;&nbsp;&nbsp;description: ".$row['description']."<br>";
+  }
   if (isset($row['num_dollar_signs'])) {
     switch ($row['num_dollar_signs']) {
+      case 0:
+        $acc = $acc . "&nbsp;&nbsp;&nbsp;price: FREE";
+        break;
       case 1:
-        echo "***price: $";
+        $acc = $acc . "&nbsp;&nbsp;&nbsp;price: $";
         break;
       case 2:
-        echo "***price: $$";
+        $acc = $acc . "&nbsp;&nbsp;&nbsp;price: $$";
         break;
       case 3:
-        echo "***price: $$$";
+        $acc = $acc . "&nbsp;&nbsp;&nbsp;price: $$$";
         break;
-      
       default:
         break;
     }
   }
-  echo "<br>";
+  // $acc = $acc. "<br>";
+  return $acc;
 }
 
 function getActivities($trip_id) {
-  echo "<p style='margin-left: 20px; font-size: 14px; color: #707070;'>- Activities: ";
+  $str = "<p style=". addslashes("'")
+        . "margin-left: 1px; font-size: 14px; color: #333333;". addslashes("'")
+        . ">&#x2731; Activities: ";
 
   global $conn;
   $sql = "SELECT activity_name FROM IncludesActivity WHERE trip_id = $trip_id";
   $rs = mysqli_query($conn, $sql) or die(mysqli_error($conn));
-  $row = mysqli_fetch_array($rs, MYSQLI_ASSOC);
-  if (isset($row['activity_name'])) {
-    echo $row['activity_name']; 
-    while ($row = mysqli_fetch_array($rs, MYSQLI_ASSOC)) 
-      echo ", ".$row['activity_name'];
-  } else {
-    echo "none";
+  while ($row = mysqli_fetch_array($rs, MYSQLI_ASSOC))  {
+    $str = $str . "<br>&gt; " .$row['activity_name']."<br>";
+    $str = aboutActivity($row['activity_name'], $str);
   }
+  /* $row = mysqli_fetch_array($rs, MYSQLI_ASSOC);
+  if (isset($row['activity_name'])) {
+    $str = $str . $row['activity_name']; 
+    while ($row = mysqli_fetch_array($rs, MYSQLI_ASSOC))  {
+      $str = $str . ", ".$row['activity_name'];
+    }
+  } else {
+    $str = $str . "none";
+  } */
 
-  echo "</p>";
+  $str = $str . "</p>";
+  return $str;
 }
 
-function getRestaurants($trip_id) {
+function aboutActivity($aname, $acc) {
   global $conn;
-  $sql = "SELECT * FROM Restaurant WHERE name IN (SELECT restaurant_name FROM IncludesRestaurant WHERE trip_id = $trip_id)";
+  $sql = "SELECT type, description, num_dollar_signs
+          FROM Activity A
+          WHERE name='$aname'";
   $rs = mysqli_query($conn, $sql) or die(mysqli_error($conn));
   $row = mysqli_fetch_array($rs, MYSQLI_ASSOC);
-
-  if (isset($row['name']))
-    echo "<p style='margin-left: 20px; font-size: 14px; color: #707070;'>- Restaurant: ".$row['name']."<br>";
-  if (isset($row['cuisine_type']))
-    echo "***cuisine type: ".$row['cuisine_type']."<br>";
+  if (isset($row['type'])) {
+    $acc = $acc . "&nbsp;&nbsp;&nbsp;type: ".$row['type']."<br>";
+  }
+  if (isset($row['description'])) {
+    $acc = $acc . "&nbsp;&nbsp;&nbsp;description: ".$row['description']."<br>";
+  }
   if (isset($row['num_dollar_signs'])) {
     switch ($row['num_dollar_signs']) {
+      case 0:
+        $acc = $acc . "&nbsp;&nbsp;&nbsp;price: FREE";
+        break;
       case 1:
-        echo "***price: $";
+        $acc = $acc . "&nbsp;&nbsp;&nbsp;price: $";
         break;
       case 2:
-        echo "***price: $$";
+        $acc = $acc . "&nbsp;&nbsp;&nbsp;price: $$";
         break;
       case 3:
-        echo "***price: $$$";
+        $acc = $acc . "&nbsp;&nbsp;&nbsp;price: $$$";
         break;
-      
       default:
         break;
     }
   }
+  // $acc = $acc. "<br>";
+  return $acc;
+}
+
+function getRestaurants($trip_id) {
+  $str = "<p style=". addslashes("'")
+        . "margin-left: 1px; font-size: 14px; color: #333333;". addslashes("'")
+        . ">&#x2731; Restaurants: ";
+  global $conn;
+  $sql = "SELECT * FROM Restaurant WHERE name IN (SELECT restaurant_name FROM IncludesRestaurant WHERE trip_id = $trip_id)";
+  $rs = mysqli_query($conn, $sql) or die(mysqli_error($conn));
+  while ($row = mysqli_fetch_array($rs, MYSQLI_ASSOC)) {
+    // if (isset($row['name'])) {
+    $str = $str . "<br>&gt; " .$row['name']."<br>";
+    // }
+    if (isset($row['cuisine_type'])) {
+      $str = $str . "&nbsp;&nbsp;&nbsp;cuisine type: ".$row['cuisine_type']."<br>";
+    }
+  
+    if (isset($row['num_dollar_signs'])) {
+      switch ($row['num_dollar_signs']) {
+        case 1:
+          $str = $str . "&nbsp;&nbsp;&nbsp;price: $";
+          break;
+        case 2:
+          $str = $str . "&nbsp;&nbsp;&nbsp;price: $$";
+          break;
+        case 3:
+          $str = $str . "&nbsp;&nbsp;&nbsp;price: $$$";
+          break;
+        
+        default:
+          break;
+      }
+    }
+  }
+
+  return $str;
 }
 ?>
 
@@ -378,6 +474,22 @@ function getRestaurants($trip_id) {
         padding-bottom: 1px;
       }
 
+      .mini-btn {
+        background-color: #d4ccf0;
+        color: #333333;
+      }
+
+      .mini-btn:hover {
+        background-color: #b5a9de;
+      }
+
+      #show-plan {
+        /* text-align: center; */
+      }
+      
+      .pplan {
+        
+      }
       /* overwrite bootstrap css (myappendix.css) */
       p.post-caption {
         padding-top: 5px;
@@ -407,7 +519,63 @@ function getRestaurants($trip_id) {
         background-color: #4B0082;
         color: #ffffff;
       } */
+      .header { 
+            /* this somehow works as a sticky header idek what i did */
+            width: 100%;
+            height: 50px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: #e9e4fe;
+        }
 
+        .overlay {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            width: 100%;
+            opacity: 0;
+            transition: .2s ease;
+            background-color: rgba(255, 255, 255, 0);
+        }
+
+        .header:hover .overlay {
+            opacity: 1;
+        }
+
+        #btn_home2 {
+            cursor: pointer;
+            max-height: 55px; 
+            width: auto;
+            height: auto;
+            vertical-align: middle;
+            padding-top: 2px;
+            padding-left: 12px;
+            padding-bottom: 7px;
+        }
+
+        #plan-overlay {
+          position: fixed;
+          overflow-y: scroll; 
+          display: none;
+          width: 200px;
+          height: 400px;
+          left: 90%;
+          top: 55%;
+          transform: translate(-50%, -50%);
+          /* background: rgba(194, 186, 220, 0.8); */
+          background: #E9E3FF;
+          /* border: 4px solid #4A3F78; */
+          border: 4px solid #E9E3FF;
+          box-sizing: border-box;
+          box-shadow: -3px 3px 3px rgba(0, 0, 0, 0.25);
+          border-radius: 1px;
+          z-index: 2;
+          cursor: pointer;
+        }
       
     </style>
     <script>
@@ -415,10 +583,21 @@ function getRestaurants($trip_id) {
             window.location = "index.php";
         }
 
+        function on(str) {
+            document.getElementById("plan").innerHTML = "<br>" + str + "<br>Click on me to exit.<br><br>";
+            document.getElementById("plan-overlay").style.display = "block";
+        }
+
+        function off() {
+            document.getElementById("plan-overlay").style.display = "none";
+        }
     </script>
   </head>
 
   <body>
+  <div id="plan-overlay" onclick="off()">
+      <div style="overflow-y:scroll;" id="plan"></div>
+  </div>
   <!-- search bar -->
 	<div class="bar-container col-md-offset-3">
 		<form action="searchbar-parser.php" method="get">
@@ -429,8 +608,11 @@ function getRestaurants($trip_id) {
     <!-- side navigation bar -->
     <div class="container-fluid">
       <div class="col-md-3 post-sidebar">
-        <div class="home_btn">
+        <div class="header">
           <img id="btn_home" src="images/webpage/origami.png" onclick="goHome()" width="100" height="100">
+          <div class="overlay">
+              <img src="images/webpage/dinosoar.png" onclick="goHome()" alt="fly home!" id="btn_home2">
+          </div>
         </div>
         <div class="placeholder">
           <?php getPfp() ?>
@@ -463,7 +645,7 @@ function getRestaurants($trip_id) {
         <label for="city">
         <input type="checkbox" name="city"> city 
         </label>
-        <input type="submit" name="filter_submit" value="filter">
+        <input class="mini-btn" type="submit" name="filter_submit" value="filter">
       </form>
     </div>
 

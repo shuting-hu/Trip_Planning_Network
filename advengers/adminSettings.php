@@ -445,7 +445,7 @@ if (isset($_POST['btn_delete'])) {
                     <!-- SEC 1: Edit Profile -->
                     <form action="adminSettings.php" method="post" enctype="multipart/form-data">
                         <div class="placeholder">
-                            <h1><b>&#9992;&nbsp;&nbsp;<?php getUser() ?>&nbsp;<span>&#9992;</span></b></h1>
+                            <h1><b>&#9992;&nbsp;&nbsp;<?php getUser() ?>&nbsp;&nbsp;<span>&#9992;</span></b></h1>
                             <h4>[<?php getRole() ?>]</h4>
                             <div id="pfp-shift">
                                 <?php getPfp() ?><br><br>
