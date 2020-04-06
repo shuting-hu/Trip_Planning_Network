@@ -259,7 +259,7 @@ function getDesc($trip_id) {
     return ($sql->fetch_assoc())['description'];
     // return "$temp";
   } else {
-    return "it's a mystery~";
+    return "it". addslashes("'") ."s a mystery~";
   }
 }
 
@@ -414,7 +414,8 @@ function getRestaurants($trip_id) {
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Main Page</title>
+    <title>Wanderlist</title>
+    <link href="https://fonts.googleapis.com/css2?family=Muli:ital,wght@0,400;0,500;0,700;0,800;1,800&display=swap" rel="stylesheet">
     <link rel="shortcut icon" type="image/png" href="images/favicon.png">
 
     <link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -425,7 +426,7 @@ function getRestaurants($trip_id) {
 
     <style>
 		  * {
-          font-family: sans-serif;
+        font-family: 'Muli', sans-serif;
         }
 
       #current-user {
@@ -438,15 +439,15 @@ function getRestaurants($trip_id) {
       }
 
       a:link {
-        color: #4B0082;
+        color: #6A57B0;
       }
 
       a:visited {
-        color: #4B0082;
+        color: #6A57B0;
       }
       
       a:hover {
-        color: #aea6ed;
+        color: #4A3D79;
       }
 
       #current-user-link {
@@ -454,11 +455,11 @@ function getRestaurants($trip_id) {
         display: block;
         font-weight: bold;
         font-style: italic;
-        color: #4B0082;
+        color: #4A3D79;
       }
 
       #current-user-link:hover {
-        color: #aea6ed;
+        color: #6A57B0;
       }
 
       #btn_home {
@@ -475,12 +476,16 @@ function getRestaurants($trip_id) {
       }
 
       .mini-btn {
-        background-color: #d4ccf0;
-        color: #333333;
+        background-color: #E9E3FF;
+        color: #4A3D79;
+        border: 2px solid #4A3D79;
+        border-radius: 30px;
+        transition-duration: 0.3s;
       }
 
       .mini-btn:hover {
-        background-color: #b5a9de;
+        background-color: #4A3D79;
+        color: white;
       }
 
       #show-plan {
@@ -569,7 +574,7 @@ function getRestaurants($trip_id) {
           /* background: rgba(194, 186, 220, 0.8); */
           background: #E9E3FF;
           /* border: 4px solid #4A3F78; */
-          border: 4px solid #E9E3FF;
+          border: 3px solid #4A3D79;
           box-sizing: border-box;
           box-shadow: -3px 3px 3px rgba(0, 0, 0, 0.25);
           border-radius: 1px;
@@ -618,13 +623,18 @@ function getRestaurants($trip_id) {
           <?php getPfp() ?>
         </div>
         <div id="current-user">
+        <br>
           <a id="current-user-link" href='searchbar-parser.php?query=<?php echo $_SESSION["username"]?>' class='post-tag' style='margin-left:18px;'><?php echo $_SESSION["username"]?></a>
         </div>
         <br>
           <!-- buttons -->
         <div>
+          <br>
+          <br>
           <button class="side-post-button" onclick="document.location='create.php'">Create Post</button>
+          <br>
           <?php settingsButton(); ?>
+          <br>
           <button class="side-post-button" onclick="document.location='logout.php'">Log Out</button>
         </div>
       </div>
@@ -636,15 +646,19 @@ function getRestaurants($trip_id) {
     <div class="row" >
       <form action="index.php" method="get">
         Toggle View:
+        &nbsp;
         <label for="country">
         <input type="checkbox" name="country"> country 
         </label>
+        &nbsp;
         <label for="province">
         <input type="checkbox" name="province"> province 
         </label>
+        &nbsp;
         <label for="city">
         <input type="checkbox" name="city"> city 
         </label>
+        &nbsp;
         <input class="mini-btn" type="submit" name="filter_submit" value="filter">
       </form>
     </div>
