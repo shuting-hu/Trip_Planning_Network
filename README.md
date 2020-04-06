@@ -14,22 +14,27 @@ Welcome to __*Wanderlist*__, a travel planning && sharing social networking site
 
 ### Log In/Sign Up
 Log in as an existing user or sign up for a free account. You can also log in as one of the existing users, the crew of advengers. Usernames can't be changed, so choose wisely!
+
 ![](documentation/login.gif)
 
 ### Home Page
 Browse through the trip plans of your fellow advengers. Use the "Show Plan" button in the corner of each post to view itinerary details such as duration, attractions, activities, and restaurants. Search for users or locations, and hide or show location attributes as you prefer.
+
 ![](documentation/feed.gif)
 
 ### Create Post
 Feeling inspired? Create your own trip plan for a future adventure or reminisce and rave about a past one. Attach YouTube videos, photos, and reviews to share your experience - the more visual the better!
+
 ![](documentation/create.gif)
 
 ### Settings
 Don't fret about forgotten passwords or regretful names. Update profile details in the Settings page such as display name, password, and profile picture.
+
 ![](documentation/settings.gif)
 
 ### Admin Privileges
 Moderate Wanderlist by deleting inappropriate users, or view special stats to track the growth of the site.
+
 ![](documentation/stats.gif)
 
 ### Lost?
